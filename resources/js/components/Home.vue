@@ -211,6 +211,8 @@ export default {
             }else if(user.role == 0){
                this.$router.push({name:'user'})
             }
+        }else{
+            
         }
     }
 }

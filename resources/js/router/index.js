@@ -48,13 +48,13 @@ export const routes = [
         path:'/user',
         name:'user',
         component: User,
-        children:[
-            {
-                path:'',
-                name:'items',
-                component: Items
-            },
-        ]
+        // children:[
+        //     {
+        //         path:'',
+        //         name:'sa',
+        //         component: Items
+        //     },
+        // ]
 
     },
     {
@@ -105,8 +105,6 @@ const openRoutes = [
 ];
 
 const userRoutes = [
-    'cart', 
-    'checkout',
     'home',
     'items',
     'search'

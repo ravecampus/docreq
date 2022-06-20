@@ -19889,7 +19889,7 @@ __webpack_require__.r(__webpack_exports__);
           name: 'user'
         });
       }
-    }
+    } else {}
   }
 });
 
@@ -23308,12 +23308,14 @@ var routes = [{
 }, {
   path: '/user',
   name: 'user',
-  component: _components_users_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"],
-  children: [{
-    path: '',
-    name: 'items',
-    component: _components_items_Product__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }]
+  component: _components_users_Dashboard__WEBPACK_IMPORTED_MODULE_7__["default"] // children:[
+  //     {
+  //         path:'',
+  //         name:'sa',
+  //         component: Items
+  //     },
+  // ]
+
 }, {
   path: '/admin',
   name: 'admin',
@@ -23342,7 +23344,7 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter)({
 });
 var openRoutes = ['signup', 'login', 'home', 'items', 'search', 'cart', 'checkout' // 'notfound',
 ];
-var userRoutes = ['cart', 'checkout', 'home', 'items', 'search'];
+var userRoutes = ['home', 'items', 'search'];
 var adminRoutes = ['admin', 'adminitem', 'admindashboard'];
 router.beforeEach(function (to, from, next) {
   if (!window.Laravel.isLoggedin) {
