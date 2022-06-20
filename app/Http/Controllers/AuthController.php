@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class AuthController extends Controller
 {
@@ -42,4 +43,24 @@ class AuthController extends Controller
         $a = Auth::user();
         return response()->json($a,200);
     }
+
+    public function logout()
+    {
+        try {
+            Session::flush();
+            $success = true;
+            $message = 'Successfully logged out';
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $success = false;
+            $message = $ex->getMessage();
+        }
+
+        // response
+        $response = [
+            'success' => $success,
+            'message' => $message,
+        ];
+        return response()->json($response);
+    }
+
 }

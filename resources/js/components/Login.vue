@@ -40,6 +40,7 @@ export default {
                 this.$axios.post('api/login', this.post).then(res=>{
                     this.btndis = false
                     this.btn = "Login"
+                    window.location.href = "/"
                     this.post = {};
                 }).catch(err=>{
                     this.btndis = false

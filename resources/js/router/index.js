@@ -11,6 +11,8 @@ import Checkout from '../components/items/Checkout';
 import User from '../components/users/Dashboard';
 
 import Admin from '../components/admin/Admin';
+import AdminItem from '../components/admin/AdminItem';
+import AdminDashboard from '../components/admin/AdminDashboard';
 
 
 export const routes = [
@@ -62,8 +64,13 @@ export const routes = [
         children:[
             {
                 path:'',
-                name:'items',
-                component: Items
+                name:'admindashboard',
+                component: AdminDashboard
+            },
+            {
+                path:'/admin/items',
+                name:'adminitem',
+                component: AdminItem
             },
         ]
 
@@ -92,6 +99,8 @@ const openRoutes = [
     'home',
     'items',
     'search',
+    'cart', 
+    'checkout',
     // 'notfound',
 ];
 
@@ -104,6 +113,8 @@ const userRoutes = [
 ];
 const adminRoutes = [
     'admin', 
+    'adminitem',
+    'admindashboard'
 ];
 
 

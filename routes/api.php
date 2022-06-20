@@ -22,6 +22,7 @@ use App\Http\Controllers\BookAddressController;
 // });
 Route::post('signup',[AuthController::class, 'signup']);
 Route::post('login',[AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::get('item/list',[ItemController::class,'list']);
 Route::resource('item',ItemController::class);

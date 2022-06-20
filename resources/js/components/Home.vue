@@ -207,7 +207,7 @@ export default {
             let user = window.Laravel.user;
             this.auth = true;
             if(user.role == 1){
-                this.$router.push({name:'admin'})
+                this.$router.push({name:'admindashboard'})
             }else if(user.role == 0){
                this.$router.push({name:'user'})
             }
