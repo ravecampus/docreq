@@ -2,7 +2,13 @@
     <div class="container mar-main">
         <div class="row">
             <div class="col-12 grid-margin">
-                <div class="card">
+                <div class="card mt-5" v-if="oncarts.length == 0">
+                    <div class="card-body  text-center">
+                        <h6>Cart is Empty!</h6>
+                        <router-link :to="{name:'items'}" class="link">shop</router-link>
+                    </div>
+                </div>
+                <div class="card" v-if="oncarts.length > 0">
                 <div class="card-body">
                     <h4 class="card-title"><i class="fa fa-shopping-bag"></i> Order Cart</h4>
                      <div class="table-responsive">
@@ -47,19 +53,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- <strong>{{ totalPrice(oncarts).toFixed(2) }}</strong> -->
+                                        <strong>{{ formatAmount(totalPrice(oncarts)) }}</strong>
                                     </td>
                                 </tr>
-                                <!-- <tr v-if="deliveryCharges(oncarts) != 0">
+                                <tr>
                                     <td colspan="3" class="x-border">
                                         <div class="pull-right">
-                                            Delivery Charge :
+                                            Delivery Fee :
                                         </div>
                                     </td>
                                     <td>
-                                        <strong>{{ deliveryCharges(oncarts).toFixed(2) }}</strong>
+                                        <strong>{{ formatAmount( deliveryCharges() ) }}</strong>
                                     </td>
-                                </tr> -->
+                                </tr>
                                 <tr>
                                     <td colspan="3"  class="x-border">
                                         <div class="pull-right">
@@ -67,7 +73,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <!-- <strong>{{ grandTotal().toFixed(2) }}</strong> -->
+                                        <strong>{{ formatAmount(grandTotal()) }}</strong>
                                     </td>
                                 </tr>
                             </tbody>
@@ -108,6 +114,8 @@ export default {
             oncarts: [],
             not_found: false,
             list_item : [],
+            delivery:{},
+            payment:{},
             order:{
                 quantity:1
             },
@@ -116,12 +124,19 @@ export default {
     },
     methods:{
         onCart(){
-            let storage = localStorage.getItem('oncart');
-            if(storage){
+            // let storage = localStorage.getItem('oncart');
+            // if(storage){
 
-                let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
-                this.oncarts = oncart;
-            }
+            //     let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
+            //     this.oncarts = oncart;
+            // }
+
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/user-cart').then(res=>{
+                    let oncart = JSON.parse(res.data.js_data);
+                    this.oncarts = oncart;
+                });
+            });
             // this.sellerAddOns();
         },
         listItem(){
@@ -133,44 +148,30 @@ export default {
         },
         priceWithQuantity(data){
             let num = data.quantity * data.price;
+            let wper = this.paymentCharges(num);
+            return this.formatAmount(wper);
+        },
+        formatAmount(num){
             return num.toLocaleString(undefined, {maximumFractionDigits:2});
         },
         totalPrice(data){
             let subtotal_ = 0;
             let subtotal = 0;
             data.forEach((val, index)=>{
-                subtotal_ = val.quantity * val.price;
+                subtotal_ = val.quantity * this.paymentCharges(val.price);
                 subtotal = subtotal + subtotal_;
             });
             return subtotal;
         },
-        // extractImages(data){
-        //     let ret = null;
-        //     this.list_item.forEach((val, index)=>{
-        //         if(val.id == data.item_id){
-        //             ret = this.imageSelector(val.item_gallery, val.main_image)
-        //         }
-        //     });
-        //     return ret;
-        // },
-        // imageSelector(data, img_id){
-        //     let ret = null;
-        //     data.forEach((val, index)=>{
-        //         if(val.id  == img_id){
-        //             ret = val.images;
-        //         }
-        //     });
-        //     return ret;
-        // }, 
+     
         removeFromCart(id){
             this.oncarts.forEach((val, index)=>{
                 if(id == val.item_id){
                     this.oncarts.splice(index, 1);
                 }
             });
-            this.saveToLocal(this.oncarts);
             this.$emit('cartcount', this.oncarts);
-            this.$root.$emit('show',{'message':'Item Remove Successfully!', 'status':6});
+            this.saveToLocal(this.oncarts);
         },
         deductQuantity(cart){
             let qty =  this.extractQuantity(cart);
@@ -197,9 +198,9 @@ export default {
             this.saveToLocal(this.oncarts);
         },
         saveToLocal(data){
-            // localStorage.setItem('oncart', window.btoa(JSON.stringify(data)));
-            localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+            // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            this.cartSave({'js_data':JSON.stringify(data)});
         },
         checkout(){
             if(window.token){
@@ -215,40 +216,24 @@ export default {
         },
         addMore(){
             this.$router.push({name:'items'});
+            
         },
-        // sellerAddOns(){
-        //   axios.get('/seller-add-ons').then(res=>{
-        //       this.add_ons = res.data;
-        //   });
-        // },
         deliveryCharges(data){
-            let ret = 0;
-            let items = data;
-            items.forEach(val=>{
-                // let addon = this.extractAddOns(val);
-                // let unit = addon.unit;
-                if(unit == 3){
-                    // ret = addon.charges;
-                }
-            });
-            return Number(ret);
+            let ret = {};
+            ret = this.delivery
+            return Number(ret.amount);
         },
-        // extractAddOns(data){
-        //     let ret = {};
-        //     let id = data.user_id;
-        //     this.add_ons.forEach(val=>{
-        //         if(val.user_id == id){
-        //             ret = val;
-        //         }
-        //     });
-        //     return ret;
-        // },
+        paymentCharges(amount){
+            let per = this.payment.percentage;
+            let num = per/100;
+            let res = amount * num;
+            return amount + res;
+        },
         grandTotal(){
-           let oncarts = this.oncarts;
-           let totalprice =  this.totalPrice(oncarts);
-        //    let delivery = this.deliveryCharges(oncarts);
-        //    return Number(totalprice) + Number(delivery);
-           return Number(totalprice);
+            let oncarts = this.oncarts;
+            let totalprice =  this.totalPrice(oncarts);
+            let delivery = this.deliveryCharges();
+            return Number(totalprice) + delivery;
         },
         extractQuantity(data){
             let ret = {};
@@ -291,10 +276,39 @@ export default {
             var content = node.textContent;
             return content.length > length ? content.slice(0, length) + clamp : content;
         },
+        getChargesDelivery(id = 1){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.delivery = res.data;
+                });
+            });
+        },
+        getChargesPayment(id = 2){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.payment = res.data;
+                });
+            });
+        },
+        cartSave(data){
+              this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                  this.$axios.post('api/user-cart', data).then(res=>{
+
+                  }).catch(err=>{
+
+                  });
+              });
+        }
     },
-    created(){
-        this.onCart();
+    mounted(){
         this.listItem();
+        if(window.Laravel.isLoggedin){
+            this.onCart();
+        }
+        this.getChargesDelivery();
+        this.getChargesPayment();
+     
+        
     }
 }
 </script>

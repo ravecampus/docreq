@@ -35,7 +35,7 @@
                                 </div>
                                 <p>{{ truncate(item.description , 25, '...' ) }}</p>
                                 <div class="item-price">&#8369;
-                                    {{ (item.price == null ? 0 : item.price ).toFixed(2) }}
+                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
                                     </div>
                                 <div class="item-discount"></div>
                                 <div class="on-cart">
@@ -59,16 +59,22 @@
                 </div>
             </div>
         </div>
+        <modlogin></modlogin>
     </div>
 </template>
 
 <script>
+import ModalLogin from '../ModalLogin';
 import uniq from 'lodash/uniq'
 export default {
+    components:{
+        modlogin:ModalLogin
+    },
     data(){
         return{
             items_:[],
             searchtext:'',
+            payment:{},
             data:[],
             item:{},
             filterBy:['item_name', 'description'],
@@ -81,6 +87,9 @@ export default {
         }
     },
     methods:{
+        modalLogin(){
+            $('.modal-login').modal('show');
+        },
         setList(data){
              this.loadi = true;
             if(data.length > 0){
@@ -125,7 +134,10 @@ export default {
         return ret;
       },
       addToCart(data){
-          
+            if(!window.Laravel.isLoggedin){
+                this.modalLogin();
+                return;
+            }
             if(this.carts.length > 0){
               let cn =  this.carts.filter(res=>res.item_id == data.id);
             //   console.log(cn[0])
@@ -172,24 +184,56 @@ export default {
             
         },
         saveToLocal(data){
-            localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+            // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            this.cartSave({'js_data':JSON.stringify(data)});
         },
         onCart(){
-            let storage = localStorage.getItem('oncart');
-            if(storage){
-                let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
-                this.carts = oncart;
-            }
-      },
+            // let storage = localStorage.getItem('oncart');
+            // if(storage){
+            //     let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
+            //     this.carts = oncart;
+            // }
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/user-cart').then(res=>{
+                    let oncart = JSON.parse(res.data.js_data);
+                    this.carts = oncart;
+                });
+            });
+        },
       
-      truncate(text, length, clamp){
+        truncate(text, length, clamp){
             clamp = clamp || '...';
             var node = document.createElement('div');
             node.innerHTML = text;
             var content = node.textContent;
             return content.length > length ? content.slice(0, length) + clamp : content;
         },
+        paymentCharges(amount){
+            let per = this.payment.percentage;
+            let num = per/100;
+            let res = amount * num;
+            return amount + res;
+        },
+        getChargesPayment(id = 2){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.payment = res.data;
+                });
+            });
+        },
+        formatAmount(num){
+            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+        },
+        cartSave(data){
+              this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                  this.$axios.post('api/user-cart', data).then(res=>{
+
+                  }).catch(err=>{
+
+                  });
+              });
+        }
         
     },
     computed:{
@@ -226,8 +270,11 @@ export default {
             });
         }
     },
-    created(){
-        this.onCart();
+    mounted(){
+        if(window.Laravel.isLoggedin){
+            this.onCart();
+        }
+        this.getChargesPayment();
       
     }
 }

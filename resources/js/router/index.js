@@ -9,10 +9,23 @@ import Cart from '../components/items/Cart';
 import Checkout from '../components/items/Checkout';
 
 import User from '../components/users/Dashboard';
+import BookAddress from '../components/users/BookAddress';
+import Order from '../components/users/Order';
+import RequestStatus from '../components/users/RequestStatus';
+import Topay from '../components/users/Topay';
+import Toship from '../components/users/Toship';
+import Toreceive from '../components/users/Toreceive';
+import UserProfile from '../components/users/UserProfile';
+import Received from '../components/users/Received';
+import Payment from '../components/users/Payment';
 
 import Admin from '../components/admin/Admin';
 import AdminItem from '../components/admin/AdminItem';
+import AdminProfile from '../components/admin/AdminProfile';
 import AdminDashboard from '../components/admin/AdminDashboard';
+import Charges from '../components/admin/Charges';
+import AdminUsers from '../components/admin/AdminUsers';
+import AdminClient from '../components/admin/AdminClient';
 
 
 export const routes = [
@@ -48,13 +61,51 @@ export const routes = [
         path:'/user',
         name:'user',
         component: User,
-        // children:[
-        //     {
-        //         path:'',
-        //         name:'sa',
-        //         component: Items
-        //     },
-        // ]
+        children:[
+            {
+                path:'',
+                name:'request',
+                component: Order
+            },
+            {
+                path:'req-status',
+                name:'reqstatus',
+                component: RequestStatus,
+                children:[
+                    {
+                        path:'',
+                        name:'topay',
+                        component: Topay
+                    },
+                    {
+                        path:'to-ship',
+                        name:'toship',
+                        component: Toship
+                    },
+                    {
+                        path:'to-receive',
+                        name:'toreceive',
+                        component: Toreceive
+                    },
+                    {
+                        path:'received',
+                        name:'received',
+                        component: Received
+                    }
+                ]
+            },
+            {
+                path:'/user/profile',
+                name:'userprofile',
+                component: UserProfile
+            },
+            {
+                path:'/user/book-address',
+                name:'bookaddress',
+                component: BookAddress
+            },
+
+        ]
 
     },
     {
@@ -68,12 +119,37 @@ export const routes = [
                 component: AdminDashboard
             },
             {
+                path:'/admin/profile',
+                name:'aprofile',
+                component: AdminProfile
+            },
+            {
                 path:'/admin/items',
                 name:'adminitem',
                 component: AdminItem
             },
+            {
+                path:'/admin/charges',
+                name:'charges',
+                component: Charges
+            },
+            {
+                path:'/admin/users',
+                name:'adminuser',
+                component: AdminUsers
+            },
+            {
+                path:'/admin/clients',
+                name:'adminclient',
+                component: AdminClient
+            },
         ]
 
+    },
+    {
+        name: 'payment',
+        path: '/payment',
+        component: Payment
     },
     {
         name: 'login',
@@ -107,12 +183,27 @@ const openRoutes = [
 const userRoutes = [
     'home',
     'items',
-    'search'
+    'search',
+    'user',
+    'bookaddress',
+    'request',
+    'reqstatus',
+    'topay',
+    'toship',
+    'toreceive',
+    'userprofile',
+    'received',
+    'payment'
 ];
 const adminRoutes = [
     'admin', 
     'adminitem',
-    'admindashboard'
+    'aprofile',
+    'charges',
+    'admindashboard',
+    'adminuser',
+    'adminclient',
+    
 ];
 
 

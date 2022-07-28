@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-4 col-md-offset-4 mt-4">
-                    <h6>Sign Up</h6>
+                    <h4>Sign Up</h4>
                     <div class="form-group">
                         <label>Email</label>
                         <input type="text" v-model="post.email" class="form-control">
@@ -18,8 +18,9 @@
                         <input type="password" v-model="post.password_confirmation" class="form-control">
                         <span class="errors-material" v-if="errors.password_confirmation">{{errors.password_confirmation[0]}}</span>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" @click="signup" :disabled="btndis" class="btn btn-primary" >{{btn}}</button>
+                    <button type="button" @click="signup" :disabled="btndis" class="btn btn-success btn-block mt-4" >{{btn}}</button>
+                    <div class="mt-4">
+                        <router-link :to="{name:'items'}" >Back to home</router-link>
                     </div>
                 </div>
             </div>

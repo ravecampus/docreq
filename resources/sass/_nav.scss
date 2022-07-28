@@ -14,7 +14,7 @@ $color-n: #c76102 !important;
 
 
 a{
-    color: #c76102 !important;
+    color:#036413 !important;
 }
 
 $main:#036413;
@@ -32,11 +32,11 @@ $main:#036413;
         background: $main;
         .dropdown-item{
             &:hover{
-                background: #f38825;
+                background: #03c272;
     
             }
             &:focus{
-                background: #f38825;
+                background: #03c272;
 
             }
         }
@@ -101,9 +101,9 @@ $main:#036413;
 }
 
 .nav-link{
-    color: $nav-link;
+    color: #036413;
     &:hover{
-        color: $nav-link-hover;
+        color: #0d8120;
     }
 }
 

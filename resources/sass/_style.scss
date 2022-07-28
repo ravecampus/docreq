@@ -3,7 +3,7 @@
 @import 'bootstrap/mixins';
 
 $font-primary: 'Poppins',Arial, sans-serif;
-$primary: #2f89fc;
+$primary: #036413;;
 
 body{
 	font-family: $font-primary;
@@ -122,8 +122,8 @@ h1, h2, h3, h4, h5,
 		    	border-bottom: 1px solid $primary;
 		    }
     	}
-    	&.active{
-    		> a{
+    	&{
+    		> a.router-link-exact-active{
     			background: transparent;
     			color: $white !important;
     			&:hover{

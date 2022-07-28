@@ -39,7 +39,7 @@
                                 </div>
                                 <p>{{ truncate(item.description , 25, '...' ) }}</p>
                                 <div class="item-price">&#8369;
-                                    {{ (item.price == null ? 0 : item.price ).toFixed(2) }}
+                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
                                     <!-- {{ chargesOnPercentage(item).toFixed(2) }} -->
                                     </div>
                                 <div class="item-discount"></div>
@@ -62,23 +62,26 @@
                
                 </div>
                 
-
             </div>
         </div>
+        <modlogin></modlogin>
     </div>
 </template>
 
 <script>
+import ModalLogin from '../ModalLogin';
 import PaginationVue from '../../table/Pagination';
 
 export default {
      components:{
-        pagination:PaginationVue
+        pagination:PaginationVue,
+        modlogin:ModalLogin
     },
     data(){
         return{
             items:[],
             carts:[],
+            payment:{},
             tableData:{
                 draw:0,
                 length:10,
@@ -98,6 +101,9 @@ export default {
         }
     },
     methods:{
+        modalLogin(){
+            $('.modal-login').modal('show');
+        },
         listOfItem(url='api/item/'){
             axios.get('sanctum/csrf-cookie').then(response => {
                 this.tableData.draw ++;
@@ -137,6 +143,10 @@ export default {
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
         addToCart(data){
+            if(!window.Laravel.isLoggedin){
+                this.modalLogin();
+                return;
+            }
           
             if(this.carts.length > 0){
               let cn =  this.carts.filter(res=>res.item_id == data.id);
@@ -184,20 +194,56 @@ export default {
             
         },
         saveToLocal(data){
-            localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+            // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            this.cartSave({'js_data':JSON.stringify(data)});
         },
         onCart(){
-            let storage = localStorage.getItem('oncart');
-            if(storage){
-                let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
-                this.carts = oncart;
-            }
-      },
+            // let storage = localStorage.getItem('oncart');
+            // if(storage){
+            //     let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
+            //     this.carts = oncart;
+            // }
+
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/user-cart').then(res=>{
+                    let oncart = JSON.parse(res.data.js_data);
+                    this.carts  = oncart;
+                });
+            });
+        },
+        paymentCharges(amount){
+            let per = this.payment.percentage;
+            let num = per/100;
+            let res = amount * num;
+            return amount + res;
+        },
+        getChargesPayment(id = 2){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.payment = res.data;
+                });
+            });
+        },
+        formatAmount(num){
+            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+        },
+        cartSave(data){
+              this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                  this.$axios.post('api/user-cart', data).then(res=>{
+
+                  }).catch(err=>{
+
+                  });
+              });
+        }
     },
     mounted() {
-        this.onCart();
+        if(window.Laravel.isLoggedin){
+            this.onCart();
+        }
         this.listOfItem();
+        this.getChargesPayment();
     },
 }
 </script>

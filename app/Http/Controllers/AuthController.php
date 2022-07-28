@@ -63,4 +63,41 @@ class AuthController extends Controller
         return response()->json($response);
     }
 
+    public function fillupName(Request $request){
+        $request->validate([
+            'first_name'=>'required',
+            'middle_name'=>'required',
+            'last_name'=>'required',
+            'gender'=>'required',
+        ]);
+        $user = User::find(Auth::id());
+        $user->first_name = $request->first_name;
+        $user->middle_name = $request->middle_name;
+        $user->last_name = $request->last_name;
+        $user->gender = $request->gender;
+        $user->save();
+        return response()->json($user, 200);
+    }
+
+    public function changeEmail(Request $request){
+        $request->validate([
+            'email' => 'required|string|email',
+        ]);
+        $user = User::find(Auth::id());
+        $user->email = $request->email;
+        $user->save();
+        return response()->json($user, 200);
+    }
+
+    public function changePassword(Request $request){
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+        
+        $user = User::find(Auth::id());
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return response()->json($user, 200);
+    }
+
 }

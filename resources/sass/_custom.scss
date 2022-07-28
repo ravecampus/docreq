@@ -1,6 +1,15 @@
 // .errors-material{
 //     color:#ff0000;
 // }
+.nav-link:hover, .nav-link:focus {
+    text-decoration: none !important;
+}
+.nav-tabs .nav-link.router-link-exact-active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #495057;
+  background-color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
 
 .errors{
     color:#ff0000;

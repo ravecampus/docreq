@@ -20,22 +20,25 @@
                         </div>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                             <ul class="navbar-nav ml-auto" v-show="!nav">
+                             <ul class="navbar-nav ml-auto" v-if="auth">
+                                <li class="nav-item">
+                                    <router-link :to="{name:'request'}" class="nav-link" >Dashboard</router-link>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a id="navbarDrop1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-gear"></i> 
-                                        <span class="caret">Settings</span>
+                                        <span class="caret"> Settings&nbsp; </span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDrop1">
                                      
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" @click="logout()" href="#">
                                             <i class="fa fa-sign-out"></i>
                                             Logout
                                         </a>
                                     </div>
                                 </li>
                             </ul>
-                            <ul class="navbar-nav ml-auto"  v-show="nav">
+                            <ul class="navbar-nav ml-auto"  v-if="!auth">
                                
                                 <li class="nav-item">
                                     <router-link :to="{name:'login'}" class="nav-link" >Login</router-link>
@@ -67,7 +70,7 @@
                                         
                                         :items="items"
                                         :filterBy="filter" 
-                                        :cart_count="lencart"  
+                                        :cart_count="lencart "  
                                         :cart_link="'cart'" 
                                                          
                                     ></search-main>                      
@@ -117,10 +120,12 @@ export default {
     data(){
         return{
             nav:true,
+            auth:false,
             items:[],
             message:'',
             status:'',
-            lencart:0,
+            lencart:null,
+            lencart_:0,
             filter:['item_name', 'description'],
         }
     },
@@ -174,6 +179,18 @@ export default {
             });
             this.lencart = cc;
         },
+        cartDefault(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/user-cart').then(res=>{
+                    let oncart = JSON.parse(res.data.js_data);
+                    let cc_ = 0
+                    oncart.forEach(res => {
+                        cc_ += res.quantity;
+                    });
+                    this.lencart_ = cc_;
+                });
+            });
+        },
         flashMessage(data){
              this.showMessage(data)
         },
@@ -199,9 +216,28 @@ export default {
                 $('.fm-body').fadeOut("slow");
             }, 3000);
         },
+        logout(){
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.post('/api/logout')
+                    .then(response => {
+                        if (response.data.success) {
+                            window.location.href = "/"
+                        } 
+                    })
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+            })
+        },
         
     }, 
     mounted(){
+        if(window.Laravel.isLoggedin){
+            this.auth = true;
+            // this.nav = false;
+            this.user = window.Laravel.user;
+        }
+
         this.listOfItem();
          if(window.Laravel.isLoggedin){
             let user = window.Laravel.user;
@@ -209,11 +245,14 @@ export default {
             if(user.role == 1){
                 this.$router.push({name:'admindashboard'})
             }else if(user.role == 0){
-               this.$router.push({name:'user'})
+            //    this.$router.push({name:'user'})
             }
         }else{
             
         }
+
+        // this.cartDefault();
+
     }
 }
 </script>

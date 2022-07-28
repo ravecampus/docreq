@@ -16,9 +16,9 @@ class CreateBookAddressTable extends Migration
         Schema::create('book_address', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->string('fullname')->nullable();
-            $table->string('mobile_number')->nullable();
-            $table->text('note')->nullable();
+            // $table->string('fullname')->nullable();
+            // $table->string('mobile_number')->nullable();
+            // $table->text('note')->nullable();
             $table->string('street')->nullable();
             $table->string('province')->nullable();
             $table->string('city_or_municipality')->nullable();

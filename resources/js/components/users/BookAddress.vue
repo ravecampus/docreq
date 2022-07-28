@@ -1,21 +1,26 @@
 <template>
     <div id="content" class="p-4 p-md-5 pt-5">
-        <h4 class="mb-4">Documents</h4>
+        <h4 class="mb-4">Address Book</h4>
         <div class="row">
             <div class="col-md-12">
-                <button type="button" @click="addItem()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add Item</button>
+                <button type="button" @click="addAddressBook()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add</button>
                 <div class="card mt-2">
                     <div class="card-body">
-                         <div class="form-group">
-                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfItems()">
-                        </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
-                                <tr v-for = "(list, index) in items" :key="index" class="linkTable">
+                                <tr v-for = "(list, index) in addressbooks" :key="index" class="linkTable">
                                     
-                                    <td><strong>{{ list.item_name }}</strong></td>
-                                    <td>{{ list.description }}</td>
-                                    <td>{{ list.price }}</td>
+                                    <!-- <td><strong>{{ list.fullname }}</strong></td> -->
+                                    <td>
+                                        {{ list.street }}, {{ list.barangay }}, {{ list.city_or_municipality }} {{ list.province }}
+                                        <!-- <ul class="list-group list-group-flush">
+                                            <li class="list-group-item m-0">mob #: {{ list.mobile_number }}</li>
+                                            <li class="list-group-item m-0">province : {{ list.province }}</li>
+                                            <li class="list-group-item m-0">city/municipality : {{ list.city_or_municipality }}</li>
+                                            <li class="list-group-item m-0">barangay : {{ list.barangay }}</li>
+                                            <li class="list-group-item m-0">street : {{ list.street }}</li>
+                                        </ul> -->
+                                    </td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <button type="button" @click="editItem(list)" class="btn btn-warning btn-sm">Edit</button>
@@ -24,7 +29,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" v-show="!noData(items)">
+                                    <td colspan="2" v-show="!noData(addressbooks)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -32,9 +37,9 @@
                         </data-table>
                         <div class="table-footer pull-right">
                             <pagination :pagination="pagination"
-                                @prev="listOfItems(pagination.prevPageUrl)"
-                                @next="listOfItems(pagination.nextPageUrl)"
-                                v-show="noData(items)">
+                                @prev="listOfaAddressBook(pagination.prevPageUrl)"
+                                @next="listOfaAddressBook(pagination.nextPageUrl)"
+                                v-show="noData(addressbooks)">
                             </pagination>
                         </div>
                     </div>
@@ -42,7 +47,7 @@
             </div>
         </div>
 
-        <div class="modal fade items" ref="items">
+        <div class="modal fade address-book" ref="addressbook">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- <div class="modal-header">
@@ -51,35 +56,70 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
+                                <!-- <label>Add Address Book</label>
                                 <div class="form-group">
-                                    <label>Item Name</label>
-                                    <input type="text" v-model="post.item_name" class="form-control">
-                                    <span class="errors-material" v-if="errors.item_name">{{errors.item_name[0]}}</span>
+                                    <label>Full name...</label>
+                                    <input type="text" class="form-control" v-model="post.fullname">
+                                     <span class="errors-material" v-if="errors.fullname">{{errors.fullname[0]}}</span>
+                                </div> -->
+                               
+                                <!-- <div class="form-group">
+                                    <label>Mobile number...</label>
+                                    <input type="text" class="form-control" v-model="post.mobile_number">
+                                     <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
+                                </div> -->
+                                <!-- <div class="form-group">
+                                    <label>Notes...</label>
+                                    <textarea class="form-control" v-model="post.note"></textarea>
+                                     <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Street...</label>
+                                            <input type="text" class="form-control" v-model="post.street">
+                                            <span class="errors-material" v-if="errors.street">{{errors.street[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Province...</label>
+                                            <input type="text" class="form-control" v-model="post.province">
+                                          
+                                            <span class="errors-material" v-if="errors.province">{{errors.province[0]}}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <!-- <input type="text" v-model="post.description" class="form-control"> -->
-                                    <textarea v-model="post.description" class="form-control"></textarea>
-                                    <span class="errors-material" v-if="errors.description">{{errors.description[0]}}</span>
-                                </div>
-                                <div class="form-group">
-                                    <label>Price</label>
-                                    <input type="number" v-model="post.price" class="form-control">
-                                    <span class="errors-material" v-if="errors.price">{{errors.price[0]}}</span>
+                                
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>City / Municipality ...</label>
+                                            <input type="text" class="form-control" v-model="post.city_or_municipality">
+                                            <span class="errors-material" v-if="errors.city_or_municipality">{{errors.city_or_municipality[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Barangay...</label>
+                                            <input type="text" class="form-control" v-model="post.barangay">
+                                            <span class="errors-material" v-if="errors.barangay">{{errors.barangay[0]}}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                             <div class="btn-group">
-                            <button type="button" :disabled="btn_dis"  @click="saveItem()"  class="btn btn-primary ">{{ btn_save }}</button>
+                            <button type="button" :disabled="btn_dis"  @click="saveAddressBook()"  class="btn btn-primary ">{{ btn_save }}</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-default">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade delete-item">
+        <div class="modal fade delete-address-book">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <!-- <div class="modal-header">
@@ -119,9 +159,8 @@ export default {
     data(){
         let sortOrders = {};
         let columns =[
-            {label:'Item Name', name:'item_name'},
-            {label:'Description', name:'description'},
-            {label:'Price', name:null},
+            // {label:'Full Name', name:'fullname'},
+            {label:'Address', name:null},
             {label:'Action', name:null},
             ];
         
@@ -133,7 +172,7 @@ export default {
             btn_dis: false,
             post:{},
             errors:[],
-            items:[],
+            addressbooks:[],
             columns:columns,
             sortOrders:sortOrders,
             sortKey:'created_at',
@@ -158,66 +197,66 @@ export default {
         }
     },
     methods: {
-        addItem(){
-            $('.items').modal('show');
+        addAddressBook(){
+            $('.address-book').modal('show');
         },
         editItem(data){
             this.post = data;
-            $('.items').modal('show');
+            $('.address-book').modal('show');
         },
         deleteItem(data){
             this.post = data;
-            $('.delete-item').modal('show');
+            $('.delete-address-book').modal('show');
         },
         deleteItemConfirm(){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
-                this.$axios.delete('api/items/'+this.post.id).then(res=>{
+                this.$axios.delete('api/address-book/'+this.post.id).then(res=>{
                     this.post = {};
-                    $('.delete-item').modal('hide');
-                    this.listOfItems();
+                    $('.delete-address-book').modal('hide');
+                    this.listOfaAddressBook();
                 });
             });
         },
-        saveItem(){
+        saveAddressBook(){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.btn_dis = true;
                 this.btn_save = "Saving...";
 
                 if(this.post.id > 0){
-                    this.$axios.put('api/items/'+this.post.id, this.post).then(res=>{
+                    this.$axios.put('api/address-book/'+this.post.id, this.post).then(res=>{
                         this.btn_save = "Save";
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
-                        $('.items').modal('hide');
+                        $('.address-book').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";
                         this.btn_dis = false;
                         this.errors = err.response.data.errors
                     });
                 }else{
-                    this.$axios.post('api/items', this.post).then(res=>{
+                    this.$axios.post('api/address-book', this.post).then(res=>{
                         this.btn_save = "Save";
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
-                        $('.items').modal('hide');
+                        $('.address-book').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";
                         this.btn_dis = false;
                         this.errors = err.response.data.errors
                     });
                 }
-                this.listOfItems();
+                
             });
         },
-        listOfItems(url='api/items'){
+        listOfaAddressBook(url='api/address-book'){
             this.$axios.get('sanctum/csrf-cookie').then(response => {
                 this.tableData.draw ++;
                 this.$axios.get(url,{params:this.tableData}).then(res=>{
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
-                        this.items = data.data.data;
+                        this.addressbooks = data.data.data;
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
@@ -244,7 +283,7 @@ export default {
                 this.sortOrders[key] = this.sortOrders[key] * -1;
                 this.tableData.column = this.getIndex(this.columns, 'name', key);
                 this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
-                this.listOfItems();
+                this.listOfaAddressBook();
             }
         },
         getIndex(array, key, value){
@@ -256,11 +295,11 @@ export default {
 
     },
     mounted() {
-        $(this.$refs.items).on('hidden.bs.modal',()=> {
+        $(this.$refs.addressbook).on('hidden.bs.modal',()=> {
             this.errors = [];
             this.post = {};
         });
-        this.listOfItems();
+        this.listOfaAddressBook();
     },
 
 }

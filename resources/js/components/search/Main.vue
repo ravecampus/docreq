@@ -31,11 +31,11 @@
        
  
             <div class="cart">
-                <router-link :to="{name:cart_link}">
+                <a @click="linkCart()" href="#">
                     <i class="fa fa-shopping-bag"></i>
-                    <span class="badge badge-pill badge-warning"  v-if="cart_count > 0 || cart_count_ > 0 ">{{ cart_count == 0 ? cart_count_ : cart_count }}</span>
+                    <span class="badge badge-pill badge-warning"  v-if="cart_count > 0 || defaultCcart() > 0">{{ cart_count == null ? defaultCcart() : cart_count }}</span>
                     <!-- <span class="badge badge-pill badge-warning" >5</span> -->
-                </router-link>
+                </a>
             </div> 
         </div> 
 </template>
@@ -50,6 +50,7 @@ export default {
             cart_count_:0,
             visible:false,
             history: false,
+            cartlen:0,
             search_history:[],
             historylist : [],
             result:[],
@@ -176,14 +177,25 @@ export default {
             return content.length > length ? content.slice(0, length) + clamp : content;
         },
         defaultCcart(){
-            let storage = localStorage.getItem('oncart');
-            if(storage){
-                let oncart = JSON.parse(decodeURIComponent(escape(window.atob(storage))));
-                let cc = 0;
-                oncart.forEach(res => {
-                    cc += res.quantity;
+            let cc = 0;
+            if(window.Laravel.isLoggedin){
+                this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                    this.$axios.get('api/user-cart').then(res=>{
+                        let oncart = JSON.parse(res.data.js_data);
+                        oncart.forEach(res => {
+                            cc += res.quantity;
+                        });
+                    this.cartlen = cc;
+                    });
                 });
-                this.cart_count_ = cc;
+            }
+            return this.cartlen;
+        },
+        linkCart(){
+            if(window.Laravel.isLoggedin){
+                this.$router.push({name:'cart'});
+            }else{
+                this.$router.push({name:'login', query:{redir:'/cart'}});
             }
         }
     },
@@ -249,10 +261,8 @@ export default {
         
 
     },
-    created(){
-      
+    mounted(){
        this.getFromLocal();
-       this.defaultCcart();
     }
 }
 </script>

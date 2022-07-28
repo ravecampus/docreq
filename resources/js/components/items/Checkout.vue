@@ -26,7 +26,7 @@
                              {{ chk.item_name }}
                             </div> 
                             <div class="col-md-3 col-sm-3">
-                                {{ chk.price }}
+                                {{ formatAmount(paymentCharges(chk.price)) }}
                             </div>
                             <div class="col-md-3 col-sm-3">
                                 <strong class="d-sm-none">Quantity: </strong>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-md-3 col-sm-3">
                                 <strong class="d-sm-none">Total:</strong>
-                                {{ priceWithQuantity(chk).toFixed(2) }}
+                                {{ formatAmount(priceWithQuantity(chk)) }}
                             </div>
                       </div>
                   </div>
@@ -54,22 +54,22 @@
                                     <h5><strong>ORDER SUMMARY</strong></h5>
                                     <div class="list-group list-group-flush">
                                         <div class="list-group-item ">
-                                            <!-- Subtotal: <strong>{{totalPrice(forCheckout).toFixed(2) }}</strong> -->
+                                            Subtotal: <strong>{{ formatAmount(totalPrice(forCheckout)) }}</strong>
                                         </div>
-                                        <!-- <div class="list-group-item" v-if="deliveryCharges(forCheckout) != 0">
-                                            Delivery Charge: {{ deliveryCharges(forCheckout) }}
+                                        <div class="list-group-item">
+                                            Delivery Charge: <strong>{{ formatAmount(deliveryCharges(forCheckout)) }}</strong>
                                             <input type="hidden" v-model="to_order.delivery_charges" >
-                                        </div> -->
-                                        <!-- <div class="list-group-item">
-                                           <strong>Grand Total: {{ grandTotal().toFixed(2) }}</strong>
-                                        </div> -->
+                                        </div>
+                                        <div class="list-group-item">
+                                           <strong>Grand Total: {{ formatAmount(grandTotal()) }}</strong>
+                                        </div>
                                     </div>
 
                                </div>
                                <div class="card-body">
                                    <div class="row">
                                        <div class="col-md-12">
-                                           <textarea v-model="to_order.remarks" class="form-control" placeholder="(Optional) Remarks...."></textarea>
+                                           <textarea v-model="to_order.purpose" class="form-control" placeholder="Purpose..."></textarea>
                                        </div>
                                    </div>
                                    <!-- <button type="button" class="btn btn-item-default">Next</button> -->
@@ -79,26 +79,29 @@
                                        <div class="col-md-12">
                                             <h5><strong>DELIVERY INFORMATION</strong></h5>
                                             <div class="list-group list-group-flush">
+                                                
                                                 <div class="list-group-item">
-                                                    Delivery to: <strong>{{ user.full_name }}</strong>
+                                                   
+                                                    Delivery to: <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
+                                                    <span class="errors-material" v-if="errors.account">{{ errors.account[0]}}</span>
                                                 </div>
                                                 <div class="list-group-item">
-                                                    Mobile Number: <strong>{{ (set_number != null) ? set_number : mobile  }}</strong>
-                                                    <span class="errors" v-if="errors.mobile_number">{{ errors.mobile_number[0]}}</span>
+                                                    Mobile Number: <strong>{{ addr.mobile_number  }}</strong>
+                                                    <!-- <span class="errors" v-if="errors.mobile_number">{{ errors.mobile_number[0]}}</span> -->
                                                 </div>
                                                 <div class="list-group-item">
                                                     Adddress :
                                                     <a class="text-primary" @click="showAddress()" href="#"><i class="fa fa-plus"></i></a>
                                                     <div class="form-material">
                                                         <select v-model="to_order.address" class="form-control" @change="resetValidate(to_order.address)">
-                                                            <option v-for="(ab, index) in user.address_book" :key="index" :value="ab.id">{{ ab.street + ', '+ab.barangay+', '+ab.city_or_municipality+', '+ab.province}}</option>
+                                                            <option v-for="(ab, index) in address_book" :key="index" :value="ab.id">{{ ab.street + ', '+ab.barangay+', '+ab.city_or_municipality+', '+ab.province}}</option>
                                                         </select>
-                                                        <span class="errors-material" v-if="errors.address">{{ errors.address[0]}}</span>
+                                                        <span class="errors-material" v-if="errors.delivery_address">{{ errors.delivery_address[0]}}</span>
                     
                                                     </div>
                                                 </div>
                                                 <div class="list-group-item">
-                                                    Email Address : <strong>{{ this.user.email }}</strong>
+                                                    Email Address : <strong>{{ user.email }}</strong>
                                                 </div>
                                                 <!-- <div class="list-group-item">
                                                     Cash Delivery:
@@ -109,7 +112,7 @@
                                                     </div>
                                                 </div> -->
                                                 <div class="list-group-item">
-                                                    <button type="button" :disabled="btn_place_order" @click="placeOrder()" class="btn btn-success">{{ place_order }}</button>
+                                                    <button type="button" @click="placeOrder()" class="btn btn-success">{{ place_order }}</button>
                                                 </div>
                                             </div>
                                        </div>
@@ -174,22 +177,22 @@
                        <div class="row">
                            <div class="col-md-12">
                                 <label>Add Address Book</label>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Full name...</label>
                                     <input type="text" class="form-control" v-model="add_abook.fullname">
                                      <span class="errors-material" v-if="errors.fullname">{{errors.fullname[0]}}</span>
-                                </div>
+                                </div> -->
                                
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Mobile number...</label>
                                     <input type="text" class="form-control" v-model="add_abook.mobile_number">
                                      <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
-                                </div>
-                                <div class="form-group">
+                                </div> -->
+                                <!-- <div class="form-group">
                                     <label>Notes...</label>
                                     <textarea class="form-control" v-model="add_abook.note"></textarea>
                                      <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
-                                </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -237,36 +240,114 @@
             </div>
         </div>
 
+         <div class="modal personal-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form @submit.prevent="savePersonalInfo()">
+                    <div class="modal-body">
+                       <div class="row">
+                           <div class="col-md-12">
+                                <label>Personal Info.</label>
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" v-model="personal.first_name">
+                                     <span class="errors-material" v-if="errors1.first_name">{{errors1.first_name[0]}}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Middle Name</label>
+                                    <input type="text" class="form-control" v-model="personal.middle_name">
+                                     <span class="errors-material" v-if="errors1.middle_name">{{errors1.middle_name[0]}}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" v-model="personal.last_name">
+                                     <span class="errors-material" v-if="errors1.last_name">{{errors1.last_name[0]}}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control" v-model="personal.gender">
+                                        <option value="1">Male</option>
+                                        <option value="2">Female</option>
+                                    </select>
+                                    <span class="errors-material" v-if="errors1.gender">{{errors1.gender[0]}}</span>
+                                </div>
+
+                                <div class="pull-right">
+                                    <button type="submit" :disabled="btn_personal" class="btn btn-sm btn-success mr-2">{{ personal_cap }}</button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-success">Cancel</button>
+                                </div>
+                           </div>
+                       </div>
+                    </div>  
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>   
 </template>
 
 <script>
+
 export default {
     data(){
         return {
             forCheckout:[],
             list_item:[],
+            payment:{},
+            delivery:{},
+            address_book:[],
+            personal:{},
             item:{},
             user:{},
             to_order:{},
             errors:[],
+            errors1:[],
             add_abook:{},
             errors:[],
-            set_number: null,
-            mobile: null,
+            addr:{},
             place_order:'Place Order',
             btn_place_order: true,
             add_address:'Submit',
+            personal_cap:'Submit',
             btn_add_address: false,
+            btn_personal: false,
             add_ons:[],
             
         }
     },
     methods:{
+        showPersonal(data){
+            console.log(data)
+            this.personal = data;
+            $('.personal-info').modal('show');
+        },
+        savePersonalInfo(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.btn_personal = true;
+                this.personal_cap = "Submitting...";
+                this.$axios.post('api/user/fillup', this.personal).then(res=>{
+                    this.user = res.data;
+                    this.btn_personal = false;
+                    this.personal_cap = "Submit";
+                    $('.personal-info').modal('hide');
+                }).catch(err=>{
+                    this.btn_personal = false;
+                    this.personal_cap = "Submit";
+                    this.errors1 = err.response.data.errors;
+                })
+            });
+        },
         onCart(){
             // this.sellerAddOns();
-            let oncart = JSON.parse(window.atob(localStorage.getItem('oncart')));
-            this.forCheckout = oncart;  
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/user-cart').then(res=>{
+                    let oncart = JSON.parse(res.data.js_data);
+                    this.forCheckout  = oncart;
+                });
+            });
+            // let oncart = JSON.parse(window.atob(localStorage.getItem('oncart')));
+            // this.forCheckout = oncart;  
         },
         listItem(){
             this.$axios('sanctum/csrf-cookie').then(response=>{
@@ -276,13 +357,17 @@ export default {
             })
         },
         priceWithQuantity(data){
-            return data.quantity * data.price;
+            if(data != NaN){
+               let qt =  data.quantity * this.paymentCharges(data.price)
+               this.forCheckout.total = qt;
+               return qt;
+            }
         },
         totalPrice(data){
             let subtotal_ = 0;
             let subtotal = 0;
             data.forEach((val, index)=>{
-                subtotal_ = val.quantity * val.price;
+                subtotal_ = val.quantity * this.paymentCharges(val.price);
                 subtotal = subtotal + subtotal_;
             });
             return subtotal;
@@ -317,7 +402,7 @@ export default {
             });
             this.saveToLocal(this.forCheckout);
             $('.remove-item').modal('hide');
-            this.$root.$emit('show',{'message':'Item Remove Successfully!', 'status':6});
+            // this.$root.$emit('show',{'message':'Item Remove Successfully!', 'status':6});
             if(this.forCheckout.length <= 0){
                 this.$router.push({name:'items'});
             }
@@ -353,25 +438,26 @@ export default {
             this.forCheckout[idx].quantity = result;      
             this.saveToLocal(this.forCheckout);
         },
-        totalPrice(data){
-            let subtotal_ = 0;
-            let subtotal = 0;
-            data.forEach((val, index)=>{
-                subtotal_ = val.quantity * val.price;
-                subtotal = subtotal + subtotal_;
-            });
-            return subtotal;
-        },
+        // totalPrice(data){
+        //     let subtotal_ = 0;
+        //     let subtotal = 0;
+        //     data.forEach((val, index)=>{
+        //         subtotal_ = val.quantity * this.paymentCharges(val.price);
+        //         subtotal = subtotal + subtotal_;
+        //     });
+        //     return subtotal;
+        // },
         saveToLocal(data){
-            localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
+            this.cartSave({'js_data':JSON.stringify(data)});
         },
         resetValidate(id){
-            let data = this.user.address_book;
+            let data = this.address_book;
             if(data){
                 data.forEach((val, idx)=>{
                     if(id == val.id){
-                      this.set_number = val.mobile_number;
+                      this.addr = val;
                     }
                 });
             }
@@ -383,25 +469,44 @@ export default {
             this.place_order = 'Placing ...';
             this.btn_place_order = true;
             let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
-            let mob = (this.set_number != null) ? this.set_number : this.mobile;
+            this.to_order = this.addr
             this.to_order.checkout = data;
-            this.to_order.mobile_number = mob;
-            this.to_order.total = this.totalPrice(this.forCheckout);
-            this.to_order.delivery_charges = this.deliveryCharges(this.forCheckout);
-    
-            axios.post('/orders', this.to_order).then(res=>{
-                this.place_order = 'Place Order';
-                this.btn_place_order = false;
+            
+            this.to_order.account = this.user.first_name;
+            this.to_order.total = this.totalPrice(data);
+            this.to_order.grand_total = this.grandTotal();
+            this.to_order.delivery_fee = this.deliveryCharges();
+            if(this.to_order.barangay != undefined){
+                this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
+            }
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.errors = [];
-                this.saveToLocal([]);
-                this.$root.$emit('on-cart',[]);
-                this.$root.$emit('show',{'message':'Your order has been placed!', 'status':6});
-                this.$router.push({name:'ordered', params:{order_id:res.data}});
-            }).catch(err=>{
-                this.place_order = 'Place Order';
-                this.btn_place_order = false;
-                this.errors = err.response.data.errors;
+                this.$axios.post('api/order', this.to_order).then(res=>{
+                    this.place_order = 'Place Order';
+                }).catch(err=>{
+                    this.place_order = 'Place Order';
+                    this.errors = err.response.data.errors;
+                });
             });
+            // let mob = (this.set_number != null) ? this.set_number : this.mobile;
+            // this.to_order.checkout = data;
+            // this.to_order.mobile_number = mob;
+            // this.to_order.total = this.totalPrice(this.forCheckout);
+            // this.to_order.delivery_charges = this.deliveryCharges(this.forCheckout);
+    
+            // axios.post('/orders', this.to_order).then(res=>{
+            //     this.place_order = 'Place Order';
+            //     this.btn_place_order = false;
+            //     this.errors = [];
+            //     this.saveToLocal([]);
+            //     this.$root.$emit('on-cart',[]);
+            //     this.$root.$emit('show',{'message':'Your order has been placed!', 'status':6});
+            //     this.$router.push({name:'ordered', params:{order_id:res.data}});
+            // }).catch(err=>{
+            //     this.place_order = 'Place Order';
+            //     this.btn_place_order = false;
+            //     this.errors = err.response.data.errors;
+            // });
         },
         showAddress(){
             $('.add-addressbook').modal('show');
@@ -416,6 +521,7 @@ export default {
                     this.errors = [];
                     $('.add-addressbook').modal('hide');
                     this.add_abook = {};
+                    this.getauthBookAddress();
                     this.$emit('show',{'message':'Address Book Added Successfully!', 'status':6});
                 }).catch(err=>{
                     this.add_address = 'Submit';
@@ -425,59 +531,31 @@ export default {
             })
            
         },
-        defaultAddress(){
-            let data = this.user.address_book;
-            if(data){
-                data.forEach((val, idx)=>{
-                    if(val.selected == 1){
-                       this.to_order.address = val.id;
-                    }
-                });
-            }
-        },
-        defaultMobileNo(){
-            let data = this.user.address_book;
-            if(data){
-                data.forEach((val, idx)=>{
-                    if(val.selected == 1){
-                        this.mobile = val.mobile_number;
-                    }
-                });
-            }
-        },
-
-        // sellerAddOns(){
-        //   axios.get('/seller-add-ons').then(res=>{
-        //       this.add_ons = res.data;
-        //   });
+        // defaultAddress(){
+        //     let data = this.user.address_book;
+        //     if(data){
+        //         data.forEach((val, idx)=>{
+        //             if(val.selected == 1){
+        //                this.to_order.address = val.id;
+        //             }
+        //         });
+        //     }
         // },
-        // deliveryCharges(data){
-        //     let ret = 0;
-        //     let items = data;
-        //     items.forEach(val=>{
-        //         let addon = this.extractAddOns(val);
-        //         let unit = addon.unit;
-        //         if(unit == 3){
-        //             ret = addon.charges;
-        //         }
-        //     });
-        //     return ret;
-        // },
-        // extractAddOns(data){
-        //     let ret = {};
-        //     let id = data.user_id;
-        //     this.add_ons.forEach(val=>{
-        //         if(val.user_id == id){
-        //             ret = val;
-        //         }
-        //     });
-        //     return ret;
+        // defaultMobileNo(){
+        //     let data = this.user.address_book;
+        //     if(data){
+        //         data.forEach((val, idx)=>{
+        //             if(val.selected == 1){
+        //                 this.mobile = val.mobile_number;
+        //             }
+        //         });
+        //     }
         // },
         grandTotal(){
            let oncarts = this.forCheckout;
            let totalprice =  this.totalPrice(oncarts);
-        //    let delivery = this.deliveryCharges(oncarts);
-        //    return Number(totalprice) + Number(delivery);
+           let delivery = this.deliveryCharges();
+           return Number(totalprice) + Number(delivery);
         },
         extractQuantity(data){
             let ret = {};
@@ -523,17 +601,71 @@ export default {
             this.to_order.cash_delivery = '';
             this.btn_place_order = true;
 
+        },
+        deliveryCharges(){
+            let ret = {};
+            ret = this.delivery
+            return Number(ret.amount);
+        },
+        paymentCharges(amount){
+            let per = this.payment.percentage;
+            let num = per/100;
+            let res = amount * num;
+            return amount + res;
+        },
+        getChargesPayment(id = 2){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.payment = res.data;
+                });
+            });
+        },
+        getChargesDelivery(id = 1){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/charges/get-charge/'+id).then(res=>{
+                    this.delivery = res.data;
+                });
+            });
+        },
+        getauthBookAddress(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/address-book/auth').then(res=>{
+                    this.address_book = res.data;
+                }).catch(err=>{
+
+                });
+            });
+        },
+        formatAmount(num){
+            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+        },
+        cartSave(data){
+              this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                  this.$axios.post('api/user-cart', data).then(res=>{
+
+                  }).catch(err=>{
+
+                  });
+              });
         }
 
+
     },
-    created(){
+    mounted(){
       
         setTimeout(()=>{
             this.onCart();
             this.listItem();
-            this.defaultAddress();
-            this.defaultMobileNo(); 
-        },2000);
+            // this.defaultAddress();
+            // this.defaultMobileNo(); 
+            this.getChargesPayment();
+            this.getChargesDelivery();
+            this.getauthBookAddress();
+        },1000);
+
+        if(window.Laravel.isLoggedin){
+            this.user = window.Laravel.user;
+        }
     }
 }
 </script>
