@@ -59,9 +59,9 @@
                             </div>
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-success btn-sm" type="button">Pay</button>
+                            <button class="btn btn-success btn-sm" @click="payOrder(list)" type="button">Pay</button>
                             <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                                Add to wishlist
+                               Cancel orders
                             </button>
                             </div>
                         </div>
@@ -187,6 +187,9 @@ export default {
         },
         setStatus(data){
             return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+        },
+        payOrder(data){
+            this.$router.push({name:'payment',params:{'order_id':data.id}})
         }
     },
     mounted(){

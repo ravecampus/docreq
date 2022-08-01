@@ -18,6 +18,7 @@ import Toreceive from '../components/users/Toreceive';
 import UserProfile from '../components/users/UserProfile';
 import Received from '../components/users/Received';
 import Payment from '../components/users/Payment';
+import PaymentSuccess from '../components/users/PaymentSuccess';
 
 import Admin from '../components/admin/Admin';
 import AdminItem from '../components/admin/AdminItem';
@@ -147,8 +148,13 @@ export const routes = [
 
     },
     {
+        name: 'paymentsuccess',
+        path: '/payment/success/:order_id',
+        component: PaymentSuccess
+    },
+    {
         name: 'payment',
-        path: '/payment',
+        path: '/payment/:order_id',
         component: Payment
     },
     {
@@ -193,7 +199,8 @@ const userRoutes = [
     'toreceive',
     'userprofile',
     'received',
-    'payment'
+    'payment',
+    'paymentsuccess'
 ];
 const adminRoutes = [
     'admin', 

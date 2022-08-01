@@ -34,7 +34,7 @@ class OrderListController extends Controller
         $archive = $request->archive;
         $searchValue = $request->search;
         $userid = Auth::id();
-        $query = Order::with('order_items')->where('user_id', $userid)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items', 'payment')->where('user_id', $userid)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
@@ -54,7 +54,7 @@ class OrderListController extends Controller
         $searchValue = $request->search;
         $status = $request->status;
         $userid = Auth::id();
-        $query = Order::with('order_items')->where('user_id', $userid)->where('status', $status)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items', 'payment')->where('user_id', $userid)->where('status', $status)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
@@ -63,5 +63,10 @@ class OrderListController extends Controller
         }
         $projects = $query->paginate($length);
         return ['data'=>$projects, 'draw'=> $request->draw];
+    }
+
+    public function orderpay($id){
+        $order = Order::with('order_items')->where('status', 0)->find($id);
+        return response()->json($order, 200);
     }
 }

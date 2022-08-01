@@ -25,6 +25,12 @@ class Order extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id', 'id');
+    }
+
+
     public function order_items(){
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }

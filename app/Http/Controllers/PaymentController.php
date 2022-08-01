@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Omnipay\Omnipay;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
 
 class PaymentController extends Controller
 {
@@ -31,26 +35,28 @@ class PaymentController extends Controller
      */
     public function charge(Request $request)
     {
-        if($request->input('submit'))
-        {
-            try {
-                $response = $this->gateway->purchase(array(
-                    'amount' => $request->input('amount'),
-                    'currency' => env('PAYPAL_CURRENCY'),
-                    'returnUrl' => url('success'),
-                    'cancelUrl' => url('error'),
-                ))->send();
-            
-                if ($response->isRedirect()) {
-                    $response->redirect(); // this will automatically forward the customer
-                } else {
-                    // not successful
-                    return $response->getMessage();
-                }
-            } catch(Exception $e) {
-                return $e->getMessage();
+      
+        try {
+            $response = $this->gateway->purchase(array(
+                'amount' => $request->grand_total,
+                // 'name' => 'Document Request',
+                'description' => 'Portal Request',
+                'currency' => env('PAYPAL_CURRENCY'),
+                'returnUrl' => url('payment/success/'.$request->id),
+                'cancelUrl' => url('payment'),
+            ))->send();
+        
+            if ($response->isRedirect()) {
+                // this will automatically forward the customer
+                return response()->json($response->getRedirectUrl(), 200);
+            } else {
+                // not successful
+                return response()->json($response->getMessage(), 200);
             }
+        } catch(Exception $e) {
+            return $e->getMessage();
         }
+        
     }
    
     /**
@@ -58,7 +64,7 @@ class PaymentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function success(Request $request)
+    public function success(Request $request, $id)
     {
         // Once the transaction has been approved, we need to complete it.
         if ($request->input('paymentId') && $request->input('PayerID'))
@@ -75,16 +81,27 @@ class PaymentController extends Controller
                 $arr_body = $response->getData();
            
                 // Insert transaction data into the database
-                $payment = new Payment;
-                $payment->payment_id = $arr_body['id'];
-                $payment->payer_id = $arr_body['payer']['payer_info']['payer_id'];
-                $payment->payer_email = $arr_body['payer']['payer_info']['email'];
-                $payment->amount = $arr_body['transactions'][0]['amount']['total'];
-                $payment->currency = env('PAYPAL_CURRENCY');
-                $payment->payment_status = $arr_body['state'];
-                $payment->save();
-           
-                return "Payment is successful. Your transaction id is: ". $arr_body['id'];
+                $pay = Payment::where('order_id', $id)->first();
+                if(!isset($pay)){
+                    $payment = new Payment;
+                    $payment->order_id = $id;
+                    $payment->user_id = Auth::id();
+                    $payment->payment_id = $arr_body['id'];
+                    $payment->payer_id = $arr_body['payer']['payer_info']['payer_id'];
+                    $payment->payer_email = $arr_body['payer']['payer_info']['email'];
+                    $payment->amount = $arr_body['transactions'][0]['amount']['total'];
+                    $payment->currency = env('PAYPAL_CURRENCY');
+                    $payment->payment_status = $arr_body['state'];
+                    $payment->save();
+
+                    $order = Order::find($request->id);
+                    $order->status = 1;
+                    $order->save();
+
+            
+                    return response()->json("Payment is successful. Your transaction id is: ".$arr_body['id'], 200);
+                }
+               
             } else {
                 return $response->getMessage();
             }

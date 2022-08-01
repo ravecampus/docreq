@@ -318,7 +318,6 @@ export default {
     },
     methods:{
         showPersonal(data){
-            console.log(data)
             this.personal = data;
             $('.personal-info').modal('show');
         },
@@ -408,7 +407,6 @@ export default {
             }
         },
         editQuantity(data){
-            console.log(data);
             this.item = data;
             $('.edit-quantity').modal('show');
         },
@@ -468,7 +466,8 @@ export default {
         placeOrder(){
             this.place_order = 'Placing ...';
             this.btn_place_order = true;
-            let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
+            // let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
+            let data =    this.forCheckout;
             this.to_order = this.addr
             this.to_order.checkout = data;
             
@@ -483,6 +482,9 @@ export default {
                 this.errors = [];
                 this.$axios.post('api/order', this.to_order).then(res=>{
                     this.place_order = 'Place Order';
+                    this.cartSave({'js_data': {}});
+                    this.$emit('cartcount', []);
+                    this.$router.push({name:'payment', params:{'order_id':res.data.id}});
                 }).catch(err=>{
                     this.place_order = 'Place Order';
                     this.errors = err.response.data.errors;

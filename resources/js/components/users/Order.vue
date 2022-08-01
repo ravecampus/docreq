@@ -68,11 +68,14 @@
                                 <h5 class="mb-1 me-1">&#8369; {{ formatAmount(list.grand_total) }}</h5>
                             </div>
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
-                            <div class="d-flex flex-column mt-4">
-                            <button class="btn btn-primary btn-sm" type="button">Details</button>
+                            <div class="d-flex flex-column mt-4" >
+                                <button  v-if="list.payment == null" class="btn btn-success btn-sm" @click="payOrder(list)" type="button">Pay</button>
+                            <!-- <button class="btn btn-primary btn-sm" type="button">Details</button>
                             <button class="btn btn-outline-primary btn-sm mt-2" type="button">
                                 Add to wishlist
-                            </button>
+                            </button> -->
+                                <h5 v-if="list.payment != null"><span class="fa fa-paypal"></span> PAID WITH PAYPAL</h5>
+                                <p v-if="list.payment != null">Payment ID: {{list.payment.payment_id}}</p>
                             </div>
                         </div>
                     </div>
@@ -212,6 +215,9 @@ export default {
         },
         setStatus(data){
             return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+        },
+        payOrder(data){
+            this.$router.push({name:'payment',params:{'order_id':data.id}})
         }
 
     },
