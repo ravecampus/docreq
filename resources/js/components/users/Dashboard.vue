@@ -91,6 +91,9 @@ export default {
                 $('.fm-body').fadeOut("slow");
             }, 3000);
         },
+        flashMessage(data){
+             this.showMessage(data)
+        },
        
     },
     mounted() {

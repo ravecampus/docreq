@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
+                                <label>New Password</label>
                                 <input type="password" @keyup.enter="login" v-model="post.password" class="form-control">
                                 <span class="errors-material" v-if="errors.password">{{errors.password[0]}}</span>
                             </div>
@@ -60,15 +60,16 @@ export default {
             let route = this.$route.query;
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.btndis = true
-                this.btn = "Requesting..."
-                this.$axios.post('api/reset-password', this.post).then(res=>{
+                this.btn = "Resetting..."
+                this.$axios.post('api/new-password', this.post).then(res=>{
                     this.btndis = false
-                    this.btn = "Request Password"
-                  
+                    this.btn = "Reset Password"
+                    this.$emit('show',{'message':'Please check your Email!', 'status':6});
+                    this.errors = res.data.errors;
                     this.post = {};
                 }).catch(err=>{
                     this.btndis = false
-                    this.btn = 'Request Password'
+                    this.btn = 'Reset Password'
                     this.errors = err.response.data.errors
                 });
             });

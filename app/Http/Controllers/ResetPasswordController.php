@@ -43,4 +43,24 @@ class ResetPasswordController extends Controller
             }
         }
     }
+
+
+    public function newPassword(Request $request){
+            $request->validate([
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+            $user = User::where('validation_caod', $request->code)->find($request->id);
+
+            if(!$user){
+                $errors = ['errors'=>['password' => ["Invalid link or Expired link"]]];
+                return response()->json($errors, 422);
+            }else{
+                $user->validation_code = null;
+                $user->password = bcrypt($request->password);
+                $user->save();
+                $errors = ['errors'=>['main' => ["Password has been change!"]]];
+                return response()->json($errors, 200);
+            }
+    }
 }
