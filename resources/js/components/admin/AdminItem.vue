@@ -72,7 +72,7 @@
                     </div>
                     <div class="modal-footer">
                             <div class="btn-group">
-                            <button type="button" :disabled="btn_dis"  @click="saveItem()"  class="btn btn-primary ">{{ btn_save }}</button>
+                            <button type="button" :disabled="btn_dis"  @click="saveItem()"  class="btn btn-success ">{{ btn_save }}</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-default">Cancel</button>
                         </div>
                     </div>

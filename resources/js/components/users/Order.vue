@@ -3,6 +3,9 @@
         
     <h4>Request</h4>
         <div class="row justify-content-center">
+            <div class="col-md-12 text-center" v-if="orders.lenght < 0">
+                <h6> No result found!</h6>
+            </div>
             <div class="col-md-12">
             <div class="card shadow-0 border rounded-3 mb-3" v-for = "(list, index) in orders" :key="index">
                 <div class="card-body">

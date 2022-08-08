@@ -129,7 +129,6 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.orders = data.data.data;
-                        console.log(this.orders);
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;

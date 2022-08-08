@@ -61,8 +61,8 @@
                             <div class="d-flex flex-column mt-4 text-success">
                                 <h5><span class="fa fa-paypal"></span> PAID WITH PAYPAL</h5>
                                 <p>Payment ID: {{list.payment.payment_id}}</p>
-                            <!-- <button class="btn btn-primary btn-sm" type="button">Details</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
+                            <button class="btn btn-primary btn-sm" @click ="toReceived(list)" type="button">{{btn_cap}}</button>
+                            <!-- <button class="btn btn-outline-primary btn-sm mt-2" type="button">
                                 Add to wishlist
                             </button> -->
                             </div>
@@ -100,6 +100,7 @@ export default {
         return{
             payment:{},
             orders:[],
+            btn_cap:"Orders Receive",
             tableData:{
                 draw:0,
                 length:10,
@@ -189,6 +190,15 @@ export default {
         },
         setStatus(data){
             return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+        },
+        toReceived(data){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.btn_cap = "Proccessing..."
+                this.$axios.put('api/order-status/'+ data.id,{'status':3}).then(res=>{
+                    this.btn_cap = "Orders Receive"
+                    this.$router.push({name:'received'});
+                });
+            });
         }
     },
     mounted(){

@@ -1,5 +1,6 @@
 <template>
     <div>
+         <flashmessage :message="message" :status="status"></flashmessage>
         <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
             <div class="custom-menu">
@@ -8,7 +9,7 @@
                     <span class="sr-only">Toggle Menu</span>
                 </button>
             </div>
-                <h1><a href="index.html" class="logo">{{ title }}</a></h1>
+                <h1><router-link :to="{name:'items'}" class="logo">{{ title }}</router-link></h1>
                 <p class="ml-4">@{{ user.first_name }} {{ user.last_name }}</p>
             <ul class="list-unstyled components mb-5">
                 <li>
@@ -35,14 +36,18 @@
 
         <!-- Page Content  -->
         
-        <router-view></router-view>
+        <router-view @show="flashMessage"></router-view>
         
         </div>
     </div>
 </template>
 
 <script>
+import FlashMessage from './../FlashMessage.vue';
 export default {
+   components:{
+        flashmessage: FlashMessage,
+    },
     data(){
         return{
             user:{},
@@ -63,6 +68,28 @@ export default {
                         console.error(error);
                     });
             })
+        },
+        showMessage(data){
+            this.message = data.message;
+            if(data.status == 1){
+                this.status = 'alert-success';
+            }else if(data.status == 2){
+                this.status = 'alert-warning';
+            }else if(data.status == 3){
+                this.status = 'alert-danger';
+            }else if(data.status == 4){
+                this.status = 'alert-secondary';
+            }else if(data.status == 5){
+                this.status = 'alert-dark';
+            }else if(data.status == 6){
+                this.status = 'alert-light';
+            }else if(data.status == 7){
+                this.status = 'alert-primary';
+            }
+            $('.fm-body').show();
+            setTimeout(() => {
+                $('.fm-body').fadeOut("slow");
+            }, 3000);
         },
        
     },

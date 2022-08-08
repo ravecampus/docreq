@@ -19,6 +19,8 @@ import UserProfile from '../components/users/UserProfile';
 import Received from '../components/users/Received';
 import Payment from '../components/users/Payment';
 import PaymentSuccess from '../components/users/PaymentSuccess';
+import ResetPassword from '../components/users/ResetPassword';
+import NewPassword from '../components/users/NewPassword';
 
 import Admin from '../components/admin/Admin';
 import AdminItem from '../components/admin/AdminItem';
@@ -158,6 +160,16 @@ export const routes = [
         component: Payment
     },
     {
+        name: 'resetpassword',
+        path: '/reset-password',
+        component: ResetPassword
+    },
+    {
+        name: 'newpassword',
+        path: '/new-password/:id/:token',
+        component: NewPassword
+    },
+    {
         name: 'login',
         path: '/login',
         component: Login
@@ -183,6 +195,8 @@ const openRoutes = [
     'search',
     'cart', 
     'checkout',
+    'resetpassword',
+    'newpassword'
     // 'notfound',
 ];
 

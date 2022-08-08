@@ -13,6 +13,8 @@ use App\Http\Controllers\OrderListController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +36,10 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 Route::get('item/list',[ItemController::class,'list']);
 Route::resource('item',ItemController::class);
+Route::post('reset-password', [ResetPasswordController::class, 'resetPasswordRequest']);
 Route::get('charges/get-charge/{id}',[ChargesController::class, 'getCharge']);
 Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('order-status', OrderStatusController::class);
     Route::post('paypal/charges',[PaymentController::class,'charge']);
     Route::get('paypal/success/{id}',[PaymentController::class,'success']);
     Route::resource('items',ItemsController::class);
@@ -55,4 +59,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('order-list', [OrderListController::class, 'orderList']);
     Route::get('auth-order', [OrderListController::class, 'authOrderList']);
     Route::get('order-status', [OrderListController::class, 'specificOrder']);
+  
 });

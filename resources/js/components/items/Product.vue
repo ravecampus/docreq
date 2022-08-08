@@ -1,6 +1,25 @@
 <template>
     <div class="container">
         <div class="row">
+            <div claass="col-md-12">
+                <div class="d-flex flex-wrap justify-content-around items-main">
+                    <h4>Admission and Records Office Document Request Recommender System</h4>
+                    <h6 class="mt-2">DUE TO THE LIMITED MANPOWER AND RESTRICTED ACCESS TO CAMPUS, KINDLY BE ADVISED ON THE FOLLOWING:</h6>
+                    <div class="col-md-12 mt-5">
+                       
+                        <p>1. THE SYSTEM WILL BE ACCESSIBLE EVERY THURSDAY, FRIDAY, AND SATURDAY EXCEPT HOLIDAYS.</p>
+                        <p>2. DUE TO THE LIMITED NUMBER OF REQUEST THAT CAN BE HANDLED, THE FACILITY WILL START RECEIVING REQUEST AT
+9AM, BUT WILL CLOSE ONCE THE DAILLY LIMIT HAS BEEN REACHED.</p>
+                        <p>3. REQUEST SHALL BE FOR REGULAR PROCCESSING ONLY. EXPRESS PROCESSING SHALL BE TEMPORARILY
+UNAVAILABLE DUE TO LIMITED MANPOWER TO PRODUCE THE DOCUMENTS IN CAMPUS.</p>
+                        <p>4. DUE TO LIMITED MANPOWER AND TO ENSURE SAFETY OF CLIENTS AND OFFICE PERSONEL,
+MANUAL PICK-UP OF DOCUMENTS AT THE OFFICE OF THE REGISTRAR IS TEMPORARILY SUSPENDED.</p>
+                        <p>5. THE PROCESSING PERIOD INDICATED HEREIN IS DIFFERENT AND DISTINCT FROM THE DELIVERY
+PERIOD WHICH IS DEPENDENT ON THE LOCATION YOU HAVE SPECIFIED, KINDLY EXPECT THAT
+DELIVERY OF DOCUMENTS VIA COURIER MAY TAKE 1 TO 2 WEEKS DEPENDING ON THE DELIVERY AREA</p>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-12">
                 <div class="table-footer pull-right">
                     <pagination :pagination="pagination"
@@ -10,6 +29,46 @@
                     </pagination>
                 </div>
             </div>
+             <div class="col-md-12">
+                <div class="d-flex flex-wrap justify-content-around items-main">
+                    <div class="col-md-12">
+                        <h4>Recommended</h4>
+                    </div>
+                    <div class="col-md-12 box-loading" v-if="items.length == 0">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div> 
+                    
+                    <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
+                        <div class="item">
+                            <img class="img-item" :src="'/img/default.png'"/>
+                           
+                            <div class="item-description">
+                                <div class="item-title">
+                                    <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
+                                  
+                                </div>
+                                <p>{{ truncate(item.description , 25, '...' ) }}</p>
+                                <div class="item-price">&#8369;
+                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
+                                 
+                                    </div>
+                                <div class="item-discount"></div>
+                                <div class="on-cart">
+                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart">Add to Cart</button>
+                                </div>
+                            </div>
+                            <div class="star-item">
+                                <div class="item-region">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-12">
                 <div class="d-flex flex-wrap justify-content-around items-main">
                     <div class="col-md-12">
@@ -24,23 +83,17 @@
                     
                     <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
                         <div class="item">
-                            <!-- <a href=""> -->
-                                 <img class="img-item" :src="'/img/default.png'"/>
-                            <!-- </a> -->
-                            <!-- <router-link :to="{name:'item', params:{itemid:item.id}}">
-                                <img class="img-item" :src="item.main_image != null ? '/storage/items/'+extractImage(item) :'/css/default.png'"/>
-                            </router-link> -->
+                            <img class="img-item" :src="'/img/default.png'"/>
+                           
                             <div class="item-description">
                                 <div class="item-title">
                                     <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
-                                    <!-- <router-link :to="{name:'item', params:{itemid:item.id}}">
-                                    {{ item.item_name | truncate(25) }}
-                                    </router-link> -->
+                                  
                                 </div>
                                 <p>{{ truncate(item.description , 25, '...' ) }}</p>
                                 <div class="item-price">&#8369;
                                     {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
-                                    <!-- {{ chargesOnPercentage(item).toFixed(2) }} -->
+                                 
                                     </div>
                                 <div class="item-discount"></div>
                                 <div class="on-cart">
@@ -48,21 +101,14 @@
                                 </div>
                             </div>
                             <div class="star-item">
-                                <!-- <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i> -->
                                 <div class="item-region">
-                                   <!-- {{ setCountry(item) }} -->
                                 </div>
                             </div>
                         </div>
                     </div>
-               
                 </div>
-                
             </div>
+
         </div>
         <modlogin></modlogin>
     </div>

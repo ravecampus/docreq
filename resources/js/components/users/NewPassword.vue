@@ -6,6 +6,8 @@
                     <div class="card-body">
                         <div  class="col-md-12 text-center mb-5">
                             <h2>{{ title }}</h2>
+                            <h6>Reset your password</h6>
+                            
                         </div>
                         <!-- <div class=""> -->
                             
@@ -15,22 +17,23 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" @keyup.enter="login" v-model="post.email" class="form-control">
-                                <span class="errors-material" v-if="errors.email">{{errors.email[0]}}</span>
-                            </div>
-                            <div class="form-group">
                                 <label>Password</label>
                                 <input type="password" @keyup.enter="login" v-model="post.password" class="form-control">
                                 <span class="errors-material" v-if="errors.password">{{errors.password[0]}}</span>
                             </div>
-                            <button type="button" @click="login" :disabled="btndis" class="btn btn-success btn-block mt-4" >{{btn}}</button>
+                              <div class="form-group">
+                                <label>Confirmed Password</label>
+                                <input type="password" @keyup.enter="login" v-model="post.password_confirmation" class="form-control">
+                                <span class="errors-material" v-if="errors.password_confirmation">{{errors.password_confirmation[0]}}</span>
+                            </div>
+                           
+                            <button type="button" @click="requestPassword" :disabled="btndis" class="btn btn-success btn-block mt-4" >{{btn}}</button>
                             
                             <div class="mt-4 justify-content-center">
                                 <router-link :to="{name:'signup'}" >Not yet register?</router-link>
-                                <div class="mt-1">
-                                    <router-link :to="{name:'resetpassword'}">Forgot Password?</router-link>
-                                </div>
+                                <!-- <div class="mt-1">
+                                    <a href="#">Forgot Password?</a>
+                                </div> -->
                             </div>
                         
                         <!-- </div> -->
@@ -48,30 +51,24 @@ export default {
             title:{},
             post:{},
             errors:[],
-            btn:'Login',
+            btn:'Reset Password',
             btndis:false
         }
     },
     methods:{
-        login(){
+        requestPassword(){
             let route = this.$route.query;
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
-                console.log(response)
                 this.btndis = true
-                this.btn = "Logging..."
-                this.$axios.post('api/login', this.post).then(res=>{
+                this.btn = "Requesting..."
+                this.$axios.post('api/reset-password', this.post).then(res=>{
                     this.btndis = false
-                    this.btn = "Login"
-                    // window.location.href = "/"
-                    if(route.redir == undefined){
-                        window.location.href = "/";
-                    }else{
-                        window.location.href = route.redir;
-                    }
+                    this.btn = "Request Password"
+                  
                     this.post = {};
                 }).catch(err=>{
                     this.btndis = false
-                    this.btn = 'Login'
+                    this.btn = 'Request Password'
                     this.errors = err.response.data.errors
                 });
             });

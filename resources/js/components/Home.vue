@@ -59,7 +59,7 @@
                                 <router-link :to="{name:'items'}" class="brand-main">
                                     <img class="brand-logo" src="/img/raven.jpg" alt="">
                                     <div class="brand-site">
-                                      Sample
+                                      {{title}}
                                     </div>
                                 </router-link>
                                 
@@ -119,6 +119,7 @@ export default {
     },
     data(){
         return{
+            title:{},
             nav:true,
             auth:false,
             items:[],
@@ -250,6 +251,7 @@ export default {
         }else{
             
         }
+        this.title = window.Title.app_name;
 
         // this.cartDefault();
 
