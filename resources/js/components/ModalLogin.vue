@@ -21,7 +21,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" @click="login" :disabled="btndis" class="btn btn-success btn-block" >{{ btn }}</button>  
+                    <div class="mt-4 justify-content-center">
+                        <a href="#" @click="signup" >Not yet register?</a>
+                        <div class="mt-1">
+                            <a href="#"  @click="resetpassword">Forgot Password?</a>
+                        </div>
+                    </div>
                 </div>
+               
+            
             </div>
         </div>
     </div>
@@ -53,6 +61,15 @@ export default {
                     this.errors = err.response.data.errors
                 });
             });
+        },
+        signup(){
+            $('.modal-login').modal('hide');
+            this.$router.push({name:'signup'});
+        },
+        resetpassword(){
+            $('.modal-login').modal('hide');
+            this.$router.push({name:'resetpassword'});
+            
         }
     }
 }

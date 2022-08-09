@@ -52,6 +52,7 @@
                             </div>
                             <div class="col-md-4 offset-md-4 mb-2 p-4">
                                 <button type="button" :disabled="btndis" @click="payByPaypal" class="btn btn-success"><span class="fa fa-paypal"></span> {{btn_cap}}</button>
+                                <router-link :to="{name:'items'}"   class="btn btn-default"><span class="fa fa-times"></span> Cancel</router-link>
                             </div>
                         </div>
                        

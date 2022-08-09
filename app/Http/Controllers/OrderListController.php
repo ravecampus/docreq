@@ -15,7 +15,7 @@ class OrderListController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Order::with('client','order_items')->orderBy($columns[$column], $dir);
+        $query = Order::with('client','order_items','payment')->where('status',1)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
