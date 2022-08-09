@@ -29,6 +29,7 @@ import AdminDashboard from '../components/admin/AdminDashboard';
 import Charges from '../components/admin/Charges';
 import AdminUsers from '../components/admin/AdminUsers';
 import AdminClient from '../components/admin/AdminClient';
+import AdminOrderList from '../components/admin/AdminOrderList';
 
 
 export const routes = [
@@ -146,6 +147,11 @@ export const routes = [
                 name:'adminclient',
                 component: AdminClient
             },
+            {
+                path:'/admin/order-list',
+                name:'adminorderlist',
+                component: AdminOrderList
+            },
         ]
 
     },
@@ -224,6 +230,7 @@ const adminRoutes = [
     'admindashboard',
     'adminuser',
     'adminclient',
+    'adminorderlist',
     
 ];
 

@@ -10,22 +10,25 @@
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="text" v-model="post.email" class="form-control">
+                            <input type="text" @keyup.enter="signup" v-model="post.email" class="form-control">
                             <span class="errors-material" v-if="errors.email">{{errors.email[0]}}</span>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" v-model="post.password" class="form-control">
+                            <input type="password" @keyup.enter="signup" v-model="post.password" class="form-control">
                             <span class="errors-material" v-if="errors.password">{{errors.password[0]}}</span>
                         </div>
                         <div class="form-group">
                             <label>Password Confirmation</label>
-                            <input type="password" v-model="post.password_confirmation" class="form-control">
+                            <input type="password" @keyup.enter="signup" v-model="post.password_confirmation" class="form-control">
                             <span class="errors-material" v-if="errors.password_confirmation">{{errors.password_confirmation[0]}}</span>
                         </div>
                         <button type="button" @click="signup" :disabled="btndis" class="btn btn-success btn-block mt-4" >{{btn}}</button>
                         <div class="mt-4">
                             <router-link :to="{name:'items'}" >Back to home</router-link>
+                            <div class="mt-1">
+                                    <router-link :to="{name:'login'}">Log in</router-link>
+                            </div>
                         </div>
                     </div>
                     </div>

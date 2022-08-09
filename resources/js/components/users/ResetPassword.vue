@@ -18,7 +18,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" @keyup.enter="login" v-model="post.email" class="form-control">
+                                <input type="text" @keyup.enter="requestPassword" v-model="post.email" class="form-control">
                                 <span class="errors-material" v-if="errors.email">{{errors.email[0]}}</span>
                             </div>
                            
@@ -26,9 +26,9 @@
                             
                             <div class="mt-4 justify-content-center">
                                 <router-link :to="{name:'signup'}" >Not yet register?</router-link>
-                                <!-- <div class="mt-1">
-                                    <a href="#">Forgot Password?</a>
-                                </div> -->
+                                <div class="mt-1">
+                                    <router-link :to="{name:'login'}">Log in</router-link>
+                                </div>
                             </div>
                         
                         <!-- </div> -->

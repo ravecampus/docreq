@@ -38,6 +38,13 @@ class ResetPasswordController extends Controller
                     $message->subject("Reset Password Request");
 
                 });
+                if(Mail::failures()){
+                    $errors = ['errors'=>['email' => ["Some error occured, Please try again!"]]];
+                    return response()->json($errors, 200);
+                }
+
+
+
                 $errors = ['errors'=>['main' => ["Please check your email!"]]];
                 return response()->json($errors, 200);
             }
@@ -50,16 +57,17 @@ class ResetPasswordController extends Controller
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
-            $user = User::where('validation_caod', $request->code)->find($request->id);
+            $user = User::where('verification_code', $request->code)->find($request->id);
 
             if(!$user){
                 $errors = ['errors'=>['password' => ["Invalid link or Expired link"]]];
                 return response()->json($errors, 422);
             }else{
-                $user->validation_code = null;
                 $user->password = bcrypt($request->password);
+                $user->verification_code = null;
+               
                 $user->save();
-                $errors = ['errors'=>['main' => ["Password has been change!"]]];
+                $errors = ['errors'=>['main' => ["Password has been changed!"]]];
                 return response()->json($errors, 200);
             }
     }
