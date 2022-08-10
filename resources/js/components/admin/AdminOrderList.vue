@@ -22,6 +22,7 @@
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                 </div>
+                                <button type="button" class="btn btn-primary">Packed for shipment</button>
                             </div>    
                             <div class="col-md-4">
                                 <div class="small bold">Docs.</div>
