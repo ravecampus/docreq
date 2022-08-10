@@ -5,25 +5,40 @@
                 <div class="col-md-12">
                     <h4>List of Orders</h4>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfOders()">
                     </div>
                     <div class="card mt-2" v-for="(list, index) in orders" :key="index">
                         <div class="card-body row">
                             <div class="col-md-4">
-                                <h5>{{ list.client.first_name }} {{ list.client.middle_name }} {{ list.client.last_name }}</h5>
+                                <h5>{{ list.first_name }} {{ list.middle_name }} {{ list.last_name }}</h5>
                                 <div class="mb-1 mb-0 text-muted small">
-                                    <span>{{ list.client.email }}</span>
-                                    <p class="text-success"> {{ list.client.gender == 2 ? 'Female' : 'Male' }} </p>
+                                    <span>{{ list.email }}</span>
+                                    <p class="text-success"> {{ list.gender == 2 ? 'Female' : 'Male' }} </p>
                                 </div>
                             </div>    
                             <div class="col-md-4">
                                 <h5>{{ list.delivery_address }} </h5>
                                 <div class="mb-1 mb-0 text-muted small">
-                                    <span>{{ list.client.email }}</span>
-                                    <p class="text-success"> {{ list.client.gender == 2 ? 'Female' : 'Male' }} </p>
+                                    <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
+                                    <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                 </div>
                             </div>    
-                            <div class="col-md-4">Common</div>    
+                            <div class="col-md-4">
+                                <div class="small bold">Docs.</div>
+                                <li v-for="(lst, idx) in list.order_items" :key="idx">
+                                    {{ lst.item_name }}
+                                </li>
+                                <div class="card card-body p-1 border-top mt-2">
+                                    <div>Total : &#8369; {{ formatAmount(list.total) }}</div>
+                                    <div>Delivery Fee : &#8369; {{ formatAmount(list.delivery_fee) }}</div>
+                                    <div class="text-success"><strong>Grand Total : &#8369; {{ formatAmount(list.grand_total) }}</strong></div>
+                                </div>
+                                <div class="border-top mt-2 small">
+                                   <h6>Paid with Paypal</h6>
+                                   <p>Payment ID: <strong class="text-success">{{ list.payment_id }}</strong></p>
+                                </div>
+
+                            </div>    
                         </div>
                     </div>
                     <div class="card mt-2" v-show="!noData(orders)">
@@ -104,6 +119,17 @@ export default {
         },
         noData(data){
             return data == undefined ? true : (data.length > 0) ? true : false;
+        },
+        formatDate(da){
+            let d = new Date(da);
+            const day =("0" + d.getDate()).slice(-2);
+            const month = ("0"+(d.getMonth()+1)).slice(-2);
+            const year =  d.getFullYear();
+            return  month+ "-" + day  + "-" + year;
+        },
+
+        formatAmount(num){
+            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
     },
     mounted(){

@@ -1,7 +1,7 @@
 <template>
     <div class="mt-5 container text-center">
         <h4  class="text-center">{{ message }}</h4>
-        <router-link :to="{name:'items'}" >Back to main page</router-link>
+        <router-link :to="{name:'toship'}" >Check your request status</router-link>
     </div>
    
 </template>

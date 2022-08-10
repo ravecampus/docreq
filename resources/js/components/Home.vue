@@ -22,6 +22,10 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              <ul class="navbar-nav ml-auto" v-if="auth">
                                 <li class="nav-item">
+                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name == null" >@{{ user.email }}</router-link>
+                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name != null">@{{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}</router-link>
+                                </li>
+                                <li class="nav-item">
                                     <router-link :to="{name:'request'}" class="nav-link" >Dashboard</router-link>
                                 </li>
                                 <li class="nav-item dropdown">

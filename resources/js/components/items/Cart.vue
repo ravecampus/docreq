@@ -44,7 +44,7 @@
                                             <button type="buttton" @click="removeFromCart(cart.item_id)" class="btn btn-sm btn-warning "><i class="fa fa-remove"></i> remove</button>
                                         </div>
                                     </td>
-                                    <td class="col-md-2"><strong>{{ priceWithQuantity(cart) }}</strong></td>
+                                    <td class="col-md-2"><strong>&#8369; {{ priceWithQuantity(cart) }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
@@ -53,7 +53,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <strong>{{ formatAmount(totalPrice(oncarts)) }}</strong>
+                                        <strong>&#8369; {{ formatAmount(totalPrice(oncarts)) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
@@ -63,7 +63,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <strong>{{ formatAmount( deliveryCharges() ) }}</strong>
+                                        <strong>&#8369; {{ formatAmount( deliveryCharges() ) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
@@ -73,7 +73,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <strong>{{ formatAmount(grandTotal()) }}</strong>
+                                        <strong>&#8369; {{ formatAmount(grandTotal()) }}</strong>
                                     </td>
                                 </tr>
                             </tbody>

@@ -10,7 +10,7 @@
                                      <h4 class="fw-normal text-red">Orders</h4><p class="subtitle text-sm text-muted mb-0">Orders</p>
                                  </div>
                                  <div class="flex-shrink-0 ms-3">
-                                     <svg class="svg-icon text-red"><use xlink:href="#speed-1"></use></svg>
+                                     <span class="fa fa-list"></span>
                                  </div>
                             </div>
                             <div class="py-3 bg-red-light card-footer">

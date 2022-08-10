@@ -26,7 +26,7 @@
                              {{ chk.item_name }}
                             </div> 
                             <div class="col-md-3 col-sm-3">
-                                {{ formatAmount(paymentCharges(chk.price)) }}
+                               &#8369; {{ formatAmount(paymentCharges(chk.price)) }}
                             </div>
                             <div class="col-md-3 col-sm-3">
                                 <strong class="d-sm-none">Quantity: </strong>
@@ -38,7 +38,7 @@
                                 
                             </div>
                             <div class="col-md-3 col-sm-3">
-                                <strong class="d-sm-none">Total:</strong>
+                                <strong class="d-sm-none">Total:</strong> &#8369;
                                 {{ formatAmount(priceWithQuantity(chk)) }}
                             </div>
                       </div>
@@ -54,14 +54,14 @@
                                     <h5><strong>ORDER SUMMARY</strong></h5>
                                     <div class="list-group list-group-flush">
                                         <div class="list-group-item ">
-                                            Subtotal: <strong>{{ formatAmount(totalPrice(forCheckout)) }}</strong>
+                                            Subtotal: <strong>&#8369; {{ formatAmount(totalPrice(forCheckout)) }}</strong>
                                         </div>
                                         <div class="list-group-item">
-                                            Delivery Charge: <strong>{{ formatAmount(deliveryCharges(forCheckout)) }}</strong>
+                                            Delivery Charge: <strong>&#8369; {{ formatAmount(deliveryCharges(forCheckout)) }}</strong>
                                             <input type="hidden" v-model="to_order.delivery_charges" >
                                         </div>
                                         <div class="list-group-item">
-                                           <strong>Grand Total: {{ formatAmount(grandTotal()) }}</strong>
+                                           <strong>Grand Total: &#8369; {{ formatAmount(grandTotal()) }}</strong>
                                         </div>
                                     </div>
 

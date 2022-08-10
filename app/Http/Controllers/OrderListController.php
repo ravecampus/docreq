@@ -15,11 +15,17 @@ class OrderListController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Order::with('client','order_items','payment')->where('status',1)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items','payment')
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->join('payments', 'payments.order_id', '=', 'orders.id')
+            ->orderBy('orders.'.$columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
-                $query->where('trucking_number', 'like', '%'.$searchValue.'%');
+                $query->where('trucking_number', 'like', '%'.$searchValue.'%')
+                ->OrWhere('first_name', 'like', '%'.$searchValue.'%')
+                ->OrWhere('last_name', 'like', '%'.$searchValue.'%')
+                ->OrWhere('middle_name', 'like', '%'.$searchValue.'%');
             });
         }
         $projects = $query->paginate($length);

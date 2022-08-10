@@ -15,7 +15,7 @@
                                     
                                     <td><strong>{{ list.item_name }}</strong></td>
                                     <td>{{ list.description }}</td>
-                                    <td>{{ list.price }}</td>
+                                    <td>&#8369; {{ list.price }}</td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <button type="button" @click="editItem(list)" class="btn btn-warning btn-sm">Edit</button>
