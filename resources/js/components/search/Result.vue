@@ -196,6 +196,7 @@ export default {
             // }
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.$axios.get('api/user-cart').then(res=>{
+                    console.log(res.data)
                     let oncart = JSON.parse(res.data.js_data);
                     this.carts = oncart;
                 });

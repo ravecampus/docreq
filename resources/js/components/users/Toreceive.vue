@@ -60,7 +60,7 @@
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4 text-success">
                                 <h5><span class="fa fa-paypal"></span> PAID WITH PAYPAL</h5>
-                                <p>Payment ID: {{list.payment.payment_id}}</p>
+                                <p>Payment ID: {{list.payment_id}}</p>
                             <button class="btn btn-primary btn-sm" @click ="toReceived(list)" type="button">{{btn_cap}}</button>
                             <!-- <button class="btn btn-outline-primary btn-sm mt-2" type="button">
                                 Add to wishlist

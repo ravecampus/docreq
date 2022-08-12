@@ -18,9 +18,9 @@
                                         <div>{{  list.email }}</div>
                                     </td>
                                     <td>
-                                        <div class="btn-group pull-right">
+                                        <!-- <div class="btn-group pull-right">
                                             <button type="button" @click="orderList(list)" class="btn btn-warning btn-sm">Orders</button>
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                                 <tr>
@@ -182,7 +182,7 @@ export default {
         let sortOrders = {};
         let columns =[
             {label:'Information', name:'first_name'},
-            {label:'Action', name:null},
+            {label:'Address', name:null},
             ];
         
         columns.forEach(column=>{

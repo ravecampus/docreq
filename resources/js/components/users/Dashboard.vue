@@ -50,6 +50,8 @@ export default {
     },
     data(){
         return{
+            message:'',
+            status:'',
             user:{},
             title:''
         }

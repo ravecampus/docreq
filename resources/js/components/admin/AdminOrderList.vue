@@ -21,8 +21,12 @@
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
+                                    <p><strong>{{ setStatus(list.status) }}</strong></p>
                                 </div>
-                                <button type="button" class="btn btn-primary">Packed for shipment</button>
+                                <div class="col-md-12" v-if="list.status == 1">
+                                    <p><strong>Packed for shipment</strong></p>
+                                    <button type="button" @click="shippedStatus(list)" class="btn btn-primary">{{ btn_ship }}</button>
+                                </div>
                             </div>    
                             <div class="col-md-4">
                                 <div class="small bold">Docs.</div>
@@ -57,13 +61,14 @@
 export default {
     data(){
         return {
+            btn_ship:"Shipped",
             orders:[],
              tableData:{
                 draw:0,
                 length:10,
                 search:'',
                 column:0,
-                dir:'desc',
+                dir:'asc',
             },
             pagination:{
                 lastPage:'',
@@ -85,7 +90,6 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.orders = data.data.data;
-                        console.log(this.orders);
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
@@ -131,6 +135,20 @@ export default {
 
         formatAmount(num){
             return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+        },
+        shippedStatus(data){
+            console.log(data)
+            this.$axios.get('sanctum/crsf-cookie').then(response=>{
+                this.btn_ship = "Setting up...";
+                this.$axios.put('api/order-status/'+data.order_id,{'status':2}).then(res=>{
+                  
+                    this.listOfOders();
+                    this.btn_ship = "Shipped"
+                });
+            });
+        },
+        setStatus(data){
+            return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
         },
     },
     mounted(){

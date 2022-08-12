@@ -136,7 +136,7 @@ export default {
                 search:'',
                 column:0,
                 archive:0,
-                dir:'desc',
+                dir:'asc',
             },
             pagination:{
                 lastPage:'',

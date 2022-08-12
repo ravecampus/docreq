@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class OrderListController extends Controller
 {
     public function orderList(Request $request){
-        $columns = ['created_at', 'trucking_number'];
+        $columns = ['status', 'trucking_number'];
         $length = $request->length;
         $column = $request->column;
         $dir = $request->dir;
@@ -33,7 +33,7 @@ class OrderListController extends Controller
     }
 
     public function authOrderList(Request $request){
-        $columns = ['created_at', 'trucking_number'];
+        $columns = ['status', 'trucking_number'];
         $length = $request->length;
         $column = $request->column;
         $dir = $request->dir;
