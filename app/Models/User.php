@@ -48,6 +48,6 @@ class User extends Authenticatable
     ];
 
     public function address_book(){
-        return $this->hasMany(BookAddress::class, 'id', 'user_id');
+        return $this->hasMany(BookAddress::class, 'user_id', 'id');
     }
 }

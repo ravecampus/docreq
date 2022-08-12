@@ -33,13 +33,13 @@
                                 <div class="item-title">
                                     <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
                                 </div>
-                                <p>{{ truncate(item.description , 25, '...' ) }}</p>
+                                <p>{{ truncate(item.description , 20, '...' ) }}</p>
                                 <div class="item-price">&#8369;
                                     {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
                                     </div>
                                 <div class="item-discount"></div>
                                 <div class="on-cart">
-                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart">Add to Cart</button>
+                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart">Add to Cart <i class="fa fa-shopping-bag"></i></button>
                                 </div>
                             </div>
                             <div class="star-item">

@@ -21,7 +21,7 @@ class ClientController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = User::where('role', 0)->orderBy($columns[$column], $dir);
+        $query = User::with('address_book')->where('role', 0)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){

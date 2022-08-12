@@ -18,6 +18,10 @@
                                         <div>{{  list.email }}</div>
                                     </td>
                                     <td>
+                                        <p class="small"><strong>List of :</strong></p>
+                                        <li v-for="(ls,idx) in list.address_book" :key="idx">
+                                            {{ ls.street }}, {{ ls.barangay }}, {{ ls.city_or_municipality }} {{ ls.province }}
+                                        </li>
                                         <!-- <div class="btn-group pull-right">
                                             <button type="button" @click="orderList(list)" class="btn btn-warning btn-sm">Orders</button>
                                         </div> -->
@@ -296,6 +300,7 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.clients = data.data.data;
+                        console.log(this.clients)
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
