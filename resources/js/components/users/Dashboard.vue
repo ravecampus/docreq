@@ -1,7 +1,7 @@
 <template>
     <div>
-         <flashmessage :message="message" :status="status"></flashmessage>
         <div class="wrapper d-flex align-items-stretch">
+        <flashmessage :message="message" :status="status"></flashmessage>
         <nav id="sidebar">
             <div class="custom-menu">
                     <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -36,7 +36,7 @@
 
         <!-- Page Content  -->
         
-        <router-view @show="flashMessage"></router-view>
+        <router-view @note="Message"></router-view>
         
         </div>
     </div>
@@ -93,7 +93,7 @@ export default {
                 $('.fm-body').fadeOut("slow");
             }, 3000);
         },
-        flashMessage(data){
+        Message(data){
              this.showMessage(data)
         },
        
@@ -117,7 +117,6 @@ export default {
             this.user = window.Laravel.user;
         }
         this.title = window.Title.app_name;
-
     },
 }
 </script>

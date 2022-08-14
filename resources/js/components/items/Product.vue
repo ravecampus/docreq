@@ -6,8 +6,8 @@
                 <div class="col-md-9">
                     <div class="d-flex flex-wrap justify-content-around items-main">
                         <h4>Admission and Records Office Document Request Recommender System</h4>
-                        <h6 class="mt-2">DUE TO THE LIMITED MANPOWER AND RESTRICTED ACCESS TO CAMPUS, KINDLY BE ADVISED ON THE FOLLOWING:</h6>
-                        <div class="col-md-12 mt-5">
+                        <h6 class="mt-2 text-center">DUE TO THE LIMITED MANPOWER AND RESTRICTED ACCESS TO CAMPUS, KINDLY BE ADVISED ON THE FOLLOWING:</h6>
+                        <div class="col-md-12 mt-5 small">
                         
                             <p>1. THE SYSTEM WILL BE ACCESSIBLE EVERY THURSDAY, FRIDAY, AND SATURDAY EXCEPT HOLIDAYS.</p>
                             <p>2. DUE TO THE LIMITED NUMBER OF REQUEST THAT CAN BE HANDLED, THE FACILITY WILL START RECEIVING REQUEST AT
@@ -88,7 +88,7 @@
                     
                     <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
                         <div class="item">
-                            <img class="img-item" :src="'/img/default.png'"/>
+                            <img class="img-item" :src="'/img/logo.png'"/>
                            
                             <div class="item-description">
                                 <div class="item-title">

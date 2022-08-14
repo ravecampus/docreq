@@ -60,11 +60,8 @@
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4 text-success">
                                 <h5><span class="fa fa-paypal"></span>  PAID WITH PAYPAL</h5>
-                                <p>Payment ID: {{list.payment_id}}</p>
-                            <!-- <button class="btn btn-primary btn-sm" type="button">Details</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                                Add to wishlist
-                            </button> -->
+                                <p>Payment ID: {{ list.payment.payment_id }}</p>
+                                <div class="small">Date Paid : {{ formatDate( list.payment.created_at ) }}</div>
                             </div>
                         </div>
                     </div>
@@ -129,6 +126,7 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.orders = data.data.data;
+                        console.log(this.orders)
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;

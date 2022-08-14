@@ -27,7 +27,7 @@
                 <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
                         <div class="item">
                             <!-- <a href=""> -->
-                                 <img class="img-item" :src="'/img/default.png'"/>
+                                 <img class="img-item" :src="'/img/logo.png'"/>
                             <!-- </a> -->
                             <div class="item-description">
                                 <div class="item-title">

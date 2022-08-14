@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="col-md-3 text-center">
                                 <router-link :to="{name:'items'}" class="brand-main">
-                                    <img class="brand-logo" src="/img/raven.jpg" alt="">
+                                    <img class="brand-logo" src="/img/orig.png" alt="">
                                     <div class="brand-site">
                                       {{title}}
                                     </div>

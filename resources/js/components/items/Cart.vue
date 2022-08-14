@@ -205,7 +205,7 @@ export default {
         checkout(){
             if(window.token){
                 if(this.oncarts.length  <= 0){
-                    this.$root.$emit('show',{'message':"No more Items! Can't proceed!", 'status':2});
+                    this.$emit('show',{'message':"No more Items! Can't proceed!", 'status':2});
                 }else{
                     this.$router.push({name:'checkout'});
                 }

@@ -60,11 +60,10 @@
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4 text-success">
                                 <h5><span class="fa fa-paypal"></span> PAID WITH PAYPAL</h5>
-                                <p>Payment ID: {{list.payment_id}}</p>
-                            <button class="btn btn-primary btn-sm" @click ="toReceived(list)" type="button">{{btn_cap}}</button>
-                            <!-- <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                                Add to wishlist
-                            </button> -->
+                                <p>Payment ID: {{ list.payment.payment_id }}</p>
+                                <div class="small">Date Paid : {{ formatDate( list.payment.created_at ) }}</div>
+                                <button class="btn btn-primary btn-sm mt-2" @click ="toReceived(list)" type="button">{{btn_cap}}</button>
+                          
                             </div>
                         </div>
                     </div>
@@ -193,9 +192,10 @@ export default {
         },
         toReceived(data){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
-                this.btn_cap = "Proccessing..."
-                this.$axios.put('api/order-status/'+ data.id,{'status':3}).then(res=>{
+                // this.btn_cap = "Proccessing..."
+                this.$axios.put('api/order-status/action/'+ data.id,{'status':3}).then(res=>{
                     this.btn_cap = "Orders Receive"
+                    // this.$emit('note',{'message':"Status has been Changed ", 'status':2});
                     this.$router.push({name:'received'});
                 });
             });

@@ -99,7 +99,11 @@ class PaymentController extends Controller
                     $order->save();
 
             
-                    return response()->json("Payment is successful. Your transaction id is: ".$arr_body['id'], 200);
+                    return response()->json(
+                        ["message"=>"Payment is successful. Your transaction id is: ".$arr_body['id'], 
+                        "order"=>$order,
+                        "payment"=>$payment]
+                        , 200);
                 }
                
             } else {

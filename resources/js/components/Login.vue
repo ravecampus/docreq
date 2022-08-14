@@ -31,6 +31,10 @@
                                 <div class="mt-1">
                                     <router-link :to="{name:'resetpassword'}">Forgot Password?</router-link>
                                 </div>
+                                 <div class="mt-1">
+                                   <router-link :to="{name:'items'}" >Back to home</router-link>
+                                </div>
+                                   
                             </div>
                         
                         <!-- </div> -->

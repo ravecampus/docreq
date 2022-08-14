@@ -41,7 +41,7 @@ Route::post('new-password', [ResetPasswordController::class, 'newPassword']);
 
 Route::get('charges/get-charge/{id}',[ChargesController::class, 'getCharge']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('order-status', OrderStatusController::class);
+    Route::resource('order-status/action', OrderStatusController::class);
     Route::post('paypal/charges',[PaymentController::class,'charge']);
     Route::get('paypal/success/{id}',[PaymentController::class,'success']);
     Route::resource('items',ItemsController::class);

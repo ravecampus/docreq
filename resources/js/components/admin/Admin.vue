@@ -20,9 +20,9 @@
                 <li>
                     <router-link :to="{name:'adminuser'}"><span class="fa fa-users mr-3"></span> Users</router-link>
                 </li>
-                <li>
+                <!-- <li>
                     <router-link :to="{name:'adminclient'}"><span class="fa fa-users mr-3"></span> Clients</router-link>
-                </li>
+                </li> -->
                 <li>
                     <router-link :to="{name:'adminitem'}"><span class="fa fa-list-alt mr-3"></span> Setup Items</router-link>
                 </li>

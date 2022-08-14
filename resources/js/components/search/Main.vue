@@ -6,7 +6,7 @@
              @click="showHistory()" 
            
              @blur="clearDropdown"
-             class="form-control form-control-lg"  placeholder="Search..." aria-describedby="basic-addon2">
+             class="form-control form-control-lg"  autocomplete="off" placeholder="Search..." aria-describedby="basic-addon2">
             <div class="input-group-append btn-head-search"  @click="searchGo(search)">
                 <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
             </div>
@@ -181,10 +181,12 @@ export default {
             if(window.Laravel.isLoggedin){
                 this.$axios.get('sanctum/csrf-cookie').then(response=>{
                     this.$axios.get('api/user-cart').then(res=>{
-                        let oncart = JSON.parse(res.data.js_data);
-                        oncart.forEach(res => {
-                            cc += res.quantity;
-                        });
+                        if(res.data != null){
+                            let oncart = JSON.parse(res.data.js_data);
+                            oncart.forEach(res => {
+                                cc += res.quantity;
+                            });
+                        }
                     this.cartlen = cc;
                     });
                 });

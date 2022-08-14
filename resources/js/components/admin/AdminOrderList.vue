@@ -46,6 +46,15 @@
                             </div>    
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="table-footer pull-right">
+                            <pagination :pagination="pagination"
+                                @prev="listOfOders(pagination.prevPageUrl)"
+                                @next="listOfOders(pagination.nextPageUrl)"
+                                v-show="noData(orders)">
+                            </pagination>
+                        </div>
+                    </div>
                     <div class="card mt-2" v-show="!noData(orders)">
                         <div class="card-body row">
                             <div class="col-md-12">No result found!</div>  
@@ -58,14 +67,19 @@
 </template>
 
 <script>
+import PaginationVue from '../../table/Pagination';
 export default {
+
+    components :{
+        pagination:PaginationVue
+    },
     data(){
         return {
             btn_ship:"Shipped",
             orders:[],
              tableData:{
                 draw:0,
-                length:10,
+                length:5,
                 search:'',
                 column:0,
                 dir:'asc',
@@ -137,11 +151,10 @@ export default {
             return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
         shippedStatus(data){
-            console.log(data)
             this.$axios.get('sanctum/crsf-cookie').then(response=>{
-                this.btn_ship = "Setting up...";
-                this.$axios.put('api/order-status/'+data.order_id,{'status':2}).then(res=>{
-                  
+                // this.btn_ship = "Setting up...";
+                this.$axios.put('api/order-status/action/'+data.order_id,{'status':2}).then(res=>{
+                    this.$emit('note',{'message':"Status has been Changed ", 'status':2});
                     this.listOfOders();
                     this.btn_ship = "Shipped"
                 });
