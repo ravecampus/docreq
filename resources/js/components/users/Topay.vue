@@ -11,7 +11,7 @@
                                 <div class="card-body">
                                     
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                        <img  class="img-thumbnail img-cart" :src="'/img/default.png'">
+                                        <img  class="img-thumbnail img-cart" :src="'/img/logo.png'">
                                         <a href="#!">
                                             <div class="hover-overlay text-muted">
                                             : {{ lst.quantity }} X {{ paymentCharges(lst.price) }} = {{ formatAmount(lst.quantity * paymentCharges(lst.price)) }}

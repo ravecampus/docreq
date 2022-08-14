@@ -22,7 +22,7 @@
                   <div class="list-group-item" v-for="(chk ,index) in forCheckout" :key="index">
                       <div class="row">
                             <div class="col-md-3 col-sm-3">
-                             <img  class="img-thumbnail img-cart" :src="'/img/default.png'">
+                             <img  class="img-thumbnail img-cart" :src="'/img/logo.png'">
                              {{ chk.item_name }}
                             </div> 
                             <div class="col-md-3 col-sm-3">

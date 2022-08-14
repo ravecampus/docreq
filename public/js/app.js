@@ -24255,7 +24255,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container"
+  "class": "container with-logo p-4"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -24264,7 +24264,7 @@ var _hoisted_3 = {
   "class": "col-md-4 col-md-offset-4"
 };
 var _hoisted_4 = {
-  "class": "card mt-5"
+  "class": "card mt-5 bgo"
 };
 var _hoisted_5 = {
   "class": "card-body"
@@ -24533,16 +24533,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container"
+  "class": "container with-logo p-4"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
 };
 var _hoisted_3 = {
-  "class": "col-md-4 col-md-offset-4 mt-4"
+  "class": "col-md-4 col-md-offset-4"
 };
 var _hoisted_4 = {
-  "class": "card"
+  "class": "card mt-5 bgo"
 };
 var _hoisted_5 = {
   "class": "card-body"
@@ -27076,7 +27076,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "img-thumbnail img-cart",
-      src: '/img/default.png'
+      src: '/img/logo.png'
     }, null, 8
     /* PROPS */
     , _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cart.item_name), 1
@@ -27618,7 +27618,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "img-thumbnail img-cart",
-      src: '/img/default.png'
+      src: '/img/logo.png'
     }, null, 8
     /* PROPS */
     , _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(chk.item_name), 1
@@ -28984,7 +28984,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container"
+  "class": "container with-logo p-4"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -28993,7 +28993,7 @@ var _hoisted_3 = {
   "class": "col-md-4 col-md-offset-4"
 };
 var _hoisted_4 = {
-  "class": "card mt-5"
+  "class": "card mt-5 bgo"
 };
 var _hoisted_5 = {
   "class": "card-body"
@@ -29295,7 +29295,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         "class": "img-thumbnail img-cart",
-        src: '/img/default.png'
+        src: '/img/logo.png'
       }, null, 8
       /* PROPS */
       , _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lst.quantity) + " X " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paymentCharges(lst.price)) + " = " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(lst.quantity * $options.paymentCharges(lst.price))) + " ", 1
@@ -29790,7 +29790,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         "class": "img-thumbnail img-cart",
-        src: '/img/default.png'
+        src: '/img/logo.png'
       }, null, 8
       /* PROPS */
       , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lst.quantity) + " X " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paymentCharges(lst.price)) + " = " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(lst.quantity * $options.paymentCharges(lst.price))) + " ", 1
@@ -29969,7 +29969,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container"
+  "class": "container with-logo p-4"
 };
 var _hoisted_2 = {
   "class": "row justify-content-center"
@@ -29978,7 +29978,7 @@ var _hoisted_3 = {
   "class": "col-md-4 col-md-offset-4"
 };
 var _hoisted_4 = {
-  "class": "card mt-5"
+  "class": "card mt-5 bgo"
 };
 var _hoisted_5 = {
   "class": "card-body"
@@ -30252,7 +30252,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         "class": "img-thumbnail img-cart",
-        src: '/img/default.png'
+        src: '/img/logo.png'
       }, null, 8
       /* PROPS */
       , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lst.quantity) + " X " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paymentCharges(lst.price)) + " = " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(lst.quantity * $options.paymentCharges(lst.price))) + " ", 1
@@ -30471,7 +30471,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         "class": "img-thumbnail img-cart",
-        src: '/img/default.png'
+        src: '/img/logo.png'
       }, null, 8
       /* PROPS */
       , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lst.quantity) + " X " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paymentCharges(lst.price)) + " = " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(lst.quantity * $options.paymentCharges(lst.price))) + " ", 1
@@ -30693,7 +30693,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
         "class": "img-thumbnail img-cart",
-        src: '/img/default.png'
+        src: '/img/logo.png'
       }, null, 8
       /* PROPS */
       , _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lst.quantity) + " X " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paymentCharges(lst.price)) + " = " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount(lst.quantity * $options.paymentCharges(lst.price))) + " ", 1

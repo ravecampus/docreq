@@ -24,7 +24,7 @@
                             <tbody>
                                 <tr v-for="(cart, index) in oncarts" :key="index">
                                     <td class="col-md-6">
-                                        <img class="img-thumbnail img-cart" :src="'/img/default.png'">
+                                        <img class="img-thumbnail img-cart" :src="'/img/logo.png'">
                                         <strong class="ml-2">{{ cart.item_name }}</strong>
                                         <p>
                                            

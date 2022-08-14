@@ -1,8 +1,8 @@
 <template>
-     <div class="container">
+     <div class="container with-logo p-4">
             <div class="row justify-content-center">
                 <div class="col-md-4 col-md-offset-4">
-                <div class="card mt-5">
+                <div class="card mt-5 bgo">
                     <div class="card-body">
                         <div  class="col-md-12 text-center mb-5">
                             <h2>{{ title }}</h2>
