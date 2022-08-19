@@ -69,7 +69,7 @@
                                <div class="card-body">
                                    <div class="row">
                                        <div class="col-md-12">
-                                           <textarea v-model="to_order.purpose" class="form-control" placeholder="Purpose..."></textarea>
+                                           <textarea v-model="to_order.request_detail" class="form-control" placeholder="Request Details"></textarea>
                                        </div>
                                    </div>
                                    <!-- <button type="button" class="btn btn-item-default">Next</button> -->
