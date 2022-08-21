@@ -43,11 +43,11 @@ class OrderController extends Controller
         ]);
         $order = Order::create([
             'delivery_address' => $request->delivery_address,
-            // 'mobile_number' => $request->mobile_number,
+            'delivery_option' => $request->delivery_option,
             'email' => $request->email,
             'trucking_number' => $request->trucking_number,
             'delivery_fee' => $request->delivery_fee,
-            'other_info' => $request->purpose,
+            'other_info' => $request->request_detail,
             'total' => $request->total,
             'grand_total' => $request->grand_total,
             'status' => 0,

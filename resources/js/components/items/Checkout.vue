@@ -67,10 +67,20 @@
 
                                </div>
                                <div class="card-body">
-                                   <div class="row">
+                                   <div class="row p-1">
                                        <div class="col-md-12">
-                                           <textarea v-model="to_order.request_detail" class="form-control" placeholder="Request Details"></textarea>
-                                       </div>
+                                            <div class="form-group">
+                                                <label>Delivery Option</label>
+                                                <select class="form-control">
+                                                    <option value="1">Deliver</option>
+                                                    <option value="2">Pick up</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Request Details</label>
+                                                <textarea v-model="to_order.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
+                                            </div>
+                                        </div>
                                    </div>
                                    <!-- <button type="button" class="btn btn-item-default">Next</button> -->
                                </div>
@@ -85,10 +95,10 @@
                                                     Delivery to: <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
                                                     <span class="errors-material" v-if="errors.account">{{ errors.account[0]}}</span>
                                                 </div>
-                                                <div class="list-group-item">
+                                                <!-- <div class="list-group-item">
                                                     Mobile Number: <strong>{{ addr.mobile_number  }}</strong>
-                                                    <!-- <span class="errors" v-if="errors.mobile_number">{{ errors.mobile_number[0]}}</span> -->
-                                                </div>
+                                                    <span class="errors" v-if="errors.mobile_number">{{ errors.mobile_number[0]}}</span>
+                                                </div> -->
                                                 <div class="list-group-item">
                                                     Adddress :
                                                     <a class="text-primary" @click="showAddress()" href="#"><i class="fa fa-plus"></i></a>
