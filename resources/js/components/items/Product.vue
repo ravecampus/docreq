@@ -4,7 +4,7 @@
             <div claass="col-md-12 row">
                 <div class="row">
                 <div class="col-md-9">
-                    <div class="d-flex flex-wrap justify-content-around items-main">
+                    <div class="d-flex flex-wrap justify-content-around items-main pb-5">
                         <h4>Admission and Records Office Document Request Recommender System</h4>
                         <h6 class="mt-2 text-center">DUE TO THE LIMITED MANPOWER AND RESTRICTED ACCESS TO CAMPUS, KINDLY BE ADVISED ON THE FOLLOWING:</h6>
                         <div class="col-md-12 mt-5 small">
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class="d-flex flex-wrap justify-content-around items-main">
+                <div class="d-flex flex-wrap justify-content-around items-main pb-5">
                     <div class="col-md-12">
                         <h4>Documents</h4>
                     </div>

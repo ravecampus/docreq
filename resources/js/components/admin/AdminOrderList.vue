@@ -24,8 +24,12 @@
                                     <p><strong>{{ setStatus(list.status) }}</strong></p>
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
-                                    <p><strong>Packed for shipment</strong></p>
-                                    <button type="button" @click="shippedStatus(list)" class="btn btn-primary">{{ btn_ship }}</button>
+                                    <p><strong>Approved & Packed</strong></p>
+                                    <button type="button" @click="shippedStatus(list,2)" class="btn btn-primary">{{ btn_ship }}</button>
+                                </div>
+                                <div class="col-md-12" v-if="list.status == 2">
+                                    <p><strong>to Depart</strong></p>
+                                    <button type="button" @click="shippedStatus(list,3)" class="btn btn-primary">Shipped</button>
                                 </div>
                             </div>    
                             <div class="col-md-4">
@@ -75,7 +79,7 @@ export default {
     },
     data(){
         return {
-            btn_ship:"Shipped",
+            btn_ship:"Approved",
             orders:[],
              tableData:{
                 draw:0,
@@ -150,18 +154,18 @@ export default {
         formatAmount(num){
             return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
-        shippedStatus(data){
+        shippedStatus(data,num){
             this.$axios.get('sanctum/crsf-cookie').then(response=>{
                 // this.btn_ship = "Setting up...";
-                this.$axios.put('api/order-status/action/'+data.order_id,{'status':2}).then(res=>{
+                this.$axios.put('api/order-status/action/'+data.order_id,{'status':num}).then(res=>{
                     this.$emit('note',{'message':"Status has been Changed ", 'status':2});
                     this.listOfOders();
-                    this.btn_ship = "Shipped"
+                    // this.btn_ship = "Approved"
                 });
             });
         },
         setStatus(data){
-            return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
         },
     },
     mounted(){

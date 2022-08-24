@@ -37,7 +37,7 @@
                             <span class="text-primary">  </span>
                             </div>
                             <div class="mb-1 mb-0 text-muted small">
-                            <span>{{ setStatus(list.status) }}</span>
+                            <span><strong>{{ setStatus(list.status) }}</strong> <i>({{ deliveryOpt(list.delivery_option) }})</i></span>
                             <div class="text-success">Requested date: {{ formatDate(list.created_at) }} </div>
                             </div>
                             
@@ -107,7 +107,7 @@ export default {
                 column:0,
                 archive:0,
                 dir:'desc',
-                status:2,
+                status:3,
             },
             pagination:{
                 lastPage:'',
@@ -188,17 +188,20 @@ export default {
             });
         },
         setStatus(data){
-            return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
         },
         toReceived(data){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 // this.btn_cap = "Proccessing..."
-                this.$axios.put('api/order-status/action/'+ data.id,{'status':3}).then(res=>{
+                this.$axios.put('api/order-status/action/'+ data.id,{'status':4}).then(res=>{
                     this.btn_cap = "Orders Receive"
                     // this.$emit('note',{'message':"Status has been Changed ", 'status':2});
                     this.$router.push({name:'received'});
                 });
             });
+        }, 
+        deliveryOpt(num){
+            return num == 1 ? 'FOR DELIVERY' : 'FOR PICK UP';
         }
     },
     mounted(){

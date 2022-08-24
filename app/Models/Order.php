@@ -18,6 +18,7 @@ class Order extends Model
         'total',
         'grand_total',
         'delivery_option',
+        'other_info',
         'status'
     ];
 

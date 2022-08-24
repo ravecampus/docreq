@@ -71,14 +71,14 @@
                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Delivery Option</label>
-                                                <select class="form-control">
+                                                <select class="form-control" v-model="other_info.delivery_option">
                                                     <option value="1">Deliver</option>
                                                     <option value="2">Pick up</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label>Request Details</label>
-                                                <textarea v-model="to_order.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
+                                                <textarea v-model="other_info.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
                                             </div>
                                         </div>
                                    </div>
@@ -308,6 +308,7 @@ export default {
             delivery:{},
             address_book:[],
             personal:{},
+            other_info:{},
             item:{},
             user:{},
             to_order:{},
@@ -478,9 +479,11 @@ export default {
             this.btn_place_order = true;
             // let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
             let data =    this.forCheckout;
+           
             this.to_order = this.addr
             this.to_order.checkout = data;
-            
+             this.to_order.request_detail = this.other_info.request_detail;
+             this.to_order.delivery_option = this.other_info.delivery_option;
             this.to_order.account = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();

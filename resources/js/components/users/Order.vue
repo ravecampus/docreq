@@ -50,7 +50,7 @@
                             <span class="text-primary">  </span>
                             </div>
                             <div class="mb-1 mb-0 text-muted small">
-                            <span>{{ setStatus(list.status) }}</span>
+                            <span><strong>{{ setStatus(list.status) }}</strong></span>
                             <div class="text-primary">Requested date: {{ formatDate(list.created_at) }} </div>
                             </div>
                             
@@ -217,7 +217,7 @@ export default {
             });
         },
         setStatus(data){
-            return (data == 0) ? "To pay" : (data == 1) ? "To ship" : (data==2) ? "To receive" : "Received";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
         },
         payOrder(data){
             this.$router.push({name:'payment',params:{'order_id':data.id}})
