@@ -1,6 +1,6 @@
 <template>
    <div class="tab-pane fade show active p-2">
-       <h5 class="mt-5 mb-2">Received <span class="badge badge-success">{{ orders.length }}</span></h5>
+       <h5 class="mt-5 mb-2">Cancelled <span class="badge badge-success">{{ orders.length }}</span></h5>
        <div class="row justify-content-center mt-2">
             <div class="col-md-12">
             <div class="card shadow-0 border rounded-3 mb-3" v-for = "(list, index) in orders" :key="index">
@@ -58,11 +58,11 @@
                                 <h5 class="mb-1 me-1">&#8369; {{ formatAmount(list.grand_total) }}</h5>
                             </div>
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
-                            <div class="d-flex flex-column mt-4 text-success">
+                            <!-- <div class="d-flex flex-column mt-4 text-success">
                                 <h5><span class="fa fa-paypal"></span>  PAID WITH PAYPAL</h5>
                                 <p>Payment ID: {{ list.payment.payment_id }}</p>
                                 <div class="small">Date Paid : {{ formatDate( list.payment.created_at ) }}</div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@ export default {
                 column:0,
                 archive:0,
                 dir:'desc',
-                status:4,
+                status:6,
             },
             pagination:{
                 lastPage:'',

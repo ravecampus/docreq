@@ -60,8 +60,8 @@
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4">
                             <button class="btn btn-success btn-sm" @click="payOrder(list)" type="button">Pay</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" type="button">
-                               Cancel orders
+                            <button class="btn btn-outline-primary btn-sm mt-2" @click="cancelRequest(list,6)" type="button">
+                               Cancel Request
                             </button>
                             </div>
                         </div>
@@ -190,7 +190,18 @@ export default {
         },
         payOrder(data){
             this.$router.push({name:'payment',params:{'order_id':data.id}})
+        },
+        cancelRequest(data,num){
+            console.log(data, num)
+            this.$axios.get('sanctum/crsf-cookie').then(response=>{
+                this.$axios.put('api/order-status/action/'+data.id,{'status':num}).then(res=>{
+                    this.$emit('note',{'message':"Status has been Changed ", 'status':2});
+                    // this.listOfOrder();
+                    this.$router.push({name:'cancelled'});
+                });
+            });
         }
+
     },
     mounted(){
         this.listOfOrder();

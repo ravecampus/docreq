@@ -75,10 +75,12 @@
                                                     <option value="1">Deliver</option>
                                                     <option value="2">Pick up</option>
                                                 </select>
+                                                <span class="errors-material" v-if="errors.delivery_option">{{ errors.delivery_option[0]}}</span>
                                             </div>
                                             <div class="form-group">
                                                 <label>Request Details</label>
                                                 <textarea v-model="other_info.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
+                                                <span class="errors-material" v-if="errors.request_detail">{{ errors.request_detail[0]}}</span>
                                             </div>
                                         </div>
                                    </div>

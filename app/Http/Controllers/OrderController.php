@@ -39,6 +39,8 @@ class OrderController extends Controller
     {
         $request->validate([
             'delivery_address'=>'required',
+            'request_detail'=>'required',
+            'delivery_option'=>'required',
             'account'=>'required',
         ]);
         $order = Order::create([

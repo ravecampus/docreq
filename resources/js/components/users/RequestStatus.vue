@@ -14,6 +14,9 @@
         <li class="nav-item">
             <router-link class="nav-link" :to="{name:'received'}">Received</router-link>
         </li>
+        <li class="nav-item">
+            <router-link class="nav-link" :to="{name:'cancelled'}">Cancelled</router-link>
+        </li>
     </ul>
     <div class="tab-content" id="myTabContent">
        <router-view></router-view>

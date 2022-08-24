@@ -21,6 +21,7 @@ import Payment from '../components/users/Payment';
 import PaymentSuccess from '../components/users/PaymentSuccess';
 import ResetPassword from '../components/users/ResetPassword';
 import NewPassword from '../components/users/NewPassword';
+import CancelRequest from '../components/users/CancelledRequest';
 
 import Admin from '../components/admin/Admin';
 import AdminItem from '../components/admin/AdminItem';
@@ -96,6 +97,11 @@ export const routes = [
                         path:'received',
                         name:'received',
                         component: Received
+                    },
+                    {
+                        path:'cancelled',
+                        name:'cancelled',
+                        component: CancelRequest
                     }
                 ]
             },
@@ -226,7 +232,8 @@ const userRoutes = [
     'userprofile',
     'received',
     'payment',
-    'paymentsuccess'
+    'paymentsuccess',
+    'cancelled'
 ];
 const adminRoutes = [
     'admin', 
