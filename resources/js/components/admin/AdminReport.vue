@@ -3,7 +3,7 @@
         <h4 class="mb-4">Report</h4>
         <div class="row">
             <div class="col-md-12">
-                <button type="button" @click="addUser()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add User</button>
+                <!-- <button type="button" @click="addUser()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add User</button> -->
                 <div class="card mt-2">
                     <div class="card-body">
                          <div class="form-group">
@@ -11,20 +11,16 @@
                         </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
-                                <tr v-for = "(list, index) in users" :key="index" class="linkTable">
-                                    
+                                <tr v-for = "(list, index) in orders" :key="index" class="linkTable">
+                                    <td>{{ list.trucking_number }}</td>
                                     <td><strong>{{ list.first_name }} {{ list.middle_name }} {{ list.last_name }}</strong></td>
-                                    <td>{{ list.email }}</td>
+                                    <td> &#8369; {{ formatAmount(list.grand_total) }}</td>
                                     <td>
-                                        <div class="btn-group pull-right">
-                                            <button type="button" @click="editUser(list)" class="btn btn-warning btn-sm">Edit</button>
-                                            <button type="button" @click="changepass(list)" class="btn btn-success btn-sm">Change password</button>
-                                            <!-- <button type="button" @click="deleteUser(list)" class="btn btn-danger btn-sm">Delete</button> -->
-                                        </div>
+                                        {{ setStatus(list.status) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" v-show="!noData(users)">
+                                    <td colspan="4" v-show="!noData(orders)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -32,9 +28,9 @@
                         </data-table>
                         <div class="table-footer pull-right">
                             <pagination :pagination="pagination"
-                                @prev="listOfUsers(pagination.prevPageUrl)"
-                                @next="listOfUsers(pagination.nextPageUrl)"
-                                v-show="noData(users)">
+                                @prev="listOfOrders(pagination.prevPageUrl)"
+                                @next="listOfOrders(pagination.nextPageUrl)"
+                                v-show="noData(orders)">
                             </pagination>
                         </div>
                     </div>
@@ -182,8 +178,9 @@ export default {
         let sortOrders = {};
         let columns =[
             {label:'Order Number', name:'first_name'},
-            {label:'Email', name:'email'},
-            {label:'Action', name:null},
+            {label:'Client', name:null},
+            {label:'Amount', name:null},
+            {label:'Status', name:null},
             ];
         
         columns.forEach(column=>{
@@ -195,7 +192,7 @@ export default {
             btn_dis: false,
             post:{},
             errors:[],
-            users:[],
+            orders:[],
             columns:columns,
             sortOrders:sortOrders,
             sortKey:'created_at',
@@ -290,12 +287,13 @@ export default {
                 });
             });
         },
-        listOfUsers(url="api/report"){
+        listOfOrders(url="api/report"){
             this.$axios.get('sanctum/csrf-cookie').then(response => {
                 this.tableData.draw ++;
                 this.$axios.get(url,{params:this.tableData}).then(res=>{
                     console.log(res.data)
-                let data = res.data;
+                    this.orders = res.data;
+                // let data = res.data;
                     // if(this.tableData.draw == data.draw){
                     //     this.users = data.data.data;
                     //     this.configPagination(data.data);
@@ -324,7 +322,7 @@ export default {
                 this.sortOrders[key] = this.sortOrders[key] * -1;
                 this.tableData.column = this.getIndex(this.columns, 'name', key);
                 this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
-                this.listOfUsers();
+                this.listOfOrders();
             }
         },
         getIndex(array, key, value){
@@ -333,6 +331,12 @@ export default {
         noData(data){
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
+        formatAmount(num){
+            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+        },
+        setStatus(data){
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
+        },
 
     },
     mounted() {
@@ -340,7 +344,7 @@ export default {
             this.errors = [];
             this.post = {};
         });
-        this.listOfUsers();
+        this.listOfOrders();
     },
 
 }

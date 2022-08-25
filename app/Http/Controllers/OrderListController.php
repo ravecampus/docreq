@@ -40,7 +40,7 @@ class OrderListController extends Controller
         $archive = $request->archive;
         $searchValue = $request->search;
         $userid = Auth::id();
-        $query = Order::with('order_items', 'payment')->where('user_id', $userid)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items', 'payment')->where('status','!=', 6)->where('user_id', $userid)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
