@@ -15,6 +15,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,5 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('order-list', [OrderListController::class, 'orderList']);
     Route::get('auth-order', [OrderListController::class, 'authOrderList']);
     Route::get('order-status', [OrderListController::class, 'specificOrder']);
+    Route::resource('report', ReportController::class);
   
 });
