@@ -22,6 +22,8 @@
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                     <p><strong>{{ setStatus(list.status) }}</strong></p>
+                                    <small>Request Details</small>
+                                    <p><i>{{ list.other_info }}</i></p>
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
                                     <p><strong>Approved & Packed</strong></p>

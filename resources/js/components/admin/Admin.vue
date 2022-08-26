@@ -2,7 +2,7 @@
     <div>
         <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
-            <div class="custom-menu">
+            <div class="custom-menu d-print-none">
                     <button type="button" id="sidebarCollapse" class="btn btn-primary">
                     <i class="fa fa-bars"></i>
                     <span class="sr-only">Toggle Menu</span>

@@ -12,11 +12,29 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $order = Order::with('order_items')->join('users', 'users.id', '=', 'orders.user_id')
-                        ->join('payments', 'payments.order_id', '=', 'orders.id')->get();
-        return response()->json($order, 200);
+
+        $columns = ['first_name', 'middle_name', 'last_name', 'created_at'];
+        $length = $request->length;
+        $column = $request->column;
+        $dir = $request->dir;
+        $archive = $request->archive;
+        $searchValue = $request->search;
+        $query = Order::with('order_items')->join('users', 'users.id', '=', 'orders.user_id')
+                ->join('payments', 'payments.order_id', '=', 'orders.id')->orderBy($columns[$column], $dir);
+    
+        if($searchValue){
+            $query->where(function($query) use ($searchValue){
+                $query->where('first_name', 'like', '%'.$searchValue.'%')
+                ->orWhere('middle_name', 'like', '%'.$searchValue.'%')
+                ->orWhere('last_name', 'like', '%'.$searchValue.'%')
+                ->orWhere('delivery_address', 'like', '%'.$searchValue.'%')
+                ->orWhere('trucking_number', 'like', '%'.$searchValue.'%');
+            });
+        }
+        $projects = $query->get();
+        return ['data'=>$projects, 'draw'=> $request->draw];
     }
 
     /**

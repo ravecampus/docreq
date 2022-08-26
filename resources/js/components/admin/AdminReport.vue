@@ -1,18 +1,19 @@
 <template>
     <div id="content" class="p-4 p-md-5 pt-5">
-        <h4 class="mb-4">Report</h4>
+        <h4 class="mb-4 d-print-none">Report</h4>
         <div class="row">
             <div class="col-md-12">
                 <!-- <button type="button" @click="addUser()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add User</button> -->
                 <div class="card mt-2">
                     <div class="card-body">
-                         <div class="form-group">
-                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfUsers()">
+                         <div class="form-group d-print-none">
+                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfOrders()">
                         </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
                                 <tr v-for = "(list, index) in orders" :key="index" class="linkTable">
                                     <td>{{ list.trucking_number }}</td>
+                                    <td>{{ formatDate(list.created_at) }}</td>
                                     <td><strong>{{ list.first_name }} {{ list.middle_name }} {{ list.last_name }}</strong></td>
                                     <td> &#8369; {{ formatAmount(list.grand_total) }}</td>
                                     <td>
@@ -20,19 +21,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" v-show="!noData(orders)">
+                                    <td colspan="5" v-show="!noData(orders)">
                                         No Result Found!
                                     </td>
                                 </tr>
                             </tbody>
                         </data-table>
-                        <div class="table-footer pull-right">
+                        <!-- <div class="table-footer pull-right d-print-none">
                             <pagination :pagination="pagination"
                                 @prev="listOfOrders(pagination.prevPageUrl)"
                                 @next="listOfOrders(pagination.nextPageUrl)"
                                 v-show="noData(orders)">
                             </pagination>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -178,6 +179,7 @@ export default {
         let sortOrders = {};
         let columns =[
             {label:'Order Number', name:'first_name'},
+            {label:'Date', name:null},
             {label:'Client', name:null},
             {label:'Amount', name:null},
             {label:'Status', name:null},
@@ -291,15 +293,14 @@ export default {
             this.$axios.get('sanctum/csrf-cookie').then(response => {
                 this.tableData.draw ++;
                 this.$axios.get(url,{params:this.tableData}).then(res=>{
-                    console.log(res.data)
-                    this.orders = res.data;
-                // let data = res.data;
-                    // if(this.tableData.draw == data.draw){
-                    //     this.users = data.data.data;
-                    //     this.configPagination(data.data);
-                    // }else{
-                    //     this.not_found = true;
-                    // }
+                    let data = res.data;
+                    if(this.tableData.draw == data.draw){
+                        console.log(data)
+                        this.orders = data.data;
+                    //     // this.configPagination(data.data);
+                    }else{
+                        this.not_found = true;
+                    }
                 
                 }).catch(err=>{
                 
@@ -336,6 +337,13 @@ export default {
         },
         setStatus(data){
             return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
+        },
+        formatDate(da){
+            let d = new Date(da);
+            const day =("0" + d.getDate()).slice(-2);
+            const month = ("0"+(d.getMonth()+1)).slice(-2);
+            const year =  d.getFullYear();
+            return  month+ "-" + day  + "-" + year;
         },
 
     },
