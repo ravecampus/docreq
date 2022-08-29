@@ -6,8 +6,27 @@
                 <!-- <button type="button" @click="addUser()" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Add User</button> -->
                 <div class="card mt-2">
                     <div class="card-body">
-                         <div class="form-group d-print-none">
-                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfOrders()">
+                        <div class="form-group d-print-none row">
+                            <div class="col-md-4 pr-0">
+                                <input type="text" class="form-control" v-model="tableData.search" placeholder="Search ..." @keyup.enter="listOfOrders()">
+                            </div>
+                            <div class="col-md-3 pr-0">
+                                <Datepicker v-model="tableData.from" placeholder="From" :format="format"/>
+                            </div>
+                            <div class="col-md-3 pr-0">
+                                 <Datepicker v-model="tableData.to" placeholder="To" :format="format"/>
+                            </div>
+                            <div class="col-md-2 pr-0">
+                                <button type="button" @click="dateFitler" class="btn btn-success"> <i class="fa fa-filter"></i> Filter</button>
+                            </div>
+                        </div>
+                        <div class="text-center d-none d-print-block mb-5">
+                            <h4>University Southern Mindanao</h4>
+                            <h5>Online Document Request System</h5>
+                        </div>
+                        <div class="">
+                            <h6>Sales Report</h6>
+                            <p class="pull-right d-none d-print-block">Print Date: {{ formatDate(Date()) }}</p>
                         </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
@@ -21,19 +40,33 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colspan="3">
+                                        Total:
+                                    </td>
+                                    <td colspan="2">
+                                        <strong>
+                                        &#8369; {{ formatAmount(totalAmount(orders)) }}
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td colspan="5" v-show="!noData(orders)">
                                         No Result Found!
                                     </td>
                                 </tr>
                             </tbody>
                         </data-table>
-                        <!-- <div class="table-footer pull-right d-print-none">
-                            <pagination :pagination="pagination"
+                        
+                        <div class="table-footer d-print-none">
+                            <button type="button" class="btn btn-success" @click="printReport()">
+                                <i class="fa fa-print"></i> Print Report
+                            </button>
+                            <!-- <pagination :pagination="pagination"
                                 @prev="listOfOrders(pagination.prevPageUrl)"
                                 @next="listOfOrders(pagination.nextPageUrl)"
                                 v-show="noData(orders)">
-                            </pagination>
-                        </div> -->
+                            </pagination> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -166,15 +199,33 @@
 </template>
 
 <script>
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 import DataTable from '../../table/DataTable'
 import PaginationVue from '../../table/Pagination';
 
 export default {
      components:{
         dataTable:DataTable,
-        pagination:PaginationVue
+        pagination:PaginationVue,
+        Datepicker
     },
 
+    setup() {
+        // In case of a range picker, you'll receive [Date, Date]
+        const format = (d) => {
+            const day =("0" + d.getDate()).slice(-2);
+            const month = ("0"+(d.getMonth()+1)).slice(-2);
+            const year =  d.getFullYear();
+
+            return  month+ "-" + day  + "-" + year;
+        }
+        
+        return {
+            format,
+        }
+    },
     data(){
         let sortOrders = {};
         let columns =[
@@ -192,6 +243,7 @@ export default {
             btn_save: "Save",
             btn_pass: "Save",
             btn_dis: false,
+            filter:{},
             post:{},
             errors:[],
             orders:[],
@@ -205,6 +257,8 @@ export default {
                 column:0,
                 archive:0,
                 dir:'desc',
+                from:null,
+                to:null,
             },
             pagination:{
                 lastPage:'',
@@ -295,7 +349,6 @@ export default {
                 this.$axios.get(url,{params:this.tableData}).then(res=>{
                     let data = res.data;
                     if(this.tableData.draw == data.draw){
-                        console.log(data)
                         this.orders = data.data;
                     //     // this.configPagination(data.data);
                     }else{
@@ -345,6 +398,21 @@ export default {
             const year =  d.getFullYear();
             return  month+ "-" + day  + "-" + year;
         },
+        printReport(){
+            window.print();
+        },
+        totalAmount(data){
+            let ret = 0;
+            // console.log(data)
+            data.forEach((item)=>{
+                ret += item.grand_total;
+            });
+
+            return ret;
+        },
+        dateFitler(){
+            this.listOfOrders();
+        }
 
     },
     mounted() {

@@ -60,7 +60,7 @@
                             <h6 class="text-success">{{ list.trucking_number }}</h6>
                             <div class="d-flex flex-column mt-4">
                             <button class="btn btn-success btn-sm" @click="payOrder(list)" type="button">Pay</button>
-                            <button class="btn btn-outline-primary btn-sm mt-2" @click="cancelRequest(list,6)" type="button">
+                            <button class="btn btn-outline-primary btn-sm mt-2" @click="cancelModalReq(list,6)" type="button">
                                Cancel Request
                             </button>
                             </div>
@@ -76,12 +76,31 @@
                     v-show="noData(orders)">
                 </pagination>
             </div>
-        
-
-                        
-                            
+                      
             </div>    
         </div>
+
+        <div class="modal fade cancel-order">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Do you want to Cancel Order <strong>{{ post.trucking_number }} </strong>?
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                            <div class="btn-group">
+                            <button type="button"  @click="cancelRequest()"  class="btn btn-danger btn-sm">Yes</button>
+                            <button type="button" data-dismiss="modal"  class="btn btn-default btn-sm">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
    </div>
 </template>
 
@@ -98,6 +117,7 @@ export default {
         return{
             payment:{},
             orders:[],
+            post:{},
             tableData:{
                 draw:0,
                 length:10,
@@ -191,12 +211,17 @@ export default {
         payOrder(data){
             this.$router.push({name:'payment',params:{'order_id':data.id}})
         },
+        cancelModalReq(data,num){
+            this.post = data;
+            this.post.num = num;
+            $('.cancel-order').modal('show');
+        },
         cancelRequest(data,num){
-            console.log(data, num)
             this.$axios.get('sanctum/crsf-cookie').then(response=>{
-                this.$axios.put('api/order-status/action/'+data.id,{'status':num}).then(res=>{
+                this.$axios.put('api/order-status/action/'+this.post.id,{'status': this.post.num}).then(res=>{
                     this.$emit('note',{'message':"Status has been Changed ", 'status':2});
                     // this.listOfOrder();
+                     $('.cancel-order').modal('hide');
                     this.$router.push({name:'cancelled'});
                 });
             });

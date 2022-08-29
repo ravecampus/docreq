@@ -21,8 +21,22 @@ class ReportController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Order::with('order_items')->join('users', 'users.id', '=', 'orders.user_id')
-                ->join('payments', 'payments.order_id', '=', 'orders.id')->orderBy($columns[$column], $dir);
+        $from = date($request->from);
+        $to = date($request->to);
+        if($from){
+            $query = Order::with('order_items')
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->join('payments', 'payments.order_id', '=', 'orders.id')
+            ->where('payments.created_at','>=', $from)
+            ->where('payments.created_at','<=', $to)
+            ->orderBy($columns[$column], $dir);
+        }else{
+            $query = Order::with('order_items')
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->join('payments', 'payments.order_id', '=', 'orders.id')
+            ->orderBy($columns[$column], $dir);
+        }
+       
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
