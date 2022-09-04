@@ -29,6 +29,9 @@
                 <li>
                     <router-link :to="{name:'charges'}"><span class="fa fa-money mr-3"></span>Charges</router-link>
                 </li>
+                  <li>
+                    <router-link :to="{name:'adminpurpose'}"><span class="fa fa-question mr-3"></span>Setup Purpose</router-link>
+                </li>
                 <!-- <li>
                 <a href="#"><span class="fa fa-sticky-note mr-3"></span> Friends</a>
                 </li>

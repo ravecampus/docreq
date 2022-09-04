@@ -8,7 +8,7 @@
         </div>
         <div class="row justify-content-center mt-5">
             <div class="col-md-4 col-md-offset-4 card card-body">
-                <h4 class="mb-4 text-center">USM-ODRS</h4>
+                <h4 class="mb-4 text-center">{{ title }}</h4>
                 <h6>RECEIPT</h6>
                 <p class="small">ID: {{data.payment == null ? "" : data.payment.payment_id }}</p>
                 <ul class="list-group list-group-flush">
@@ -48,7 +48,8 @@ export default {
         return{
             post:{},
             message:"",
-            data:" "
+            data:" ",
+            title:  ""
 
         }
     },
@@ -76,6 +77,7 @@ export default {
         let query = this.$route.query;
         let id = this.$route.params.order_id;
         this.setPaymentSuccess(query, id)
+        this.title = window.Title.app_name;
     }
 }
 </script>

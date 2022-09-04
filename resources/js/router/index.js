@@ -32,6 +32,7 @@ import AdminUsers from '../components/admin/AdminUsers';
 import AdminClient from '../components/admin/AdminClient';
 import AdminOrderList from '../components/admin/AdminOrderList';
 import AdminReport from '../components/admin/AdminReport';
+import AdminPurpose from '../components/admin/AdminPurpose';
 
 
 export const routes = [
@@ -164,6 +165,11 @@ export const routes = [
                 name:'adminreport',
                 component: AdminReport
             },
+            {
+                path:'/admin/purpose',
+                name:'adminpurpose',
+                component: AdminPurpose
+            },
         ]
 
     },
@@ -245,6 +251,7 @@ const adminRoutes = [
     'adminclient',
     'adminorderlist',
     'adminreport',
+    'adminpurpose'
     
 ];
 
