@@ -11,20 +11,20 @@
                         </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
-                                <tr v-for = "(list, index) in users" :key="index" class="linkTable">
+                                <tr v-for = "(list, index) in purposes" :key="index" class="linkTable">
                                     
-                                    <td><strong>{{ list.first_name }} {{ list.middle_name }} {{ list.last_name }}</strong></td>
-                                    <td>{{ list.email }}</td>
+                                    <td><strong>{{ list.name }} </strong></td>
+                                    <!-- <td>{{ list.email }}</td> -->
                                     <td>
                                         <div class="btn-group pull-right">
-                                            <button type="button" @click="editUser(list)" class="btn btn-warning btn-sm">Edit</button>
-                                            <button type="button" @click="changepass(list)" class="btn btn-success btn-sm">Change password</button>
+                                            <button type="button" @click="editPurpose(list)" class="btn btn-warning btn-sm">Edit</button>
+                                            <!-- <button type="button" @click="changepass(list)" class="btn btn-success btn-sm">Change password</button> -->
                                             <!-- <button type="button" @click="deleteUser(list)" class="btn btn-danger btn-sm">Delete</button> -->
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" v-show="!noData(users)">
+                                    <td colspan="4" v-show="!noData(purposes)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -32,9 +32,9 @@
                         </data-table>
                         <div class="table-footer pull-right">
                             <pagination :pagination="pagination"
-                                @prev="listOfUsers(pagination.prevPageUrl)"
-                                @next="listOfUsers(pagination.nextPageUrl)"
-                                v-show="noData(users)">
+                                @prev="listOfPurpose(pagination.prevPageUrl)"
+                                @next="listOfPurpose(pagination.nextPageUrl)"
+                                v-show="noData(purposes)">
                             </pagination>
                         </div>
                     </div>
@@ -148,8 +148,8 @@ export default {
     data(){
         let sortOrders = {};
         let columns =[
-            {label:'Name', name:'first_name'},
-            {label:'Email', name:'email'},
+            {label:'Name', name:'name'},
+            // {label:'Date', name:'created_at'},
             {label:'Action', name:null},
             ];
         
@@ -190,9 +190,9 @@ export default {
         addPurpose(){
             $('.purpose').modal('show');
         },
-        editUser(data){
+        editPurpose(data){
             this.post = data;
-            $('.users').modal('show');
+            $('.purpose').modal('show');
         },
         deleteUser(data){
             this.post = data;
@@ -290,7 +290,7 @@ export default {
                 this.sortOrders[key] = this.sortOrders[key] * -1;
                 this.tableData.column = this.getIndex(this.columns, 'name', key);
                 this.tableData.dir = this.sortOrders[key] === 1 ? 'asc' : 'desc';
-                this.listOfUsers();
+                this.listOfPurpose();
             }
         },
         getIndex(array, key, value){
@@ -306,7 +306,7 @@ export default {
             this.errors = [];
             this.post = {};
         });
-        this.listOfUsers();
+        this.listOfPurpose();
     },
 
 }

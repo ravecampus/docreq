@@ -12,9 +12,23 @@ class PurposeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $columns = ['name', 'created_at'];
+        $length = $request->length;
+        $column = $request->column;
+        $dir = $request->dir;
+        $archive = $request->archive;
+        $searchValue = $request->search;
+        $query = Purpose::orderBy($columns[$column], $dir);
+    
+        if($searchValue){
+            $query->where(function($query) use ($searchValue){
+                $query->where('name', 'like', '%'.$searchValue.'%');
+            });
+        }
+        $projects = $query->paginate($length);
+        return ['data'=>$projects, 'draw'=> $request->draw];
     }
 
     /**
@@ -41,7 +55,7 @@ class PurposeController extends Controller
             'name' => $request->name,
         ]);
 
-        return $response()->json($purpose, 200);
+        return response()->json($purpose, 200);
     }
 
     /**
@@ -75,7 +89,13 @@ class PurposeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate(['name'=>'required|string']);
+
+        $purpose = Purpose::find($id);
+        $purpose->name = $request->name;
+        $purpose->save();
+
+        return response()->json($purpose, 200);
     }
 
     /**
