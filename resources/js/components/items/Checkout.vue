@@ -82,6 +82,17 @@
                                                 <textarea v-model="other_info.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
                                                 <span class="errors-material" v-if="errors.request_detail">{{ errors.request_detail[0]}}</span>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Purpose</label>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
+                                                
+                                                        <input type="checkbox" v-model="other_info.purpose[lst.id]"> &nbsp;
+                                                        <label> {{ lst.name }}</label>
+                                                    </li>
+                                                </ul>
+                                                <span class="errors-material" v-if="errors.price">{{errors.price[0]}}</span>
+                                            </div>
                                         </div>
                                    </div>
                                    <!-- <button type="button" class="btn btn-item-default">Next</button> -->
@@ -115,14 +126,6 @@
                                                 <div class="list-group-item">
                                                     Email Address : <strong>{{ user.email }}</strong>
                                                 </div>
-                                                <!-- <div class="list-group-item">
-                                                    Cash Delivery:
-                                                    <div class="form-material">
-                                                        <input type="number" min="1" class="form-control" v-model="to_order.cash_delivery" @keyup="checkCash(to_order,forCheckout)" required>
-                                                        <label>Change for:</label>
-                                                        <span class="errors-material" v-if="errors.cash_delivery">{{ errors.cash_delivery[0]}}</span>
-                                                    </div>
-                                                </div> -->
                                                 <div class="list-group-item">
                                                     <button type="button" @click="placeOrder()" class="btn btn-success">{{ place_order }}</button>
                                                 </div>
@@ -310,7 +313,9 @@ export default {
             delivery:{},
             address_book:[],
             personal:{},
-            other_info:{},
+            other_info:{
+                purpose:[],
+            },
             item:{},
             user:{},
             to_order:{},
@@ -326,6 +331,7 @@ export default {
             btn_add_address: false,
             btn_personal: false,
             add_ons:[],
+            purposes:[],
             
         }
     },
@@ -484,12 +490,19 @@ export default {
            
             this.to_order = this.addr
             this.to_order.checkout = data;
-             this.to_order.request_detail = this.other_info.request_detail;
-             this.to_order.delivery_option = this.other_info.delivery_option;
+            this.to_order.request_detail = this.other_info.request_detail;
+            this.to_order.delivery_option = this.other_info.delivery_option;
             this.to_order.account = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();
             this.to_order.delivery_fee = this.deliveryCharges();
+            let pur =[];
+            this.other_info.purpose.forEach((val,indx)=>{
+                if(val == true){
+                    pur.push({'purpose_id':indx});
+                }
+            });
+            this.to_order.purpose = pur;
             if(this.to_order.barangay != undefined){
                 this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
             }
@@ -505,25 +518,7 @@ export default {
                     this.errors = err.response.data.errors;
                 });
             });
-            // let mob = (this.set_number != null) ? this.set_number : this.mobile;
-            // this.to_order.checkout = data;
-            // this.to_order.mobile_number = mob;
-            // this.to_order.total = this.totalPrice(this.forCheckout);
-            // this.to_order.delivery_charges = this.deliveryCharges(this.forCheckout);
-    
-            // axios.post('/orders', this.to_order).then(res=>{
-            //     this.place_order = 'Place Order';
-            //     this.btn_place_order = false;
-            //     this.errors = [];
-            //     this.saveToLocal([]);
-            //     this.$root.$emit('on-cart',[]);
-            //     this.$root.$emit('show',{'message':'Your order has been placed!', 'status':6});
-            //     this.$router.push({name:'ordered', params:{order_id:res.data}});
-            // }).catch(err=>{
-            //     this.place_order = 'Place Order';
-            //     this.btn_place_order = false;
-            //     this.errors = err.response.data.errors;
-            // });
+            
         },
         showAddress(){
             $('.add-addressbook').modal('show');
@@ -664,6 +659,13 @@ export default {
 
                   });
               });
+        },
+        listOfPurpose(){
+            this.$axios.get('sanctum/csrf-cookie').then(res=>{
+                this.$axios.get('api/purpose/list').then(res=>{
+                    this.purposes = res.data;
+                });
+            });
         }
 
 
@@ -678,8 +680,10 @@ export default {
             this.getChargesPayment();
             this.getChargesDelivery();
             this.getauthBookAddress();
-        },1000);
+            this.listOfPurpose();
 
+        },1000);
+       
         if(window.Laravel.isLoggedin){
             this.user = window.Laravel.user;
         }

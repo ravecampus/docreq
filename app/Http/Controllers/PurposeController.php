@@ -108,4 +108,9 @@ class PurposeController extends Controller
     {
         //
     }
+
+    public function listPurpose(){
+        $purpose = Purpose::all();
+        return response()->json($purpose, 200);
+    }
 }

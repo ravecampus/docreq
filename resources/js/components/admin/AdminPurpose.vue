@@ -7,7 +7,7 @@
                 <div class="card mt-2">
                     <div class="card-body">
                          <div class="form-group">
-                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfUsers()">
+                             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfPurpose()">
                         </div>
                         <data-table class="mt-2" :columns="columns" :sortKey="sortKey" :sortOrders="sortOrders" @sort="sortBy">
                             <tbody>
@@ -18,8 +18,7 @@
                                     <td>
                                         <div class="btn-group pull-right">
                                             <button type="button" @click="editPurpose(list)" class="btn btn-warning btn-sm">Edit</button>
-                                            <!-- <button type="button" @click="changepass(list)" class="btn btn-success btn-sm">Change password</button> -->
-                                            <!-- <button type="button" @click="deleteUser(list)" class="btn btn-danger btn-sm">Delete</button> -->
+                                          
                                         </div>
                                     </td>
                                 </tr>

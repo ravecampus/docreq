@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\ItemUserPurpose;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -61,6 +62,7 @@ class OrderController extends Controller
         $order->save();
 
         $checkout = $request->checkout;
+        $purp = $request->purpose;
         foreach ($checkout as $value) {
             OrderItem::create([
                 'item_id' => $value['item_id'],
@@ -70,6 +72,16 @@ class OrderController extends Controller
                 'quantity' => $value['quantity'],
                 'order_id' => $order->id,
             ]);
+            
+            foreach ($purp as $val) {
+                ItemUserPurpose::create([
+                    'user_id' =>  Auth::id(),
+                    'item_id' =>  $value['item_id'],
+                    'purpose_id' => $val['purpose_id']
+                ]);
+            }
+           
+
         }
 
         return response()->json($order, 200);

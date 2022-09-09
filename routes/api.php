@@ -64,6 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth-order', [OrderListController::class, 'authOrderList']);
     Route::get('order-status', [OrderListController::class, 'specificOrder']);
     Route::resource('report', ReportController::class);
+    Route::get('purpose/list', [PurposeController::class, 'listPurpose']);
     Route::resource('purpose', PurposeController::class);
   
 });

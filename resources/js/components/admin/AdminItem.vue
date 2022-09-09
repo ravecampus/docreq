@@ -67,6 +67,7 @@
                                     <input type="number" v-model="post.price" class="form-control">
                                     <span class="errors-material" v-if="errors.price">{{errors.price[0]}}</span>
                                 </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -131,7 +132,9 @@ export default {
         return{
             btn_save: "Save",
             btn_dis: false,
-            post:{},
+            post:{
+                
+            },
             errors:[],
             items:[],
             columns:columns,
@@ -253,6 +256,7 @@ export default {
         noData(data){
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
+        
 
     },
     mounted() {
