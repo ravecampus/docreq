@@ -25,7 +25,18 @@ class User extends Authenticatable
         'role',
         'email',
         'password',
-        'verification_code'
+        'verification_code',
+        'mobile',
+        'address',
+        'b_place',
+        'mothers_name',
+        'fathers_name',
+        'academic_program',
+        'current_enrolled',
+        'year_graduated',
+        'last_sy',
+        'b_date',
+
     ];
 
     /**
