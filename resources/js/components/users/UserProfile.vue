@@ -32,6 +32,71 @@
                                 </select>
                                 <span class="errors-material" v-if="errors.gender">{{errors.gender[0]}}</span>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label>Mobile</label>
+                                <input type="text" v-model="post.mobile" class="form-control">
+                                <span class="errors-material" v-if="errors.mobile">{{errors.mobile[0]}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Address</label>
+                                <input type="text" v-model="post.address" class="form-control">
+                                <span class="errors-material" v-if="errors.address">{{errors.address[0]}}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Birth Place</label>
+                                <input type="text" v-model="post.address" class="form-control">
+                                <span class="errors-material" v-if="errors.address">{{errors.address[0]}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Birth Date</label>
+                                <Datepicker v-model="post.birth_date" :format="format"/>
+                                <span class="errors-material" v-if="errors.birth_date">{{errors.birth_date[0]}}</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Academic Program</label>
+                                <input type="text" class="form-control" v-model="post.academic_program">
+                                <span class="errors-material" v-if="errors.academic_program">{{errors.academic_program[0]}}</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Current Enrolled</label>
+                                <select class="form-control" v-model="post.current_enrolled">
+                                    <option value="1">Yes</option>
+                                    <option value="2">No</option>
+                                </select>
+                                <span class="errors-material" v-if="errors.current_enrolled">{{errors.current_enrolled[0]}}</span>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Year Graduated</label>
+                                <select v-model="post.year_graduated" class="form-control">
+                                    <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
+                                </select>
+                                <span class="errors-material" v-if="errors.year_graduated">{{errors.year_graduated[0]}}</span>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Last School Year</label>
+                                <select v-model="post.last_sy" class="form-control">
+                                    <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
+                                </select>
+                                <span class="errors-material" v-if="errors.last_sy">{{errors.last_sy[0]}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Father's Name</label>
+                                <input type="text" class="form-control" v-model="post.fathers_name">
+                                <span class="errors-material" v-if="errors.fathers_name">{{errors.fathers_name[0]}}</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Mother's Name</label>
+                                <input type="text" class="form-control" v-model="post.mothers_name">
+                                <span class="errors-material" v-if="errors.mothers_name">{{errors.mothers_name[0]}}</span>
+                            </div>
                         </div>
                         <button type="button" @click="savePersonalInfo" class="btn btn-success mt-3">{{btn_a}}</button>
                     </div>
@@ -74,7 +139,26 @@
 </template>
 
 <script>
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 export default {
+    components:{
+        Datepicker,
+    },
+    setup() {
+        // In case of a range picker, you'll receive [Date, Date]
+        const format = (d) => {
+            const day =("0" + d.getDate()).slice(-2);
+            const month = ("0"+(d.getMonth()+1)).slice(-2);
+            const year =  d.getFullYear();
+
+            return  month+ "-" + day  + "-" + year;
+        }
+        
+        return {
+            format,
+        }
+    },
     data(){
         return{
             post:{},
@@ -84,6 +168,13 @@ export default {
             errors:[],
             errors1:[],
             errors2:[],
+        }
+    },
+    computed : {
+        years () {
+            const year = new Date().getFullYear()
+            const date_ = 2000;
+            return Array.from({length: year - date_}, (value, index) => (date_+ 1) + index)
         }
     },
     methods:{

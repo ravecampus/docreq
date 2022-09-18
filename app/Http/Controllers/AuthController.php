@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -69,12 +70,28 @@ class AuthController extends Controller
             'middle_name'=>'required',
             'last_name'=>'required',
             'gender'=>'required',
+            'birth_date' =>'required|string',
+            'birth_place' =>'required|string',
+            'current_enrolled' =>'required',
+            'fathers_name' =>'required|string',
+            'mothers_name' =>'required|string',
+
         ]);
         $user = User::find(Auth::id());
         $user->first_name = $request->first_name;
         $user->middle_name = $request->middle_name;
         $user->last_name = $request->last_name;
         $user->gender = $request->gender;
+        $user->mobile = $request->mobile;
+        $user->address = $request->address;
+        $user->birth_place = $request->birth_place;
+        $user->mothers_name  = $request->mothers_name;
+        $user->fathers_name = $request->fathers_name;
+        $user->academic_program = $request->academic_program;
+        $user->current_enrolled = $request->current_enrolled;
+        $user->year_graduated = $request->year_graduated;
+        $user->last_sy = $request->last_sy;
+        $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
         $user->save();
         return response()->json($user, 200);
     }

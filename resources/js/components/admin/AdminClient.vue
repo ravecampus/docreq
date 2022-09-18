@@ -18,6 +18,19 @@
                                         <div>{{  list.email }}</div>
                                     </td>
                                     <td>
+                                        <div>Address: <i class="font-weight-light">{{ list.address }}</i></div>
+                                        <div>Mobile: <i class="font-weight-light">{{ list.mobile }}</i></div>
+                                        <div>Birth Place: <i class="font-weight-light">{{ list.birth_place }}</i></div>
+                                        <div>Birth Date: <i class="font-weight-light">{{ list.birth_date }}</i></div>
+                                        <div>Academic Program: <i class="font-weight-light">{{ list.academic_program }}</i></div>
+                                        <div>Current Enrolled: <i class="font-weight-light">{{ list.current_enrolled }}</i></div>
+                                        <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated }}</i></div>
+                                        <div>Last SY: <i class="font-weight-light">{{ list.last_sy }}</i></div>
+                                        <div>Father's Name: <i class="font-weight-light">{{ list.fathers_name }}</i></div>
+                                        <div>Mother's Name: <i class="font-weight-light">{{ list.mothers_name }}</i></div>
+                                       
+                                    </td>
+                                    <td>
                                         <p class="small"><strong>List of :</strong></p>
                                         <li v-for="(ls,idx) in list.address_book" :key="idx">
                                             {{ ls.street }}, {{ ls.barangay }}, {{ ls.city_or_municipality }} {{ ls.province }}
@@ -186,7 +199,8 @@ export default {
         let sortOrders = {};
         let columns =[
             {label:'Information', name:'first_name'},
-            {label:'Address', name:null},
+            {label:'Other Information', name:null},
+            {label:'Delivery Address', name:null},
             ];
         
         columns.forEach(column=>{

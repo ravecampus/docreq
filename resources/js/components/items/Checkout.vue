@@ -105,8 +105,8 @@
                                                 
                                                 <div class="list-group-item">
                                                    
-                                                    Delivery to: <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
-                                                    <span class="errors-material" v-if="errors.account">{{ errors.account[0]}}</span>
+                                                    Delivery to:  <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
+                                                    &nbsp;<span class="errors-material" v-if="errors.account">{{ errors.account[0]}}</span>
                                                 </div>
                                                 <!-- <div class="list-group-item">
                                                     Mobile Number: <strong>{{ addr.mobile_number  }}</strong>
@@ -256,36 +256,137 @@
         </div>
 
          <div class="modal personal-info">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form @submit.prevent="savePersonalInfo()">
                     <div class="modal-body">
                        <div class="row">
                            <div class="col-md-12">
                                 <label>Personal Info.</label>
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control" v-model="personal.first_name">
-                                     <span class="errors-material" v-if="errors1.first_name">{{errors1.first_name[0]}}</span>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" v-model="personal.first_name">
+                                            <span class="errors-material" v-if="errors1.first_name">{{errors1.first_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Middle Name</label>
+                                            <input type="text" class="form-control" v-model="personal.middle_name">
+                                        <span class="errors-material" v-if="errors1.middle_name">{{errors1.middle_name[0]}}</span>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Middle Name</label>
-                                    <input type="text" class="form-control" v-model="personal.middle_name">
-                                     <span class="errors-material" v-if="errors1.middle_name">{{errors1.middle_name[0]}}</span>
                                 </div>
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" class="form-control" v-model="personal.last_name">
-                                     <span class="errors-material" v-if="errors1.last_name">{{errors1.last_name[0]}}</span>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" v-model="personal.last_name">
+                                            <span class="errors-material" v-if="errors1.last_name">{{errors1.last_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Gender</label>
+                                            <select class="form-control" v-model="personal.gender">
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                            </select>
+                                            <span class="errors-material" v-if="errors1.gender">{{errors1.gender[0]}}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Gender</label>
-                                    <select class="form-control" v-model="personal.gender">
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                    </select>
-                                    <span class="errors-material" v-if="errors1.gender">{{errors1.gender[0]}}</span>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mobile (Option)</label>
+                                            <input type="text" class="form-control" v-model="personal.mobile">
+                                            <span class="errors-material" v-if="errors1.mobile">{{errors1.mobile[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" v-model="personal.address">
+                                            <span class="errors-material" v-if="errors1.address">{{errors1.address[0]}}</span>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Birth Place</label>
+                                            <input type="text" class="form-control" v-model="personal.birth_place">
+                                            <span class="errors-material" v-if="errors1.birth_place">{{errors1.birth_place[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Birth Date</label>
+                                             <Datepicker v-model="personal.birth_date" :format="format"/>
+                                            <!-- <input type="text" class="form-control" v-model="personal.birth_date"> -->
+                                            <span class="errors-material" v-if="errors1.birth_date">{{errors1.birth_date[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Academic Program</label>
+                                            <input type="text" class="form-control" v-model="personal.academic_program">
+                                            <span class="errors-material" v-if="errors1.academic_program">{{errors1.academic_program[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Current Enrolled</label>
+                                            <select class="form-control" v-model="personal.current_enrolled">
+                                                <option value="1">Yes</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                            <span class="errors-material" v-if="errors1.current_enrolled">{{errors1.current_enrolled[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Year Graduated</label>
+                                            <select v-model="personal.year_graduated" class="form-control">
+                                                <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
+                                            </select>
+                                            <span class="errors-material" v-if="errors1.year_graduated">{{errors1.year_graduated[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last School Year</label>
+                                            <select v-model="personal.last_sy" class="form-control">
+                                                <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
+                                            </select>
+                                            <span class="errors-material" v-if="errors1.last_sy">{{errors1.last_sy[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Father's Name</label>
+                                            <input type="text" class="form-control" v-model="personal.fathers_name">
+                                            <span class="errors-material" v-if="errors1.fathers_name">{{errors1.fathers_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mother's Name</label>
+                                            <input type="text" class="form-control" v-model="personal.mothers_name">
+                                            <span class="errors-material" v-if="errors1.mothers_name">{{errors1.mothers_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="pull-right">
                                     <button type="submit" :disabled="btn_personal" class="btn btn-sm btn-success mr-2">{{ personal_cap }}</button>
@@ -304,7 +405,27 @@
 
 <script>
 
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
+    components:{
+        Datepicker,
+    },
+    setup() {
+        // In case of a range picker, you'll receive [Date, Date]
+        const format = (d) => {
+            const day =("0" + d.getDate()).slice(-2);
+            const month = ("0"+(d.getMonth()+1)).slice(-2);
+            const year =  d.getFullYear();
+
+            return  month+ "-" + day  + "-" + year;
+        }
+        
+        return {
+            format,
+        }
+    },
     data(){
         return {
             forCheckout:[],
@@ -333,6 +454,13 @@ export default {
             add_ons:[],
             purposes:[],
             
+        }
+    },
+    computed : {
+        years () {
+            const year = new Date().getFullYear()
+            const date_ = 2000;
+            return Array.from({length: year - date_}, (value, index) => (date_+ 1) + index)
         }
     },
     methods:{
@@ -486,7 +614,7 @@ export default {
             this.place_order = 'Placing ...';
             this.btn_place_order = true;
             // let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
-            let data =    this.forCheckout;
+            let data = this.forCheckout;
            
             this.to_order = this.addr
             this.to_order.checkout = data;

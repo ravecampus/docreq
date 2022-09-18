@@ -20,14 +20,14 @@ class CreateUsersTable extends Migration
             $table->string('last_name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('address')->nullable();
-            $table->string('b_place')->nullable();
+            $table->string('birth_place')->nullable();
             $table->string('mothers_name')->nullable();
             $table->string('fathers_name')->nullable();
             $table->string('academic_program')->nullable();
-            $table->string('current_enrolled')->nullable();
+            $table->integer('current_enrolled')->nullable();
             $table->year('year_graduated')->nullable();
             $table->year('last_sy')->nullable();
-            $table->date('b_date')->nullable();
+            $table->date('birth_date')->nullable();
             $table->integer('gender')->nullable();
             $table->integer('role')->default(0);
             $table->integer('is_active')->default(0);

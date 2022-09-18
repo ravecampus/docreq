@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
+
 class UserController extends Controller
 {
     /**
@@ -116,6 +117,7 @@ class UserController extends Controller
             $user->middle_name = $request->middle_name;
             $user->last_name = $request->last_name;
             $user->email = $request->email;
+           
             // $user->password = bcrypt($request->password);
             $user->save();
             return response()->json($user, 200); 
