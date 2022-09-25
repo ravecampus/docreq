@@ -287,6 +287,14 @@ export default {
 
                   });
               });
+        },
+        loadRecommend(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.get('api/purpose/recommend').then(res=>{
+                    console.log(res.data)
+                });
+            });
+
         }
     },
     mounted() {
@@ -295,6 +303,7 @@ export default {
         }
         this.listOfItem();
         this.getChargesPayment();
+        this.loadRecommend();
     },
 }
 </script>

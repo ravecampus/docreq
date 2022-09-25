@@ -40,6 +40,7 @@ Route::get('item/list',[ItemController::class,'list']);
 Route::resource('item',ItemController::class);
 Route::post('reset-password', [ResetPasswordController::class, 'resetPasswordRequest']);
 Route::post('new-password', [ResetPasswordController::class, 'newPassword']);
+Route::get('purpose/recommend', [PurposeController::class, 'recommenderList']);
 
 Route::get('charges/get-charge/{id}',[ChargesController::class, 'getCharge']);
 Route::middleware('auth:sanctum')->group(function () {

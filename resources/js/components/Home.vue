@@ -30,11 +30,15 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a id="navbarDrop1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-gear"></i> 
-                                        <span class="caret"> Settings&nbsp; </span>
+                                        <!-- <i class="fa fa-gear"></i>  -->
+                                        <span class="caret"> Options&nbsp; </span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDrop1">
                                      
+                                        <router-link class="dropdown-item" :to="{name:'topay'}">
+                                            <i class="fa fa-list-alt"></i>
+                                            Request Status
+                                        </router-link>
                                         <a class="dropdown-item" @click="logout()" href="#">
                                             <i class="fa fa-sign-out"></i>
                                             Logout
