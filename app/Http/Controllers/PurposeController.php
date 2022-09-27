@@ -118,8 +118,10 @@ class PurposeController extends Controller
     }
 
     public function recommenderList(){
-        $itmuspur = ItemUserPurpose::select('item_id', 'purpose_id', DB::raw( 'count(purpose_id) as rate'))
-            ->groupBy('item_id', 'purpose_id')->orderBy('rate','desc')->get();
+        $itmuspur = ItemUserPurpose::join('items', 'items.id', '=', 'item_user_purpose.item_id')
+        ->select('description','item_id as id','price', 'purpose_id','item_name', DB::raw( 'count(purpose_id) as rate'))
+        ->groupBy('item_id', 'purpose_id')->orderBy('rate','desc')
+        ->get();
 
         return response()->json($itmuspur, 200);
     }

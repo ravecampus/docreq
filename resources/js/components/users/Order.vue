@@ -32,15 +32,6 @@
 
                         <div class="col-md-5">
                             <h5>{{ list.trucking_number }}</h5>
-                            <!-- <div class="d-flex flex-row">
-                            <div class="text-danger mb-1 me-2">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <span>310</span>
-                            </div> -->
                             <div class="mb-1 mb-0 text-muted small">
                             <span>{{ list.email }}</span>
                             <span class="text-primary">  </span>

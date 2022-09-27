@@ -35,7 +35,7 @@
                             <div class="line"></div>
                         </div> 
                         
-                        <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
+                        <div v-for="(item, index) in getUniq(recommends)" :key="index" class="body-item wo-pad">
                             <div class="item item-recomend">
                                 <img class="img-item" :src="'/img/default.png'"/>
                             
@@ -132,6 +132,7 @@ export default {
         return{
             items:[],
             carts:[],
+            recommends:[],
             payment:{},
             tableData:{
                 draw:0,
@@ -291,10 +292,19 @@ export default {
         loadRecommend(){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.$axios.get('api/purpose/recommend').then(res=>{
-                    console.log(res.data)
+                    this.recommends = res.data;
                 });
             });
 
+        },
+        getUniq(arr){
+           var dup = [];
+            for(var i =0; i < arr.length; i++) {
+                if(dup.indexOf(arr[i].id) === -1) {
+                dup.push(arr[i])
+                }
+            }
+            return dup;
         }
     },
     mounted() {
