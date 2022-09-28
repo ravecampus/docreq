@@ -2,7 +2,11 @@
     <div id="content" class="p-4 p-md-5 pt-5">
         
     <h4>Request</h4>
+        <div class="form-group">
+            <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfOrder()">
+        </div>
         <div class="row justify-content-center">
+             
             <div class="col-md-12 text-center" v-if="orders.lenght < 0">
                 <h6> No result found!</h6>
             </div>

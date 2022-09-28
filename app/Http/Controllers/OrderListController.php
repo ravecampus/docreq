@@ -44,7 +44,8 @@ class OrderListController extends Controller
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
-                $query->where('trucking_number', 'like', '%'.$searchValue.'%');
+                $query->where('trucking_number', 'like', '%'.$searchValue.'%')
+                ->orWhere('delivery_address', 'like', '%'.$searchValue.'%');
             });
         }
         $projects = $query->paginate($length);
