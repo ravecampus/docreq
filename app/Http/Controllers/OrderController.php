@@ -68,6 +68,7 @@ class OrderController extends Controller
                 'item_id' => $value['item_id'],
                 'item_name' => $value['item_name'],
                 'description' => $value['description'],
+                'note' => $value['note'],
                 'price' => $value['price'],
                 'quantity' => $value['quantity'],
                 'order_id' => $order->id,

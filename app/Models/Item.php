@@ -15,6 +15,7 @@ class Item extends Model
         'description',
         'request_limit', 
         'price',
+        'note',
         'category_id'
     ];
 }

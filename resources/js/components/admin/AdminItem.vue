@@ -16,6 +16,7 @@
                                     <td><strong>{{ list.item_name }}</strong></td>
                                     <td>{{ list.description }}</td>
                                     <td>&#8369; {{ list.price }}</td>
+                                    <td>{{ list.note }}</td>
                                     <td>
                                         <div class="btn-group pull-right">
                                             <button type="button" @click="editItem(list)" class="btn btn-warning btn-sm">Edit</button>
@@ -24,7 +25,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="4" v-show="!noData(items)">
+                                    <td colspan="5" v-show="!noData(items)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -66,6 +67,11 @@
                                     <label>Price</label>
                                     <input type="number" v-model="post.price" class="form-control">
                                     <span class="errors-material" v-if="errors.price">{{errors.price[0]}}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Note (for requirements ) </label>
+                                    <textarea v-model="post.note" class="form-control h-100"></textarea>
+                                    <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
                                 </div>
                                
                             </div>
@@ -123,6 +129,7 @@ export default {
             {label:'Item Name', name:'item_name'},
             {label:'Description', name:'description'},
             {label:'Price', name:null},
+            {label:'Note', name:null},
             {label:'Action', name:null},
             ];
         

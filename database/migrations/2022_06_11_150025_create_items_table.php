@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             $table->string('item_name')->nullable();
             $table->integer('category_id')->nullable();
             $table->text('description')->nullable();
+            $table->text('note')->nullable();
             $table->integer('request_limit')->nullable();
             $table->double('price')->nullable();
             $table->integer('user_id')->nullable();

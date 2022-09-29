@@ -59,6 +59,7 @@ class ItemsController extends Controller
         $item = Item::create([
             'item_name'=> $request->item_name,
             'description'=> $request->description,
+            'note'=> $request->note,
             'price'=> $request->price,
         ]);
         return response()->json($item, 200);
@@ -104,6 +105,7 @@ class ItemsController extends Controller
         $item = Item::find($id);
         $item->item_name =  $request->item_name;
         $item->description = $request->description;
+        $item->note = $request->note;
         $item->price = $request->price;
         $item->save();
         
