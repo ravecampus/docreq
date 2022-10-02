@@ -28,7 +28,7 @@
                                              <strong>{{ lst.item_name }}</strong>
                                              <p>{{ lst.description }}</p>
                                              <div class="border-bottom" v-if="lst.note">
-                                                 {{ lst.note }}
+                                                <span class="small">Note: </span> {{ lst.note }}
                                              </div>
                                         </a>
                                     </div>

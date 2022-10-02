@@ -662,7 +662,7 @@ export default {
                     $('.add-addressbook').modal('hide');
                     this.add_abook = {};
                     this.getauthBookAddress();
-                    this.$emit('show',{'message':'Address Book Added Successfully!', 'status':6});
+                    this.$emit('show',{'message':'Food Category Added Successfully!', 'status':4});
                 }).catch(err=>{
                     this.add_address = 'Submit';
                     this.btn_add_address = false;
