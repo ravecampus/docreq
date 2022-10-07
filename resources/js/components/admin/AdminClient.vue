@@ -23,7 +23,7 @@
                                         <div>Birth Place: <i class="font-weight-light">{{ list.birth_place }}</i></div>
                                         <div>Birth Date: <i class="font-weight-light">{{ list.birth_date }}</i></div>
                                         <div>Academic Program: <i class="font-weight-light">{{ list.academic_program }}</i></div>
-                                        <div>Current Enrolled: <i class="font-weight-light">{{ list.current_enrolled }}</i></div>
+                                        <div>Current Enrolled: <i class="font-weight-light">{{ currentEnr(list.current_enrolled) }}</i></div>
                                         <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated }}</i></div>
                                         <div>Last SY: <i class="font-weight-light">{{ list.last_sy }}</i></div>
                                         <div>Father's Name: <i class="font-weight-light">{{ list.fathers_name }}</i></div>
@@ -314,7 +314,6 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.clients = data.data.data;
-                        console.log(this.clients)
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
@@ -353,7 +352,11 @@ export default {
 
         extractGender(num){
             return num == 1 ? 'Male' : num == 2 ? "Female" : "";
+        },
+        currentEnr(num){
+            return num == 1 ? 'Yes' : 'No';
         }
+
 
     },
     mounted() {

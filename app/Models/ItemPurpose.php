@@ -10,5 +10,5 @@ class ItemPurpose extends Model
     use HasFactory;
 
     protected $table = 'item_purpose';
-    protected $fillable = ['pupose_id', 'item_id'];
+    protected $fillable = ['purpose_id', 'item_id'];
 }

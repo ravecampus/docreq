@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\ItemPurpose;
 
 class ItemsController extends Controller
 {
@@ -20,7 +21,7 @@ class ItemsController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Item::where('deleted', 0)->orderBy($columns[$column], $dir);
+        $query = Item::with('purpose')->where('deleted', 0)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){
@@ -62,6 +63,14 @@ class ItemsController extends Controller
             'note'=> $request->note,
             'price'=> $request->price,
         ]);
+        $purpose = $request->purpose;
+        foreach ($purpose as $value) {
+            ItemPurpose::create([
+                'item_id' => $item->id,
+                'purpose_id' => $value['purpose_id'],
+            ]);
+        }
+
         return response()->json($item, 200);
     }
 

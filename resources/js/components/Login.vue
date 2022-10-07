@@ -60,7 +60,6 @@ export default {
         login(){
             let route = this.$route.query;
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
-                console.log(response)
                 this.btndis = true
                 this.btn = "Logging..."
                 this.$axios.post('api/login', this.post).then(res=>{

@@ -86,12 +86,11 @@
                                                 <label>Purpose</label>
                                                 <ul class="list-group">
                                                     <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
-                                                
-                                                        <input type="checkbox" v-model="other_info.purpose[lst.id]"> &nbsp;
+                                                        <input type="checkbox" v-model="other_info.purpose[lst.id]" @change="purposeSuggest(other_info.purpose[lst.id], lst.id)"> &nbsp;
                                                         <label> {{ lst.name }}</label>
                                                     </li>
                                                 </ul>
-                                                <span class="errors-material" v-if="errors.price">{{errors.price[0]}}</span>
+                                                <span class="errors-material" v-if="errors.purpose">{{errors.purpose[0]}}</span>
                                             </div>
                                         </div>
                                    </div>
@@ -400,6 +399,67 @@
             </div>
         </div>
 
+        <div class="modal doc-suggest">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body">
+                       <div class="row">
+                            <div class="col-md-12">
+                                    <h4>Recommended Documents</h4>
+                                <div class="d-flex flex-wrap justify-content-around items-main">
+        
+                                    <div class="col-md-12 box-loading" v-if="recommends.length <= 0">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div> 
+                                    
+                                    <div v-for="(item, index) in recommends" :key="index" class="body-item wo-pad">
+                                        <div class="item item-recomend">
+                                            <img class="img-item" :src="'/img/default.png'"/>
+                                        
+                                            <div class="item-description">
+                                                <div class="item-title">
+                                                    <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
+                                                
+                                                </div>
+                                                <p>{{ truncate(item.description , 20, '...' ) }}</p>
+                                                <div class="item-price">&#8369;
+                                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
+                                                
+                                                    </div>
+                                                <div class="item-discount"></div>
+                                                <div class="on-cart-ov">
+                                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart"> Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="star-item">
+                                                <div class="item-region">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-footer pull-right">
+                                    <pagination :pagination="pagination"
+                                        @prev="loadSuggested(pagination.prevPageUrl,purpose_id)"
+                                        @next="loadSuggested(pagination.nextPageUrl,purpose_id)"
+                                        v-show="noData(recommends)"
+                                        >
+                                    </pagination>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>   
 </template>
 
@@ -407,10 +467,12 @@
 
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import PaginationVue from '../../table/Pagination';
 
 export default {
     components:{
         Datepicker,
+        pagination:PaginationVue,
     },
     setup() {
         // In case of a range picker, you'll receive [Date, Date]
@@ -428,6 +490,8 @@ export default {
     },
     data(){
         return {
+            purpose_id:0,
+            recommends:[],
             forCheckout:[],
             list_item:[],
             payment:{},
@@ -453,6 +517,16 @@ export default {
             btn_personal: false,
             add_ons:[],
             purposes:[],
+            pagination:{
+                lastPage:'',
+                currentPage:'',
+                total:'',
+                lastPageUrl:'',
+                nextPageurl:'',
+                prevPageUrl:'',
+                from:'',
+                to:''
+            },
             
         }
     },
@@ -461,6 +535,15 @@ export default {
             const year = new Date().getFullYear()
             const date_ = 2000;
             return Array.from({length: year - date_}, (value, index) => (date_+ 1) + index)
+        },
+        getUniq() {
+            let ret = [];
+            ret =  this.recommends.reduce((seed, current) => {
+                return Object.assign(seed, {
+                [current.id]: current
+                });
+            }, {});
+            return _.orderBy(ret, 'rate', 'desc');
         }
     },
     methods:{
@@ -662,7 +745,7 @@ export default {
                     $('.add-addressbook').modal('hide');
                     this.add_abook = {};
                     this.getauthBookAddress();
-                    this.$emit('show',{'message':'Food Category Added Successfully!', 'status':4});
+                    this.$emit('show',{'message':'Address Book Added Successfully!', 'status':6});
                 }).catch(err=>{
                     this.add_address = 'Submit';
                     this.btn_add_address = false;
@@ -794,7 +877,103 @@ export default {
                     this.purposes = res.data;
                 });
             });
-        }
+        },
+        purposeSuggest(data, id){
+            if(data){
+                this.loadSuggested('api/item-purpose', id);
+                $('.doc-suggest').modal('show');
+            }
+        },
+        // loadRecommend(){
+        //     this.$axios.get('sanctum/csrf-cookie').then(response=>{
+        //         this.$axios.get('api/purpose/recommend').then(res=>{
+        //             this.recommends = res.data;
+        //         });
+        //     });
+
+        // },
+        truncate(text, length, clamp){
+            clamp = clamp || '...';
+            var node = document.createElement('div');
+            node.innerHTML = text;
+            var content = node.textContent;
+            return content.length > length ? content.slice(0, length) + clamp : content;
+        },
+        loadSuggested(url='api/item-purpose', id){
+            this.$axios.get('sactum/csrf-cookie').then(response=>{
+                this.$axios.get(url,{params:{'id':id}}).then(res=>{
+                    
+                    let data = res.data;
+                    this.purpose_id = id;
+                    this.recommends = data.data;
+                
+                    this.configPagination(data);
+                });
+            });
+        },
+        configPagination(data){
+            this.pagination.lastPage = data.last_page;
+            this.pagination.currentPage = data.current_page;
+            this.pagination.total = data.total;
+            this.pagination.lastPageUrl = data.last_page_url;
+            this.pagination.nextPageUrl = data.next_page_url;
+            this.pagination.prevPageUrl = data.prev_page_url;
+            this.pagination.from = data.from;
+            this.pagination.to = data.to;
+        },
+        noData(data){
+            return data == undefined ? true : (data.length > 0) ? true : false;
+        },
+        addToCart(data){
+            if(!window.Laravel.isLoggedin){
+                // this.modalLogin();
+                return;
+            }
+          
+            if(this.forCheckout.length > 0){
+              let cn =  this.forCheckout.filter(res=>res.item_id == data.id);
+            //   console.log(cn[0])
+              let ck = cn[0] == undefined ? 0 : cn[0].item_id;
+              if(ck == data.id){
+                    let result = 0;
+                    result = cn[0].quantity + 1;
+                    let data = {'quantity': result};
+                    let item = this.forCheckout.find(e =>e.item_id === cn[0].item_id);
+                    let idx = this.forCheckout.indexOf(item);
+                    this.forCheckout[idx].quantity = result;      
+                    this.saveToLocal(this.forCheckout);
+                    this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+
+              }else{
+                   this.item = {
+                    'item_id': data.id,
+                    'item_name': data.item_name,
+                    'description': data.description,
+                    'note': data.note,
+                    'price': data.price,
+                    'quantity': 1,
+                };
+                this.forCheckout.push(this.item);
+                this.saveToLocal(this.forCheckout);
+                this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+
+              }
+        
+            }else{
+                 this.item = {
+                    'item_id': data.id,
+                    'item_name': data.item_name,
+                    'description': data.description,
+                    'note': data.note,
+                    'price': data.price,
+                    'quantity': 1,
+                };
+                this.forCheckout.push(this.item);
+                this.saveToLocal(this.forCheckout);
+                this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+            }
+            
+        },
 
 
     },
@@ -809,7 +988,8 @@ export default {
             this.getChargesDelivery();
             this.getauthBookAddress();
             this.listOfPurpose();
-
+            // this.loadRecommend();
+            
         },1000);
        
         if(window.Laravel.isLoggedin){

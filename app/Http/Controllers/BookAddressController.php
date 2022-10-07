@@ -21,7 +21,7 @@ class BookAddressController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = BookAddress::where('deleted', 0)->orderBy($columns[$column], $dir);
+        $query = BookAddress::where('user_id',Auth::id())->where('deleted', 0)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){

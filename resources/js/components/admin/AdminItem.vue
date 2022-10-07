@@ -18,6 +18,17 @@
                                     <td>&#8369; {{ list.price }}</td>
                                     <td>{{ list.note }}</td>
                                     <td>
+                                        <a class="small" @click="showAPurpose(list.id)" href="#">add</a>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" v-for="(ls,idx) in list.purpose" :key="idx">
+                                                {{ xtractPurpose(ls.purpose_id) }}
+
+                                                <a class="small" @click="showRPurpose(ls)" href="#">remove</a>
+                                            </li>
+                                        </ul>
+
+                                    </td>
+                                    <td>
                                         <div class="btn-group pull-right">
                                             <button type="button" @click="editItem(list)" class="btn btn-warning btn-sm">Edit</button>
                                             <button type="button" @click="deleteItem(list)" class="btn btn-danger btn-sm">Delete</button>
@@ -25,7 +36,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5" v-show="!noData(items)">
+                                    <td colspan="6" v-show="!noData(items)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -73,6 +84,17 @@
                                     <textarea v-model="post.note" class="form-control h-100"></textarea>
                                     <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
                                 </div>
+                                <div class="form-group" v-if="post.id == null">
+                                    <label>Purpose</label>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
+                                    
+                                            <input type="checkbox" v-model="other_post.purpose[lst.id]"> &nbsp;
+                                            <label> {{ lst.name }}</label>
+                                        </li>
+                                    </ul>
+                                    <span class="errors-material" v-if="errors.purpose">{{errors.purpose[0]}}</span>
+                                </div>
                                
                             </div>
                         </div>
@@ -96,7 +118,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 Do you want to Delete <strong>{{ post.item_name }} </strong>?
-                                
                             </div>
                         </div>
                     </div>
@@ -104,6 +125,62 @@
                             <div class="btn-group">
                             <button type="button"  @click="deleteItemConfirm(post)"  class="btn btn-danger btn-sm">Yes</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-default btn-sm">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="modal fade remove-purpose">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <!-- <div class="modal-header">
+                        <h4>ORGANIZATION CATEGORY</h4>
+                    </div> -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                Do you want to remove <strong>{{ xtractPurpose(purpose.purpose_id) }} </strong>?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                            <div class="btn-group">
+                            <button type="button"  @click="removePurpose(purpose)"  class="btn btn-danger btn-sm">Yes</button>
+                            <button type="button" data-dismiss="modal"  class="btn btn-default btn-sm">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="modal fade add-purpose">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- <div class="modal-header">
+                        <h4>ORGANIZATION CATEGORY</h4>
+                    </div> -->
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                               <div class="form-group">
+                                    <label>Purpose</label>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
+                                    
+                                            <input type="checkbox" v-model="other_post.purpose[lst.id]"> &nbsp;
+                                            <label> {{ lst.name }}</label>
+                                        </li>
+                                    </ul>
+                                    <span class="errors-material" v-if="errors.purpose">{{errors.purpose[0]}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                            <div class="btn-group">
+                            <button type="button"  @click="addPurpose(purpose)"  class="btn btn-success btn-sm">Save</button>
+                            <button type="button" data-dismiss="modal"  class="btn btn-default btn-sm">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -130,6 +207,7 @@ export default {
             {label:'Description', name:'description'},
             {label:'Price', name:null},
             {label:'Note', name:null},
+            {label:'Purpose', name:null},
             {label:'Action', name:null},
             ];
         
@@ -137,16 +215,21 @@ export default {
             sortOrders[column.name] = -1;
         });
         return{
+            purpose:{},
             btn_save: "Save",
             btn_dis: false,
             post:{
-                
+               
+            },
+            other_post:{
+                 purpose:[]
             },
             errors:[],
             items:[],
             columns:columns,
             sortOrders:sortOrders,
             sortKey:'created_at',
+            purposes:[],
             tableData:{
                 draw:0,
                 length:10,
@@ -189,6 +272,14 @@ export default {
             });
         },
         saveItem(){
+
+            let pur =[];
+            this.other_post.purpose.forEach((val,indx)=>{
+                if(val == true){
+                    pur.push({'purpose_id':indx});
+                }
+            });
+            this.post.purpose = pur;
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.btn_dis = true;
                 this.btn_save = "Saving...";
@@ -263,8 +354,58 @@ export default {
         noData(data){
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
-        
+        xtractPurpose(id){
+            let ret = "";
+            this.purposes.forEach((val)=>{
+                if(id == val.id){
+                    ret = val.name;
+                }
+            });
 
+            return ret;
+        },
+        listOfPurpose(){
+            this.$axios.get('sanctum/csrf-cookie').then(res=>{
+                this.$axios.get('api/purpose/list').then(res=>{
+                    this.purposes = res.data;
+                });
+            });
+        },
+        showRPurpose(data){
+            this.purpose = data;
+            $('.remove-purpose').modal('show');
+        },
+        removePurpose(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.delete('api/item-purpose/'+this.purpose.id).then(res=>{
+                    this.purpose = {};
+                    this.listOfItems();
+                     $('.remove-purpose').modal('hide');
+                });
+            });
+        }, 
+        showAPurpose(id){
+            this.purpose.item_id = id
+            $('.add-purpose').modal('show');
+        },
+        addPurpose(){
+            let pur =[];
+            this.other_post.purpose.forEach((val,indx)=>{
+                if(val == true){
+                    pur.push({'purpose_id':indx});
+                }
+            });
+            this.purpose.purpose = pur;
+
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.post('api/item-purpose', this.purpose).then(res=>{
+                    this.purpose = {};
+                    this.listOfItems();
+                     $('.add-purpose').modal('hide');
+                });
+            });
+        }
+    
     },
     mounted() {
         $(this.$refs.items).on('hidden.bs.modal',()=> {
@@ -272,6 +413,8 @@ export default {
             this.post = {};
         });
         this.listOfItems();
+        this.listOfPurpose();
+       
     },
 
 }

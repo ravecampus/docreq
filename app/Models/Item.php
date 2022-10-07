@@ -18,4 +18,8 @@ class Item extends Model
         'note',
         'category_id'
     ];
+
+    public function purpose(){
+        return $this->hasMany(ItemPurpose::class, 'item_id', 'id')->orderBy('created_at', 'asc');
+    }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\OrderStatusController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PurposeController;
+use App\Http\Controllers\ItemPurposeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,5 +68,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('report', ReportController::class);
     Route::get('purpose/list', [PurposeController::class, 'listPurpose']);
     Route::resource('purpose', PurposeController::class);
+    Route::resource('item-purpose', ItemPurposeController::class);
   
 });
