@@ -384,7 +384,7 @@ a {
 }
 
 .item-recomend {
-  height: 8rem !important;
+  height: 11rem !important;
 }
 .item-recomend:hover {
   transform: scale(1.05, 1.05) !important;

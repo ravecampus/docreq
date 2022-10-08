@@ -22,8 +22,12 @@
                   <div class="list-group-item" v-for="(chk ,index) in forCheckout" :key="index">
                       <div class="row">
                             <div class="col-md-3 col-sm-3">
-                             <img  class="img-thumbnail img-cart" :src="'/img/logo.png'">
-                             {{ chk.item_name }}
+                            <img  class="img-thumbnail img-cart" :src="chk.image == null ? '/img/logo.png' :'../storage/items/'+chk.image">
+                            <div> 
+                               <strong> {{ chk.item_name }}</strong>
+
+                                <div class="small">{{ chk.description }}</div>
+                            </div>
                             </div> 
                             <div class="col-md-3 col-sm-3">
                                &#8369; {{ formatAmount(paymentCharges(chk.price)) }}
@@ -70,6 +74,10 @@
                                    <div class="row p-1">
                                        <div class="col-md-12">
                                             <div class="form-group">
+                                                Request Details:  <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
+                                                &nbsp;<span class="errors-material" v-if="errors.request_detail">{{ errors.request_detail[0]}}</span>
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Delivery Option</label>
                                                 <select class="form-control" v-model="other_info.delivery_option">
                                                     <option value="1">Deliver</option>
@@ -77,11 +85,7 @@
                                                 </select>
                                                 <span class="errors-material" v-if="errors.delivery_option">{{ errors.delivery_option[0]}}</span>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Request Details</label>
-                                                <textarea v-model="other_info.request_detail" class="form-control h-100" placeholder="Request Details"></textarea>
-                                                <span class="errors-material" v-if="errors.request_detail">{{ errors.request_detail[0]}}</span>
-                                            </div>
+                                           
                                             <div class="form-group">
                                                 <label>Purpose</label>
                                                 <ul class="list-group">
@@ -102,23 +106,19 @@
                                             <h5><strong>DELIVERY INFORMATION</strong></h5>
                                             <div class="list-group list-group-flush">
                                                 
+                                          
                                                 <div class="list-group-item">
-                                                   
-                                                    Delivery to:  <strong>{{ user.first_name  }} {{ user.middle_name  }} {{ user.last_name  }} <a class="text-primary" @click="showPersonal(user)" href="#"><i class="fa fa-pencil"></i></a></strong>
-                                                    &nbsp;<span class="errors-material" v-if="errors.account">{{ errors.account[0]}}</span>
-                                                </div>
-                                                <!-- <div class="list-group-item">
-                                                    Mobile Number: <strong>{{ addr.mobile_number  }}</strong>
-                                                    <span class="errors" v-if="errors.mobile_number">{{ errors.mobile_number[0]}}</span>
-                                                </div> -->
-                                                <div class="list-group-item">
-                                                    Adddress :
+                                                    Delivery to:
                                                     <a class="text-primary" @click="showAddress()" href="#"><i class="fa fa-plus"></i></a>
                                                     <div class="form-material">
-                                                        <select v-model="to_order.address" class="form-control" @change="resetValidate(to_order.address)">
-                                                            <option v-for="(ab, index) in address_book" :key="index" :value="ab.id">{{ ab.street + ', '+ab.barangay+', '+ab.city_or_municipality+', '+ab.province}}</option>
+                                                        <select v-model="oaddrs.address" class="form-control" @change="resetValidate(oaddrs.address)">
+                                                            <option v-for="(ab, index) in address_book" :key="index" :value="ab.id">
+                                                                {{ ab.first_name + ', '+ab.middle_name+', '+ab.last_name }}  ( {{ ab.street + ', '+ab.province+', '+ab.city_or_municipality+' '+ab.barangay }})
+                                                                [{{ ab.mobile_number }}]
+                                                            </option>
                                                         </select>
-                                                        <span class="errors-material" v-if="errors.delivery_address">{{ errors.delivery_address[0]}}</span>
+                                                       
+                                                        <span class="errors-material" v-if="errors.delivery_info">{{ errors.delivery_info[0]}}</span>
                     
                                                     </div>
                                                 </div>
@@ -184,40 +184,57 @@
         </div>
 
        <div class="modal add-addressbook">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <form @submit.prevent="saveAddressBook()">
                     <div class="modal-body">
                        <div class="row">
                            <div class="col-md-12">
-                                <label>Add Address Book</label>
-                                <!-- <div class="form-group">
-                                    <label>Full name...</label>
-                                    <input type="text" class="form-control" v-model="add_abook.fullname">
-                                     <span class="errors-material" v-if="errors.fullname">{{errors.fullname[0]}}</span>
-                                </div> -->
-                               
-                                <!-- <div class="form-group">
-                                    <label>Mobile number...</label>
-                                    <input type="text" class="form-control" v-model="add_abook.mobile_number">
-                                     <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
-                                </div> -->
-                                <!-- <div class="form-group">
-                                    <label>Notes...</label>
-                                    <textarea class="form-control" v-model="add_abook.note"></textarea>
-                                     <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
-                                </div> -->
+                                <h4>Add Address Book</h4>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Street...</label>
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" v-model="add_abook.first_name">
+                                            <span class="errors-material" v-if="errors.first_name">{{errors.first_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Middle Name</label>
+                                            <input type="text" class="form-control" v-model="add_abook.middle_name">
+                                            <span class="errors-material" v-if="errors.middle_name">{{errors.middle_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" v-model="add_abook.last_name">
+                                            <span class="errors-material" v-if="errors.last_name">{{errors.last_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mobile Number</label>
+                                            <input type="text" class="form-control" v-model="add_abook.mobile_number">
+                                            <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Street</label>
                                             <input type="text" class="form-control" v-model="add_abook.street">
                                             <span class="errors-material" v-if="errors.street">{{errors.street[0]}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Province...</label>
+                                            <label>Province</label>
                                             <input type="text" class="form-control" v-model="add_abook.province">
                                           
                                             <span class="errors-material" v-if="errors.province">{{errors.province[0]}}</span>
@@ -228,14 +245,14 @@
                                  <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>City / Municipality ...</label>
+                                            <label>City / Municipality</label>
                                             <input type="text" class="form-control" v-model="add_abook.city_or_municipality">
                                             <span class="errors-material" v-if="errors.city_or_municipality">{{errors.city_or_municipality[0]}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Barangay...</label>
+                                            <label>Barangay</label>
                                             <input type="text" class="form-control" v-model="add_abook.barangay">
                                             <span class="errors-material" v-if="errors.barangay">{{errors.barangay[0]}}</span>
                                         </div>
@@ -421,10 +438,10 @@
                                         
                                             <div class="item-description">
                                                 <div class="item-title">
-                                                    <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
+                                                    <a href="">{{  item.item_name }}</a>
                                                 
                                                 </div>
-                                                <p>{{ truncate(item.description , 20, '...' ) }}</p>
+                                                <p>{{  truncate(item.description, 20,'...') }}</p>
                                                 <div class="item-price">&#8369;
                                                     {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
                                                 
@@ -491,6 +508,7 @@ export default {
     data(){
         return {
             purpose_id:0,
+            oaddrs:{},
             recommends:[],
             forCheckout:[],
             list_item:[],
@@ -503,7 +521,9 @@ export default {
             },
             item:{},
             user:{},
-            to_order:{},
+            to_order:{
+               
+            },
             errors:[],
             errors1:[],
             add_abook:{},
@@ -631,7 +651,6 @@ export default {
             });
             this.saveToLocal(this.forCheckout);
             $('.remove-item').modal('hide');
-            // this.$root.$emit('show',{'message':'Item Remove Successfully!', 'status':6});
             if(this.forCheckout.length <= 0){
                 this.$router.push({name:'items'});
             }
@@ -666,15 +685,7 @@ export default {
             this.forCheckout[idx].quantity = result;      
             this.saveToLocal(this.forCheckout);
         },
-        // totalPrice(data){
-        //     let subtotal_ = 0;
-        //     let subtotal = 0;
-        //     data.forEach((val, index)=>{
-        //         subtotal_ = val.quantity * this.paymentCharges(val.price);
-        //         subtotal = subtotal + subtotal_;
-        //     });
-        //     return subtotal;
-        // },
+       
         saveToLocal(data){
             this.$emit('cartcount', data);
             // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
@@ -696,14 +707,12 @@ export default {
         placeOrder(){
             this.place_order = 'Placing ...';
             this.btn_place_order = true;
-            // let data =  JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem('oncart')))));
             let data = this.forCheckout;
            
             this.to_order = this.addr
             this.to_order.checkout = data;
-            this.to_order.request_detail = this.other_info.request_detail;
             this.to_order.delivery_option = this.other_info.delivery_option;
-            this.to_order.account = this.user.first_name;
+            this.to_order.request_detail = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();
             this.to_order.delivery_fee = this.deliveryCharges();
@@ -714,9 +723,17 @@ export default {
                 }
             });
             this.to_order.purpose = pur;
+            console.log(this.to_order)
+            if(this.to_order.first_name != undefined){
+                this.to_order.delivery_info = this.to_order.first_name + ' '+this.to_order.middle_name+' '+this.to_order.last_name;
+            }
+            if(this.to_order.mobile_number != undefined){
+                this.to_order.mobile_number = this.to_order.mobile_number;
+            }
             if(this.to_order.barangay != undefined){
                 this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
             }
+          
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.errors = [];
                 this.$axios.post('api/order', this.to_order).then(res=>{
@@ -754,26 +771,7 @@ export default {
             })
            
         },
-        // defaultAddress(){
-        //     let data = this.user.address_book;
-        //     if(data){
-        //         data.forEach((val, idx)=>{
-        //             if(val.selected == 1){
-        //                this.to_order.address = val.id;
-        //             }
-        //         });
-        //     }
-        // },
-        // defaultMobileNo(){
-        //     let data = this.user.address_book;
-        //     if(data){
-        //         data.forEach((val, idx)=>{
-        //             if(val.selected == 1){
-        //                 this.mobile = val.mobile_number;
-        //             }
-        //         });
-        //     }
-        // },
+
         grandTotal(){
            let oncarts = this.forCheckout;
            let totalprice =  this.totalPrice(oncarts);
@@ -854,6 +852,12 @@ export default {
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.$axios.get('api/address-book/auth').then(res=>{
                     this.address_book = res.data;
+                    if(this.address_book){
+                        this.oaddrs.address = this.address_book[0].id;
+                    }
+                    let data = res.data;
+                    this.resetValidate(this.address_book[0].id);
+                   
                 }).catch(err=>{
 
                 });
@@ -884,14 +888,6 @@ export default {
                 $('.doc-suggest').modal('show');
             }
         },
-        // loadRecommend(){
-        //     this.$axios.get('sanctum/csrf-cookie').then(response=>{
-        //         this.$axios.get('api/purpose/recommend').then(res=>{
-        //             this.recommends = res.data;
-        //         });
-        //     });
-
-        // },
         truncate(text, length, clamp){
             clamp = clamp || '...';
             var node = document.createElement('div');
@@ -948,6 +944,7 @@ export default {
                    this.item = {
                     'item_id': data.id,
                     'item_name': data.item_name,
+                    'image': data.image,
                     'description': data.description,
                     'note': data.note,
                     'price': data.price,
@@ -963,6 +960,7 @@ export default {
                  this.item = {
                     'item_id': data.id,
                     'item_name': data.item_name,
+                    'image': data.image,
                     'description': data.description,
                     'note': data.note,
                     'price': data.price,
@@ -981,16 +979,15 @@ export default {
       
         setTimeout(()=>{
             this.onCart();
-            this.listItem();
-            // this.defaultAddress();
-            // this.defaultMobileNo(); 
+            this.listItem(); 
             this.getChargesPayment();
             this.getChargesDelivery();
             this.getauthBookAddress();
             this.listOfPurpose();
-            // this.loadRecommend();
-            
+          
+         
         },1000);
+      
        
         if(window.Laravel.isLoggedin){
             this.user = window.Laravel.user;

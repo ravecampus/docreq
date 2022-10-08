@@ -32,9 +32,13 @@
                                     </td>
                                     <td>
                                         <p class="small"><strong>List of :</strong></p>
-                                        <li v-for="(ls,idx) in list.address_book" :key="idx">
-                                            {{ ls.street }}, {{ ls.barangay }}, {{ ls.city_or_municipality }} {{ ls.province }}
-                                        </li>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" v-for="(ls,idx) in list.address_book" :key="idx">
+                                                <strong>{{ ls.first_name }} {{ ls.middle_name }} {{ ls.last_name }}</strong>
+                                                <div class="small">{{ ls.mobile_number }}</div>
+                                                <div>{{ ls.street }}, {{ ls.barangay }}, {{ ls.city_or_municipality }} {{ ls.province }}</div>
+                                            </li>
+                                        </ul>
                                         <!-- <div class="btn-group pull-right">
                                             <button type="button" @click="orderList(list)" class="btn btn-warning btn-sm">Orders</button>
                                         </div> -->
@@ -200,7 +204,7 @@ export default {
         let columns =[
             {label:'Information', name:'first_name'},
             {label:'Other Information', name:null},
-            {label:'Delivery Address', name:null},
+            {label:'Delivery Info.', name:null},
             ];
         
         columns.forEach(column=>{

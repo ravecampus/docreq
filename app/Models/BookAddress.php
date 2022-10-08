@@ -11,9 +11,11 @@ class BookAddress extends Model
 
     protected $table = 'book_address';
     protected $fillable = [
-        // 'fullname',
-        // 'mobile_number',
-        // 'note',
+      
+        'first_name',
+        'middle_name',
+        'last_name',
+        'mobile_number',
         'street',
         'province',
         'city_or_municipality',

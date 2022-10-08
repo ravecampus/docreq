@@ -39,18 +39,20 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'delivery_address'=>'required',
-            'request_detail'=>'required',
+            'delivery_info'=>'required',
+            'purpose'=>'required',
             'delivery_option'=>'required',
-            'account'=>'required',
+            'request_detail'=>'required',
         ]);
         $order = Order::create([
+            'full_name' => $request->delivery_info,
+            'mobile_number' => $request->mobile_number,
             'delivery_address' => $request->delivery_address,
             'delivery_option' => $request->delivery_option,
             'email' => $request->email,
             'trucking_number' => $request->trucking_number,
             'delivery_fee' => $request->delivery_fee,
-            'other_info' => $request->request_detail,
+            // 'other_info' => $request->request_detail,
             'total' => $request->total,
             'grand_total' => $request->grand_total,
             'status' => 0,
@@ -65,6 +67,7 @@ class OrderController extends Controller
         $purp = $request->purpose;
         foreach ($checkout as $value) {
             OrderItem::create([
+                'image' => $value['image'],
                 'item_id' => $value['item_id'],
                 'item_name' => $value['item_name'],
                 'description' => $value['description'],

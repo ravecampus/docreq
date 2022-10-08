@@ -13,6 +13,12 @@
                             <tbody>
                                 <tr v-for = "(list, index) in items" :key="index" class="linkTable">
                                     
+                                    <td>
+                                        <img class="img-thumbnail w-25" :src="list.image == null ? '/img/logo.png' :'../storage/items/'+list.image"/>
+                                        &nbsp;<a href="#" @click="itemIcon(list)">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </td>
                                     <td><strong>{{ list.item_name }}</strong></td>
                                     <td>{{ list.description }}</td>
                                     <td>&#8369; {{ list.price }}</td>
@@ -36,7 +42,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" v-show="!noData(items)">
+                                    <td colspan="7" v-show="!noData(items)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -187,6 +193,28 @@
             </div>
         </div>
 
+         <div class="modal modify-logo">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="logo-view text-center">
+                                    <img :src="upload.image == null ? '/img/logo.png' :'../storage/items/'+upload.image">
+                                    <!-- <a href="#" @click="resetLogo()">Reset Default</a> -->
+                                </div>
+                                <div class="text-center">
+                                    <input type="file" id="uploader" accept="image/gif, image/jpeg" @change="uploadImage" class="hidden">
+                                    <button type="button" @click="browseImg()" class="btn btn-success mt-3">Browse Image</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -203,6 +231,7 @@ export default {
     data(){
         let sortOrders = {};
         let columns =[
+            {label:'Image', name:null},
             {label:'Item Name', name:'item_name'},
             {label:'Description', name:'description'},
             {label:'Price', name:null},
@@ -224,6 +253,8 @@ export default {
             other_post:{
                  purpose:[]
             },
+            img:'',
+            upload:{},
             errors:[],
             items:[],
             columns:columns,
@@ -248,6 +279,9 @@ export default {
                 from:'',
                 to:''
             },
+            form: new FormData,
+            uploadPercentage_:0,
+            showbar:false,
         }
     },
     methods: {
@@ -404,7 +438,41 @@ export default {
                      $('.add-purpose').modal('hide');
                 });
             });
-        }
+        },
+        itemIcon(data){
+            this.upload = data;
+            $('.modify-logo').modal('show');
+        },
+        browseImg(){
+            $('#uploader').click();
+        },
+
+        uploadImage(e){
+            this.img = e.target.files[0];
+            this.uploadLogo();
+        },
+        uploadLogo(){
+            this.form.append('image', this.img);
+            this.form.append('id',  this.upload.id);
+             const config = {
+                header:{'Content-Type':'multipart/form-data'},
+                    onUploadProgress:(e)=>{
+                        this.uploadPercentage_ = parseInt(Math.round((e.loaded * 100)/ e.total));
+                        this.showbar = true;
+                    }
+                };
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.$axios.post('api/item-upload',this.form, config).then(res=>{
+                    this.showbar = false;
+                    this.uploadPercentage_ = 0;
+                    this.listOfItems();
+                    $('.modify-logo').modal('hide');
+                }).catch(err=>{
+                    this.uploadPercentage_ = 0;
+                });
+            });
+           
+        },
     
     },
     mounted() {

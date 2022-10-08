@@ -1,7 +1,7 @@
 <template>
     <div id="content" class="p-4 p-md-5 pt-5">
         
-    <h4>Request</h4>
+    <h4>Request &nbsp;<span class="badge badge-success">{{ orders.length }}</span></h4>
         <div class="form-group">
             <input type="text" class="form-control" v-model="tableData.search"  placeholder="Search ..." @keyup.enter="listOfOrder()">
         </div>
@@ -19,7 +19,7 @@
                                 <div class="card-body">
                                     
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                        <img  class="img-thumbnail img-cart" :src="'/img/logo.png'">
+                                        <img  class="img-thumbnail img-cart" :src="lst.image == null ? '/img/logo.png' :'../storage/items/'+lst.image">
                                         <a href="#!">
                                             <div class="hover-overlay text-muted">
                                             : {{ lst.quantity }} X {{ paymentCharges(lst.price) }} = {{ formatAmount(lst.quantity * paymentCharges(lst.price)) }}
@@ -44,8 +44,9 @@
                             <span class="text-primary">  </span>
                             </div>
                             <div class="mb-2 text-muted small">
-                            <span>{{ list.delivery_address }}</span>
-                            <span class="text-primary">  </span>
+                            <strong>{{ list.full_name }}</strong>&nbsp;
+                            <span>{{ list.delivery_address }}</span>&nbsp;
+                            <span class="text-primary"> ({{ list.mobile_number }})</span>
                             </div>
                             <div class="mb-1 mb-0 text-muted small">
                             <span><strong>{{ setStatus(list.status) }}</strong></span>

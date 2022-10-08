@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\ItemPurpose;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ItemsController extends Controller
 {
@@ -133,5 +135,28 @@ class ItemsController extends Controller
         $item->deleted = 1;
         $item->save();
         return response()->json($item, 200);
+    }
+
+    public function itemUpload(Request $request){
+
+        $id = $request->id;
+        $file = $request->file('image');
+
+        $ran = Str::random(5);
+
+        $date = Carbon::now()->toDateString();
+        $file_ =  $date.'-'.$ran.'-'.$file->getClientOriginalName();
+       
+        $file->storeAs('items',$file_, 'public');
+        $item = Item::find($id);
+
+        $file_d = storage_path('/app/public/items/').$item->image;
+        if(is_file($file_d))
+            @unlink($file_d); 
+        $item->image =  $file_;
+        $item->save();
+
+
+
     }
 }

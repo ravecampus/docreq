@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('order-status/action', OrderStatusController::class);
     Route::post('paypal/charges',[PaymentController::class,'charge']);
     Route::get('paypal/success/{id}',[PaymentController::class,'success']);
+    Route::post('item-upload',[ItemsController::class, 'itemUpload']);
     Route::resource('items',ItemsController::class);
     Route::post('users/pass', [UserController::class, 'changePass']);
     Route::resource('users', UserController::class);

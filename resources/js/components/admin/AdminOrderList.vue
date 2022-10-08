@@ -10,6 +10,7 @@
                     <div class="card mt-2" v-for="(list, index) in orders" :key="index">
                         <div class="card-body row">
                             <div class="col-md-4">
+                                <i class="small">Request Details:</i>
                                 <h5>{{ list.first_name }} {{ list.middle_name }} {{ list.last_name }}</h5>
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>{{ list.email }}</span>
@@ -27,13 +28,16 @@
                                 </div>
                             </div>    
                             <div class="col-md-4">
-                                <h5>{{ list.delivery_address }} </h5>
+                                <i class="small">Delivery Info:</i>
+                                <h6>{{ list.full_name }} </h6>
+                                <div class="small">{{ list.mobile_number }} </div>
+                                <h6>{{ list.delivery_address }} </h6>
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                     <p><strong>{{ setStatus(list.status) }}</strong></p>
-                                    <small>Request Details</small>
-                                    <p><i>{{ list.other_info }}</i></p>
+                                    <!-- <small>Request Details</small>
+                                    <p><i>{{ list.other_info }}</i></p> -->
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
                                     <p><strong>Approved & Packed</strong></p>
@@ -45,7 +49,7 @@
                                 </div>
                             </div>    
                             <div class="col-md-4">
-                                <div class="small bold">Docs.</div>
+                                <div class="small bold">Docs.:</div>
                                 <li v-for="(lst, idx) in list.order_items" :key="idx">
                                     {{ lst.item_name }}
                                 </li>

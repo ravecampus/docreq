@@ -24,12 +24,12 @@
                             <tbody>
                                 <tr v-for="(cart, index) in oncarts" :key="index">
                                     <td class="col-md-6">
-                                        <img class="img-thumbnail img-cart" :src="'/img/logo.png'">
-                                        <strong class="ml-2">{{ cart.item_name }}</strong>
-                                        <p>
-                                           
-                                            {{truncate(cart.description , 150, '...' ) }}
-                                        </p>
+                                        <img class="img-thumbnail img-cart" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
+                                        <div>
+                                            <strong>{{ cart.item_name }}</strong>
+                                            <div class="small ml-1">{{truncate(cart.description , 150, '...' ) }}</div>
+                                        </div>
+                                        
                                     </td>
                                     <td class="col-md-2">
                                     <div class="group-quantit-btn ">

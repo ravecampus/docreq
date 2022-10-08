@@ -10,16 +10,17 @@
                             <tbody>
                                 <tr v-for = "(list, index) in addressbooks" :key="index" class="linkTable">
                                     
-                                    <!-- <td><strong>{{ list.fullname }}</strong></td> -->
+                                    <td>
+                                        <strong>
+                                            {{ list.first_name }}
+                                            {{ list.middle_name }}
+                                            {{ list.last_name }}
+                                        </strong>
+                                        <p>{{ list.mobile_number }}</p>  
+                                    </td>
                                     <td>
                                         {{ list.street }}, {{ list.barangay }}, {{ list.city_or_municipality }} {{ list.province }}
-                                        <!-- <ul class="list-group list-group-flush">
-                                            <li class="list-group-item m-0">mob #: {{ list.mobile_number }}</li>
-                                            <li class="list-group-item m-0">province : {{ list.province }}</li>
-                                            <li class="list-group-item m-0">city/municipality : {{ list.city_or_municipality }}</li>
-                                            <li class="list-group-item m-0">barangay : {{ list.barangay }}</li>
-                                            <li class="list-group-item m-0">street : {{ list.street }}</li>
-                                        </ul> -->
+                    
                                     </td>
                                     <td>
                                         <div class="btn-group pull-right">
@@ -29,7 +30,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" v-show="!noData(addressbooks)">
+                                    <td colspan="3" v-show="!noData(addressbooks)">
                                         No Result Found!
                                     </td>
                                 </tr>
@@ -48,7 +49,7 @@
         </div>
 
         <div class="modal fade address-book" ref="addressbook">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <!-- <div class="modal-header">
                         <h4>ORGANIZATION CATEGORY</h4>
@@ -56,34 +57,50 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <!-- <label>Add Address Book</label>
-                                <div class="form-group">
-                                    <label>Full name...</label>
-                                    <input type="text" class="form-control" v-model="post.fullname">
-                                     <span class="errors-material" v-if="errors.fullname">{{errors.fullname[0]}}</span>
-                                </div> -->
+                              <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" v-model="post.first_name">
+                                            <span class="errors-material" v-if="errors.first_name">{{errors.first_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Middle Name</label>
+                                            <input type="text" class="form-control" v-model="post.middle_name">
+                                            <span class="errors-material" v-if="errors.middle_name">{{errors.middle_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
                                
-                                <!-- <div class="form-group">
-                                    <label>Mobile number...</label>
-                                    <input type="text" class="form-control" v-model="post.mobile_number">
-                                     <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
-                                </div> -->
-                                <!-- <div class="form-group">
-                                    <label>Notes...</label>
-                                    <textarea class="form-control" v-model="post.note"></textarea>
-                                     <span class="errors-material" v-if="errors.note">{{errors.note[0]}}</span>
-                                </div> -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Street...</label>
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" v-model="post.last_name">
+                                            <span class="errors-material" v-if="errors.last_name">{{errors.last_name[0]}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Mobile Number</label>
+                                            <input type="text" class="form-control" v-model="post.mobile_number">
+                                            <span class="errors-material" v-if="errors.mobile_number">{{errors.mobile_number[0]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Street</label>
                                             <input type="text" class="form-control" v-model="post.street">
                                             <span class="errors-material" v-if="errors.street">{{errors.street[0]}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Province...</label>
+                                            <label>Province</label>
                                             <input type="text" class="form-control" v-model="post.province">
                                           
                                             <span class="errors-material" v-if="errors.province">{{errors.province[0]}}</span>
@@ -94,14 +111,14 @@
                                  <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>City / Municipality ...</label>
+                                            <label>City / Municipality</label>
                                             <input type="text" class="form-control" v-model="post.city_or_municipality">
                                             <span class="errors-material" v-if="errors.city_or_municipality">{{errors.city_or_municipality[0]}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Barangay...</label>
+                                            <label>Barangay</label>
                                             <input type="text" class="form-control" v-model="post.barangay">
                                             <span class="errors-material" v-if="errors.barangay">{{errors.barangay[0]}}</span>
                                         </div>
@@ -159,7 +176,7 @@ export default {
     data(){
         let sortOrders = {};
         let columns =[
-            // {label:'Full Name', name:'fullname'},
+            {label:'Delivery info.', name:null},
             {label:'Address', name:null},
             {label:'Action', name:null},
             ];

@@ -51,17 +51,22 @@ class BookAddressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'mobile_number' => 'required|regex:/(09)[0-9]{9}/',
-            // 'fullname'=>'required',
-            'street'=>'required',
-            'province'=>'required',
-            'city_or_municipality'=>'required',
-            'barangay'=>'required'
+            'mobile_number' => 'required|regex:/(09)[0-9]{9}/',
+            'first_name'=>'required|string',
+            'middle_name'=>'required|string',
+            'last_name'=>'required|string',
+            'street'=>'required|string',
+            'province'=>'required|string',
+            'city_or_municipality'=>'required|string',
+            'barangay'=>'required|string'
         ]);
 
         $book = BookAddress::create([
-            // 'mobile_number' => $request->mobile_number,
-            // 'fullname' => $request->fullname,
+           
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'mobile_number' => $request->mobile_number,
             'street' => $request->street,
             'province' => $request->province,
             'note' => $request->note,
@@ -106,7 +111,9 @@ class BookAddressController extends Controller
     {
         $request->validate([
             'mobile_number' => 'required|regex:/(09)[0-9]{9}/',
-            // 'fullname'=>'required',
+            'first_name'=>'required|string',
+            'middle_name'=>'required|string',
+            'last_name'=>'required|string',
             'street'=>'required',
             'province'=>'required',
             'city_or_municipality'=>'required',
@@ -115,7 +122,9 @@ class BookAddressController extends Controller
 
         $book = BookAddress::find($id);
         $book->mobile_number = $request->mobile_number;
-        // $book->fullname = $request->fullname;
+        $book->first_name = $request->first_name;
+        $book->middle_name = $request->middle_name;
+        $book->last_name = $request->last_name;
         $book->street = $request->street;
         $book->province = $request->province;
         $book->note = $request->note;

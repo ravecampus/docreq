@@ -27,13 +27,13 @@
                 <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
                         <div class="item">
                             <!-- <a href=""> -->
-                                 <img class="img-item" :src="'/img/logo.png'"/>
+                                 <img class="img-item" :src="item.image == null ? '/img/logo.png' :'../storage/items/'+item.image"/>
                             <!-- </a> -->
                             <div class="item-description">
                                 <div class="item-title">
-                                    <a href="">{{ truncate(item.item_name , 15, '...' ) }}</a>
+                                    <a href="">{{ item.item_name }}</a>
                                 </div>
-                                <p>{{ truncate(item.description , 20, '...' ) }}</p>
+                                <p>{{ truncate(item.description , 20, '...' )  }}</p>
                                 <div class="item-price">&#8369;
                                     {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
                                     </div>
@@ -156,12 +156,9 @@ export default {
                     'item_name': data.item_name,
                     'description': data.description,
                     'note': data.note,
-                    // 'discount': data.discount,
+                    'image': data.image,
                     'price': data.price,
-                    // 'price': this.chargesOnPercentage(data),
                     'quantity': 1,
-                    // 'item_gallery':data.item_gallery,
-                    // 'user_id':data.user_id,
                 };
                 this.carts.push(this.item);
                 this.saveToLocal(this.carts);
@@ -173,12 +170,10 @@ export default {
                     'item_name': data.item_name,
                     'description': data.description,
                     'note': data.note,
-                    // 'discount': data.discount,
+                    'image': data.image,
                     'price': data.price,
-                    // 'price': this.chargesOnPercentage(data),
+                  
                     'quantity': 1,
-                    // 'item_gallery':data.item_gallery,
-                    // 'user_id':data.user_id,
                 };
                 this.carts.push(this.item);
                 this.saveToLocal(this.carts);

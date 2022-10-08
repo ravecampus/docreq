@@ -12,13 +12,15 @@ class Order extends Model
     protected $table = "orders";
     protected $fillable = [
         'user_id',
+        'full_name',
+        'mobile_number',
         'delivery_address',
         'trucking_number',
         'delivery_fee',
         'total',
         'grand_total',
         'delivery_option',
-        'other_info',
+        // 'other_info',
         'status'
     ];
 
