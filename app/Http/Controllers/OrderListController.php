@@ -15,7 +15,7 @@ class OrderListController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Order::with('order_items','payment')
+        $query = Order::with('order_items','payment', 'purpose')
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->join('payments', 'payments.order_id', '=', 'orders.id')
             ->orderBy('orders.'.$columns[$column], $dir);

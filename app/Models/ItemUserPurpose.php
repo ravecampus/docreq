@@ -9,5 +9,5 @@ class ItemUserPurpose extends Model
 {
     use HasFactory;
     protected $table = 'item_user_purpose';
-    protected $fillable = ['purpose_id', 'item_id', 'user_id'];
+    protected $fillable = ['purpose_id', 'item_id', 'user_id', 'order_id'];
 }

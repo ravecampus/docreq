@@ -74,6 +74,7 @@
                             <div class="form-group col-md-4">
                                 <label>Year Graduated</label>
                                 <select v-model="post.year_graduated" class="form-control">
+                                    <option value="0">NOT AVAILABLE</option>
                                     <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
                                 </select>
                                 <span class="errors-material" v-if="errors.year_graduated">{{errors.year_graduated[0]}}</span>
@@ -81,6 +82,7 @@
                             <div class="form-group col-md-4">
                                 <label>Last School Year</label>
                                 <select v-model="post.last_sy" class="form-control">
+                                    <option value="0">NOT AVAILABLE</option>
                                     <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
                                 </select>
                                 <span class="errors-material" v-if="errors.last_sy">{{errors.last_sy[0]}}</span>

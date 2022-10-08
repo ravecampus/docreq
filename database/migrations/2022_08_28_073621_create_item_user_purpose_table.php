@@ -18,6 +18,7 @@ class CreateItemUserPurposeTable extends Migration
             $table->integer("purpose_id")->nullable();
             $table->integer("item_id")->nullable();
             $table->integer("user_id")->nullable();
+            $table->integer("order_id")->nullable();
             $table->timestamps();
         });
     }

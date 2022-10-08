@@ -21,8 +21,8 @@
                                     <div>Birth Date: <i class="font-weight-light">{{ list.birth_date }}</i></div>
                                     <div>Academic Program: <i class="font-weight-light">{{ list.academic_program }}</i></div>
                                     <div>Current Enrolled: <i class="font-weight-light">{{ currentEnr(list.current_enrolled) }}</i></div>
-                                    <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated }}</i></div>
-                                    <div>Last SY: <i class="font-weight-light">{{ list.last_sy }}</i></div>
+                                    <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated == 0 ? 'NOT AVAILABLE' : list.year_graduated }}</i></div>
+                                    <div>Last SY: <i class="font-weight-light">{{ list.last_sy == 0 ?'NOT AVAILABLE': list.last_sy  }}</i></div>
                                     <div>Father's Name: <i class="font-weight-light">{{ list.fathers_name }}</i></div>
                                     <div>Mother's Name: <i class="font-weight-light">{{ list.mothers_name }}</i></div>
                                 </div>
@@ -32,12 +32,13 @@
                                 <h6>{{ list.full_name }} </h6>
                                 <div class="small">{{ list.mobile_number }} </div>
                                 <h6>{{ list.delivery_address }} </h6>
+                                <small>Purposes : &nbsp;</small>
+                                <i v-for="(ls, id) in list.purpose" :key="id" ><u>{{ xtractPurpose(ls.purpose_id) }},</u> &nbsp;</i>
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                     <p><strong>{{ setStatus(list.status) }}</strong></p>
-                                    <!-- <small>Request Details</small>
-                                    <p><i>{{ list.other_info }}</i></p> -->
+                                
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
                                     <p><strong>Approved & Packed</strong></p>
@@ -96,6 +97,7 @@ export default {
     data(){
         return {
             btn_ship:"Approved",
+            purposes:[],
             orders:[],
              tableData:{
                 draw:0,
@@ -124,6 +126,7 @@ export default {
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.orders = data.data.data;
+                        console.log(data);
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
@@ -185,10 +188,28 @@ export default {
         },
         currentEnr(num){
             return num == 1 ? 'Yes' : 'No';
+        },
+        listOfPurpose(){
+            this.$axios.get('sanctum/csrf-cookie').then(res=>{
+                this.$axios.get('api/purpose/list').then(res=>{
+                    this.purposes = res.data;
+                });
+            });
+        },
+        xtractPurpose(id){
+            let ret = '';
+            this.purposes.forEach(val => {
+                if(val.id == id){
+                    ret = val.name;
+                }
+                
+            });
+            return ret;
         }
     },
     mounted(){
         this.listOfOders();
+        this.listOfPurpose();
     }
 }
 </script>

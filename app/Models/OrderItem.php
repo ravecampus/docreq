@@ -22,6 +22,5 @@ class OrderItem extends Model
         // 'total',
         'status'
     ];
-
   
 }

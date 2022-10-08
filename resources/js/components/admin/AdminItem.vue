@@ -25,11 +25,12 @@
                                     <td>{{ list.note }}</td>
                                     <td>
                                         <a class="small" @click="showAPurpose(list.id)" href="#">add</a>
-                                        <ul class="list-group list-group-flush">
+                                        <ul class="list-group">
                                             <li class="list-group-item" v-for="(ls,idx) in list.purpose" :key="idx">
-                                                {{ xtractPurpose(ls.purpose_id) }}
+                                                <u>{{ xtractPurpose(ls.purpose_id) }}
 
-                                                <a class="small" @click="showRPurpose(ls)" href="#">remove</a>
+                                                <a class="small" @click="showRPurpose(ls)" href="#"><span class="fa fa-trash"></span></a>
+                                                </u>
                                             </li>
                                         </ul>
 

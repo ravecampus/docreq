@@ -5,12 +5,12 @@
              <div class="col-md-12">
                  <div class="card mb-2">
                      <div class="card-body ">
-                         <h5 class="text-muted">Delivery Charges</h5>
-                         <div class="form-group">
+                         <h5 class="text-muted">Standard Delivery Fee</h5>
+                         <!-- <div class="form-group">
                             <label>Title</label>
                             <input type="text" v-model="delivery.title" class="form-control">
                             <span class="errors-material" v-if="errors.title">{{errors.title[0]}}</span>
-                         </div>
+                         </div> -->
                         <div class="form-group">
                             <label>Amount</label>
                             <input type="number" v-model="delivery.amount" class="form-control">
@@ -24,7 +24,7 @@
                          <button type="button" :disabled="btn_del" @click="saveDeliveryCharges()" class="btn btn-success btn-sm">{{ btn_delivery }}</button>
                      </div>
                  </div>
-                 <div class="card">
+                 <!-- <div class="card">
                      <div class="card-body">
                          <h5 class="text-muted">Other Charges</h5>
                          
@@ -33,11 +33,6 @@
                             <input type="text" v-model="payment.title" class="form-control">
                             <span class="errors-material" v-if="errors1.title">{{errors1.title[0]}}</span>
                          </div>
-                        <!-- <div class="form-group">
-                            <label>Amount</label>
-                            <input type="text" v-model="payment.amount" class="form-control">
-                            <span class="errors-material" v-if="errors.amount">{{errors.amount[0]}}</span>
-                         </div> -->
                          <div class="form-group">
                             <label>Percentage</label>
                             <input type="number" v-model="payment.percentage" class="form-control">
@@ -45,7 +40,7 @@
                          </div>
                          <button type="button" :disabled="btn_pay" @click="savePaymentCharges()" class="btn btn-success btn-sm">{{ btn_payment }}</button>
                      </div>
-                 </div>
+                 </div> -->
              </div>
          </div>
      </div>

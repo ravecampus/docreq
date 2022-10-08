@@ -81,7 +81,8 @@ class OrderController extends Controller
                 ItemUserPurpose::create([
                     'user_id' =>  Auth::id(),
                     'item_id' =>  $value['item_id'],
-                    'purpose_id' => $val['purpose_id']
+                    'purpose_id' => $val['purpose_id'],
+                    'order_id' =>  $order->id
                 ]);
             }
            

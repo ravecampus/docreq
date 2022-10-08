@@ -39,5 +39,9 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id', 'id');
     }
 
+    public function purpose(){
+        return $this->hasMany(ItemUserPurpose::class, 'order_id', 'id');
+    }
+
     
 }

@@ -11,7 +11,7 @@ class ChargesController extends Controller
     public function delivery(Request $request, $id)
     {
         $charge = Charges::find($id);
-        $charge->title = $request->title;
+        // $charge->title = $request->title;
         $charge->amount = $request->amount;
         $charge->save();
         return response()->json($charge, 200);

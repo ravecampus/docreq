@@ -61,7 +61,7 @@
                                             Subtotal: <strong>&#8369; {{ formatAmount(totalPrice(forCheckout)) }}</strong>
                                         </div>
                                         <div class="list-group-item">
-                                            Delivery Charge: <strong>&#8369; {{ formatAmount(deliveryCharges(forCheckout)) }}</strong>
+                                            Delivery Charge: <strong>&#8369; {{ deliveryOpt == 2 ? 0 : formatAmount(deliveryCharges(forCheckout))  }}</strong>
                                             <input type="hidden" v-model="to_order.delivery_charges" >
                                         </div>
                                         <div class="list-group-item">
@@ -79,7 +79,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>Delivery Option</label>
-                                                <select class="form-control" v-model="other_info.delivery_option">
+                                                <select class="form-control" v-model="other_info.delivery_option" @change="OptDelivery(other_info.delivery_option)">
                                                     <option value="1">Deliver</option>
                                                     <option value="2">Pick up</option>
                                                 </select>
@@ -371,6 +371,7 @@
                                         <div class="form-group">
                                             <label>Year Graduated</label>
                                             <select v-model="personal.year_graduated" class="form-control">
+                                                <option value="0">NOT AVAILABLE</option>
                                                 <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
                                             </select>
                                             <span class="errors-material" v-if="errors1.year_graduated">{{errors1.year_graduated[0]}}</span>
@@ -380,6 +381,7 @@
                                         <div class="form-group">
                                             <label>Last School Year</label>
                                             <select v-model="personal.last_sy" class="form-control">
+                                                <option value="0">NOT AVAILABLE</option>
                                                 <option v-for="(year, index) in years" :key="index" :value="year">{{ year }}</option>
                                             </select>
                                             <span class="errors-material" v-if="errors1.last_sy">{{errors1.last_sy[0]}}</span>
@@ -509,6 +511,7 @@ export default {
         return {
             purpose_id:0,
             oaddrs:{},
+            deliveryOpt:0,
             recommends:[],
             forCheckout:[],
             list_item:[],
@@ -715,7 +718,7 @@ export default {
             this.to_order.request_detail = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();
-            this.to_order.delivery_fee = this.deliveryCharges();
+            this.to_order.delivery_fee = this.deliveryOpt == 1 ? this.deliveryCharges() : 0;
             let pur =[];
             this.other_info.purpose.forEach((val,indx)=>{
                 if(val == true){
@@ -723,7 +726,7 @@ export default {
                 }
             });
             this.to_order.purpose = pur;
-            console.log(this.to_order)
+            
             if(this.to_order.first_name != undefined){
                 this.to_order.delivery_info = this.to_order.first_name + ' '+this.to_order.middle_name+' '+this.to_order.last_name;
             }
@@ -972,6 +975,9 @@ export default {
             }
             
         },
+        OptDelivery(num){
+            this.deliveryOpt = num;
+        }
 
 
     },

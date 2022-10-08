@@ -11,7 +11,7 @@ class Charges extends Model
 
     protected $table = 'charges';
     protected $fillable = [
-        'title', 
+        // 'title', 
         'amount', 
         'percentage'
     ];

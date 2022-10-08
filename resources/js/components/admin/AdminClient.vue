@@ -24,15 +24,15 @@
                                         <div>Birth Date: <i class="font-weight-light">{{ list.birth_date }}</i></div>
                                         <div>Academic Program: <i class="font-weight-light">{{ list.academic_program }}</i></div>
                                         <div>Current Enrolled: <i class="font-weight-light">{{ currentEnr(list.current_enrolled) }}</i></div>
-                                        <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated }}</i></div>
-                                        <div>Last SY: <i class="font-weight-light">{{ list.last_sy }}</i></div>
+                                        <div>Year Graduated: <i class="font-weight-light">{{ list.year_graduated == 0 ? 'NOT AVAILABLE' : list.year_graduated }}</i></div>
+                                        <div>Last SY: <i class="font-weight-light">{{ list.last_sy == 0 ? 'NOT AVAILABLE' : list.last_sy }}</i></div>
                                         <div>Father's Name: <i class="font-weight-light">{{ list.fathers_name }}</i></div>
                                         <div>Mother's Name: <i class="font-weight-light">{{ list.mothers_name }}</i></div>
                                        
                                     </td>
                                     <td>
                                         <p class="small"><strong>List of :</strong></p>
-                                        <ul class="list-group list-group-flush">
+                                        <ul class="list-group">
                                             <li class="list-group-item" v-for="(ls,idx) in list.address_book" :key="idx">
                                                 <strong>{{ ls.first_name }} {{ ls.middle_name }} {{ ls.last_name }}</strong>
                                                 <div class="small">{{ ls.mobile_number }}</div>

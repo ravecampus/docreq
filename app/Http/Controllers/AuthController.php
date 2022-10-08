@@ -89,8 +89,8 @@ class AuthController extends Controller
         $user->fathers_name = $request->fathers_name;
         $user->academic_program = $request->academic_program;
         $user->current_enrolled = $request->current_enrolled;
-        $user->year_graduated = $request->year_graduated;
-        $user->last_sy = $request->last_sy;
+        $user->year_graduated = $request->year_graduated == 0 ? 0000 : $request->year_graduated;
+        $user->last_sy = $request->last_sy == 0 ? 0000 : $request->last_sy;
         $user->birth_date = Carbon::parse($request->birth_date)->format('Y-m-d');
         $user->save();
         return response()->json($user, 200);
