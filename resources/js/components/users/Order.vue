@@ -19,7 +19,7 @@
                                 <div class="card-body">
                                     
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                        <img  class="img-thumbnail img-cart" :src="lst.image == null ? '/img/logo.png' :'../storage/items/'+lst.image">
+                                        <img  class="img-thumbnail img-icon" :src="lst.image == null ? '/img/logo.png' :'../storage/items/'+lst.image">
                                         <a href="#!">
                                             <div class="hover-overlay text-muted">
                                             : {{ lst.quantity }} X {{ paymentCharges(lst.price) }} = {{ formatAmount(lst.quantity * paymentCharges(lst.price)) }}

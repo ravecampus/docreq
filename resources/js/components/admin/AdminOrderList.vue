@@ -38,7 +38,7 @@
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
                                     <p><strong>{{ list.status == 3 ? deliveryOpt(list.delivery_option) : setStatus(list.status) }}</strong></p>
-                                    <p class="text-warning">RECEIVED DATE: <strong>{{ formatDate(list.received_date.created_at) }}</strong> </p>
+                                    <p class="text-warning" v-if="list.received_date != null">RECEIVED DATE: <strong>{{ list.received_date == null ? '' : formatDate(list.received_date.created_at) }}</strong> </p>
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
                                     <p><strong>To Approved</strong></p>

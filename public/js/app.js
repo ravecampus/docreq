@@ -27320,6 +27320,7 @@ var _hoisted_39 = {
 var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("ORDER DATE: ");
 
 var _hoisted_41 = {
+  key: 0,
   "class": "text-warning"
 };
 
@@ -27458,9 +27459,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.status == 3 ? $options.deliveryOpt(list.delivery_option) : $options.setStatus(list.status)), 1
     /* TEXT */
-    )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(list.received_date.created_at)), 1
+    )]), list.received_date != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.received_date == null ? '' : $options.formatDate(list.received_date.created_at)), 1
     /* TEXT */
-    )])]), list.status == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), list.status == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       onClick: function onClick($event) {
         return $options.shippedStatus(list, 2);
@@ -32557,7 +32558,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "card mb-1",
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        "class": "img-thumbnail img-cart",
+        "class": "img-thumbnail img-icon",
         src: lst.image == null ? '/img/logo.png' : '../storage/items/' + lst.image
       }, null, 8
       /* PROPS */
@@ -33590,7 +33591,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "card mb-1",
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        "class": "img-thumbnail img-cart",
+        "class": "img-thumbnail img-icon",
         src: lst.image == null ? '/img/logo.png' : '../storage/items/' + lst.image
       }, null, 8
       /* PROPS */
@@ -33843,7 +33844,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "card mb-1",
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        "class": "img-thumbnail img-cart",
+        "class": "img-thumbnail img-icon",
         src: lst.image == null ? '/img/logo.png' : '../../storage/items/' + lst.image
       }, null, 8
       /* PROPS */
@@ -34083,7 +34084,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "card mb-1",
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        "class": "img-thumbnail img-cart",
+        "class": "img-thumbnail img-icon",
         src: lst.image == null ? '/img/logo.png' : '../../storage/items/' + lst.image
       }, null, 8
       /* PROPS */
