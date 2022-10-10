@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\ReceivedDate;
 use Illuminate\Support\Facades\Auth;
 
 class OrderStatusController extends Controller
@@ -73,6 +74,13 @@ class OrderStatusController extends Controller
         $order = Order::find($id);
         $order->status = $request->status;
         $order->save();
+
+        if($request->status == 4){
+            ReceivedDate::create([
+                'order_id' => $order->id,
+                'received_by' => Auth::id()
+            ]);
+        }
 
         return response()->json($order, 200);
     }

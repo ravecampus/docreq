@@ -24,7 +24,7 @@
                             <tbody>
                                 <tr v-for="(cart, index) in oncarts" :key="index">
                                     <td class="col-md-6">
-                                        <img class="img-thumbnail img-cart" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
+                                        <img class="img-thumbnail img-icon" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
                                         <div>
                                             <strong>{{ cart.item_name }}</strong>
                                             <div class="small ml-1">{{truncate(cart.description , 150, '...' ) }}</div>

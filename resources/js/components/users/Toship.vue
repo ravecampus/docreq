@@ -50,7 +50,7 @@
                         <div class="col-md-3 border-sm-start-none border-start">
                             <div class="d-flex flex-row align-items-center mb-1">
                                 Total: &nbsp;
-                                <h4 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h4>
+                                <h5 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h5>
                             
                             </div>
                             <div class="d-flex flex-row align-items-center mb-1">
@@ -189,7 +189,7 @@ export default {
             });
         },
         setStatus(data){
-            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
         },
     },
     mounted(){

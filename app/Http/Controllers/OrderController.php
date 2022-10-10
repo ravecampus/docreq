@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ItemUserPurpose;
+use App\Models\OrderPurpose;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -65,6 +66,13 @@ class OrderController extends Controller
 
         $checkout = $request->checkout;
         $purp = $request->purpose;
+        foreach ($purp as $val) {
+            OrderPurpose::create([
+                'user_id' =>  Auth::id(),
+                'purpose_id' => $val['purpose_id'],
+                'order_id' =>  $order->id
+            ]);
+        }
         foreach ($checkout as $value) {
             OrderItem::create([
                 'image' => $value['image'],

@@ -22,7 +22,7 @@
                   <div class="list-group-item" v-for="(chk ,index) in forCheckout" :key="index">
                       <div class="row">
                             <div class="col-md-3 col-sm-3">
-                            <img  class="img-thumbnail img-cart" :src="chk.image == null ? '/img/logo.png' :'../storage/items/'+chk.image">
+                            <img  class="img-thumbnail img-icon" :src="chk.image == null ? '/img/logo.png' :'../storage/items/'+chk.image">
                             <div> 
                                <strong> {{ chk.item_name }}</strong>
 
@@ -88,8 +88,8 @@
                                            
                                             <div class="form-group">
                                                 <label>Purpose</label>
-                                                <ul class="list-group">
-                                                    <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
+                                                <ul class="list-group list-group-flush border-top">
+                                                    <li class="list-group-item p-0 mt-1" v-for="(lst,idx) in purposes" :key="idx">
                                                         <input type="checkbox" v-model="other_info.purpose[lst.id]" @change="purposeSuggest(other_info.purpose[lst.id], lst.id)"> &nbsp;
                                                         <label> {{ lst.name }}</label>
                                                     </li>

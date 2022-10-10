@@ -14,7 +14,7 @@
                                 <tr v-for = "(list, index) in items" :key="index" class="linkTable">
                                     
                                     <td>
-                                        <img class="img-thumbnail w-25" :src="list.image == null ? '/img/logo.png' :'../storage/items/'+list.image"/>
+                                        <img class="img-thumbnail img-icon" :src="list.image == null ? '/img/logo.png' :'../storage/items/'+list.image"/>
                                         &nbsp;<a href="#" @click="itemIcon(list)">
                                             <i class="fa fa-edit"></i>
                                         </a>
@@ -25,11 +25,11 @@
                                     <td>{{ list.note }}</td>
                                     <td>
                                         <a class="small" @click="showAPurpose(list.id)" href="#">add</a>
-                                        <ul class="list-group">
-                                            <li class="list-group-item" v-for="(ls,idx) in list.purpose" :key="idx">
+                                        <ul class="list-group list-group-flush border-top">
+                                            <li class="list-group-item p-1 mt-1" v-for="(ls,idx) in list.purpose" :key="idx">
                                                 <u>{{ xtractPurpose(ls.purpose_id) }}
 
-                                                <a class="small" @click="showRPurpose(ls)" href="#"><span class="fa fa-trash"></span></a>
+                                                <a class="small pull-right" @click="showRPurpose(ls)" href="#"><span class="fa fa-times"></span></a>
                                                 </u>
                                             </li>
                                         </ul>
@@ -93,8 +93,8 @@
                                 </div>
                                 <div class="form-group" v-if="post.id == null">
                                     <label>Purpose</label>
-                                    <ul class="list-group">
-                                        <li class="list-group-item" v-for="(lst,idx) in purposes" :key="idx">
+                                    <ul class="list-group list-group-flush border-top">
+                                        <li class="list-group-item p-0 mt-1" v-for="(lst,idx) in purposes" :key="idx">
                                     
                                             <input type="checkbox" v-model="other_post.purpose[lst.id]"> &nbsp;
                                             <label> {{ lst.name }}</label>
@@ -323,6 +323,7 @@ export default {
                     this.$axios.put('api/items/'+this.post.id, this.post).then(res=>{
                         this.btn_save = "Save";
                         this.post = {};
+                        this.other_post.purpose = [];
                         this.errors = [];
                         this.btn_dis = false;
                         $('.items').modal('hide');
@@ -335,6 +336,7 @@ export default {
                     this.$axios.post('api/items', this.post).then(res=>{
                         this.btn_save = "Save";
                         this.post = {};
+                        this.other_post.purpose = [];
                         this.errors = [];
                         this.btn_dis = false;
                         $('.items').modal('hide');

@@ -40,7 +40,12 @@ class Order extends Model
     }
 
     public function purpose(){
-        return $this->hasMany(ItemUserPurpose::class, 'order_id', 'id');
+        return $this->hasMany(OrderPurpose::class, 'order_id', 'id');
+    }
+
+    public function received_date()
+    {
+        return $this->hasOne(ReceivedDate::class, 'order_id', 'id');
     }
 
     

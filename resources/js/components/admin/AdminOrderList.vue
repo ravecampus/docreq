@@ -37,15 +37,15 @@
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
-                                    <p><strong>{{ setStatus(list.status) }}</strong></p>
-                                
+                                    <p><strong>{{ list.status == 3 ? deliveryOpt(list.delivery_option) : setStatus(list.status) }}</strong></p>
+                                    <p class="text-warning">RECEIVED DATE: <strong>{{ formatDate(list.received_date.created_at) }}</strong> </p>
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 1">
-                                    <p><strong>Approved & Packed</strong></p>
+                                    <p><strong>To Approved</strong></p>
                                     <button type="button" @click="shippedStatus(list,2)" class="btn btn-primary">{{ btn_ship }}</button>
                                 </div>
                                 <div class="col-md-12" v-if="list.status == 2">
-                                    <p><strong>to Depart</strong></p>
+                                    <p><strong>To Depart</strong></p>
                                     <button type="button" @click="shippedStatus(list,3)" class="btn btn-primary">Shipped</button>
                                 </div>
                             </div>    
@@ -184,7 +184,7 @@ export default {
             });
         },
         setStatus(data){
-            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED" : ( data== 3) ? " ": ( data== 4) ? "RECEIVED": "CANCELED";
         },
         currentEnr(num){
             return num == 1 ? 'Yes' : 'No';
@@ -205,6 +205,9 @@ export default {
                 
             });
             return ret;
+        },
+        deliveryOpt(num){
+            return num == 1 ? 'FOR DELIVERY' : 'FOR PICK UP';
         }
     },
     mounted(){

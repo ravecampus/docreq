@@ -41,7 +41,7 @@
                             <span class="text-primary"> ({{ list.mobile_number }})</span>
                             </div>
                             <div class="mb-1 mb-0 text-muted small">
-                            <span><strong>{{ setStatus(list.status) }}</strong> <i>({{ deliveryOpt(list.delivery_option) }})</i></span>
+                            <span><strong>{{ deliveryOpt(list.delivery_option) }}</strong></span>
                             <div class="text-success">Requested date: {{ formatDate(list.created_at) }} </div>
                             </div>
                             
@@ -50,7 +50,7 @@
                         <div class="col-md-3 border-sm-start-none border-start">
                             <div class="d-flex flex-row align-items-center mb-1">
                                 Total: &nbsp;
-                                <h4 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h4>
+                                <h5 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h5>
                             
                             </div>
                             <div class="d-flex flex-row align-items-center mb-1">
@@ -192,7 +192,7 @@ export default {
             });
         },
         setStatus(data){
-            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
+            return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? " ": ( data== 4) ? "RECEIVED": "CANCELED";
         },
         toReceived(data){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{

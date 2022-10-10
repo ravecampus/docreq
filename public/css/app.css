@@ -378,6 +378,11 @@ a {
   margin-bottom: 50px;
 }
 
+.img-icon {
+  width: 100px !important;
+  height: 100px !important;
+}
+
 .body-item {
   display: flex;
   justify-content: center;

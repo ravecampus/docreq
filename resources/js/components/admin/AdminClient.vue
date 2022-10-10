@@ -31,7 +31,7 @@
                                        
                                     </td>
                                     <td>
-                                        <p class="small"><strong>List of :</strong></p>
+                                        <!-- <p class="small"><strong>List of :</strong></p> -->
                                         <ul class="list-group">
                                             <li class="list-group-item" v-for="(ls,idx) in list.address_book" :key="idx">
                                                 <strong>{{ ls.first_name }} {{ ls.middle_name }} {{ ls.last_name }}</strong>

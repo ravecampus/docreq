@@ -47,7 +47,7 @@
                         <div class="col-md-3 border-sm-start-none border-start">
                             <div class="d-flex flex-row align-items-center mb-1">
                                 Total: &nbsp;
-                                <h4 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h4>
+                                <h5 class="mb-1 me-1">&#8369; {{ formatAmount(list.total) }}</h5>
                             
                             </div>
                             <div class="d-flex flex-row align-items-center mb-1">
@@ -75,11 +75,7 @@
                     @next="listOfOrder(pagination.nextPageUrl)"
                     v-show="noData(orders)">
                 </pagination>
-            </div>
-        
-
-                        
-                            
+            </div>           
             </div>    
         </div>
    </div>

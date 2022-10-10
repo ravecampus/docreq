@@ -13,7 +13,7 @@
                             <tbody>
                                 <tr v-for = "(list, index) in purposes" :key="index" class="linkTable">
                                     
-                                    <td><strong>{{ list.name }} </strong></td>
+                                    <td>{{ list.name }}</td>
                                     <!-- <td>{{ list.email }}</td> -->
                                     <td>
                                         <div class="btn-group pull-right">
