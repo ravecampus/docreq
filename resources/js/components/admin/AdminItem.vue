@@ -482,10 +482,11 @@ export default {
         $(this.$refs.items).on('hidden.bs.modal',()=> {
             this.errors = [];
             this.post = {};
+            this.other_post.purpose = [];
         });
         this.listOfItems();
         this.listOfPurpose();
-       
+            
     },
 
 }

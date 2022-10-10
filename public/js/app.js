@@ -20698,6 +20698,7 @@ __webpack_require__.r(__webpack_exports__);
     $(this.$refs.items).on('hidden.bs.modal', function () {
       _this8.errors = [];
       _this8.post = {};
+      _this8.other_post.purpose = [];
     });
     this.listOfItems();
     this.listOfPurpose();
