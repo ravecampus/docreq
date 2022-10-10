@@ -33062,7 +33062,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "card mb-1",
         key: idx
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-        "class": "img-thumbnail img-cart",
+        "class": "img-thumbnail img-icon",
         src: lst.image == null ? '/img/logo.png' : '../../storage/items/' + lst.image
       }, null, 8
       /* PROPS */
