@@ -69,7 +69,7 @@ class BookAddressController extends Controller
             'mobile_number' => $request->mobile_number,
             'street' => $request->street,
             'province' => $request->province,
-            'note' => $request->note,
+            // 'note' => $request->note,
             'city_or_municipality' => $request->city_or_municipality,
             'barangay' => $request->barangay,
             'user_id' => Auth::id()
@@ -127,7 +127,7 @@ class BookAddressController extends Controller
         $book->last_name = $request->last_name;
         $book->street = $request->street;
         $book->province = $request->province;
-        $book->note = $request->note;
+        // $book->note = $request->note;
         $book->city_or_municipality = $request->city_or_municipality;
         $book->barangay = $request->barangay;
         $book->user_id = Auth::id();

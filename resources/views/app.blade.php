@@ -27,6 +27,7 @@
     ];
     @endphp
 @endif
+
 <script>
     window.Laravel = JSON.parse(atob('{{ base64_encode(json_encode($user_auth_data)) }}'));
 </script>

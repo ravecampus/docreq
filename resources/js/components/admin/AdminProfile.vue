@@ -94,6 +94,7 @@ export default {
                     this.btn_a = "Save"
                     this.post = res.data
                     this.errors = [];
+                    this.$emit('admess',{'message':'Profile has been Modified!', 'status':6});
                 }).catch(err=>{
                     this.btn_a = "Save"
                     this.errors = err.response.data.errors;
@@ -107,6 +108,7 @@ export default {
                     this.errors1 = [];
                     this.btn_b = "Save"
                     this.post = res.data
+                    this.$emit('admess',{'message':'Email has been Modified!', 'status':6});
                 }).catch(err=>{
                     this.btn_b = "Save"
                     this.errors1 = err.response.data.errors;
@@ -120,6 +122,7 @@ export default {
                     this.btn_c = "Save"
                     this.post = res.data
                     this.errors2 = [];
+                    this.$emit('admess',{'message':'Password has been Changed!', 'status':6});
                 }).catch(err=>{
                     this.btn_c = "Save"
                     this.errors2 = err.response.data.errors;

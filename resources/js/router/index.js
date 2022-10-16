@@ -2,6 +2,7 @@ import {createWebHistory, createRouter} from "vue-router";
 import Home from '../components/Home';
 import Login from '../components/Login';
 import Signup from '../components/Signup';
+import Top from '../components/Top';
 import Search from '../components/search/Result';
 
 import Items from '../components/items/Product';
@@ -60,6 +61,11 @@ export const routes = [
                 path:'checkout',
                 name:'checkout',
                 component: Checkout
+            },
+            {
+                name: 'top',
+                path: '/top-requested-docs',
+                component: Top
             },
         ]
 
@@ -193,6 +199,7 @@ export const routes = [
         path: '/new-password/:id/:token',
         component: NewPassword
     },
+    
     {
         name: 'login',
         path: '/login',
@@ -220,7 +227,8 @@ const openRoutes = [
     'cart', 
     'checkout',
     'resetpassword',
-    'newpassword'
+    'newpassword',
+    'top'
     // 'notfound',
 ];
 

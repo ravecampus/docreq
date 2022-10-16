@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="wrapper d-flex align-items-stretch">
+        <flashmessage :message="message" :status="status"></flashmessage>
         <nav id="sidebar">
             <div class="custom-menu d-print-none">
                     <button type="button" id="sidebarCollapse" class="btn btn-primary">
@@ -50,18 +51,24 @@
 
         <!-- Page Content  -->
         
-        <router-view></router-view>
+        <router-view @admess="Message"></router-view>
         
         </div>
     </div>
 </template>
 
 <script>
+import FlashMessage from './../FlashMessage.vue';
 export default {
+    components:{
+        flashmessage: FlashMessage,
+    },
     data(){
         return {
             user:{},
-            title:''
+            message:'',
+            title:'',
+            status:''
         }
     },
     methods:{
@@ -74,9 +81,34 @@ export default {
                         } 
                     })
                     .catch(function (error) {
-                        console.error(error);
+                     
                     });
             })
+        },
+        showMessage(data){
+            this.message = data.message;
+            if(data.status == 1){
+                this.status = 'alert-success';
+            }else if(data.status == 2){
+                this.status = 'alert-warning';
+            }else if(data.status == 3){
+                this.status = 'alert-danger';
+            }else if(data.status == 4){
+                this.status = 'alert-secondary';
+            }else if(data.status == 5){
+                this.status = 'alert-dark';
+            }else if(data.status == 6){
+                this.status = 'alert-light';
+            }else if(data.status == 7){
+                this.status = 'alert-primary';
+            }
+            $('.fm-body').show();
+            setTimeout(() => {
+                $('.fm-body').fadeOut("slow");
+            }, 3000);
+        },
+        Message(data){
+             this.showMessage(data)
         },
     },
     mounted() {

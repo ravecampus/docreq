@@ -28,15 +28,15 @@
                         <div class="col-md-12">
                             <h4>Just for you</h4>
                         </div>
-                        <div class="col-md-12 box-loading" v-if="items.length == 0">
+                        <div class="col-md-12 box-loading" v-if="loading">
                             <div class="line"></div>
                             <div class="line"></div>
                             <div class="line"></div>
                             <div class="line"></div>
                         </div> 
                         
-                        <div v-for="(item, index) in getUniq.slice(0, 2)" :key="index" class="body-item wo-pad">
-                            <div class="item item-recomend">
+                        <div v-for="(item, index) in getUniq.slice(0, 2)" :key="index"  class="body-item wo-pad">
+                            <div class="item item-recomend"  v-if="!loading">
                                 <img class="img-item" :src="'/img/default.png'"/>
                             
                                 <div class="item-description">
@@ -79,7 +79,7 @@
                     <div class="col-md-12">
                         <h4>Documents</h4>
                     </div>
-                    <div class="col-md-12 box-loading" v-if="items.length == 0">
+                    <div class="col-md-12 box-loading" v-if="loading_">
                         <div class="line"></div>
                         <div class="line"></div>
                         <div class="line"></div>
@@ -87,7 +87,7 @@
                     </div> 
                     
                     <div v-for="(item, index) in items" :key="index" class="body-item wo-pad">
-                        <div class="item">
+                        <div class="item" v-if="!loading_">
                             <img class="img-item" :src="item.image == null ? '/img/logo.png' :'../storage/items/'+item.image"/>
                            
                             <div class="item-description">
@@ -110,6 +110,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card">
+                            <div class="card-body text-center" v-if="items.length <= 0">
+                                No Documents Found!
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,6 +135,8 @@ export default {
     },
     data(){
         return{
+            loading:true,
+            loading_:true,
             items:[],
             carts:[],
             recommends:[],
@@ -159,10 +166,12 @@ export default {
         listOfItem(url='api/item/'){
             axios.get('sanctum/csrf-cookie').then(response => {
                 this.tableData.draw ++;
+                this.loading_ = true;
                 axios.get(url,{params:this.tableData}).then(res=>{
                 let data = res.data;
                     if(this.tableData.draw == data.draw){
                         this.items  = data.data.data;
+                        this.loading_ = false;
                         this.configPagination(data.data);
                     }else{
                         this.not_found = true;
@@ -244,6 +253,7 @@ export default {
         saveToLocal(data){
             // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            this.$emit('show',{'message':'Document has been added to your Cart!', 'status':6});
             this.cartSave({'js_data':JSON.stringify(data)});
         },
         onCart(){
@@ -274,7 +284,10 @@ export default {
             });
         },
         formatAmount(num){
-            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return num.toLocaleString(undefined, {maximumFractionDigits:2});
         },
         cartSave(data){
               this.$axios.get('/sanctum/csrf-cookie').then(response => {
@@ -287,7 +300,9 @@ export default {
         },
         loadRecommend(){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.loading = true;
                 this.$axios.get('api/purpose/recommend').then(res=>{
+                    this.loading = false;
                     this.recommends = res.data;
                     // console.log(this.recommends)
                 });

@@ -129,7 +129,7 @@
                     </div>
                     <div class="modal-footer">
                             <div class="btn-group">
-                            <button type="button" :disabled="btn_dis"  @click="saveAddressBook()"  class="btn btn-primary ">{{ btn_save }}</button>
+                            <button type="button" :disabled="btn_dis"  @click="saveAddressBook()"  class="btn btn-success ">{{ btn_save }}</button>
                             <button type="button" data-dismiss="modal"  class="btn btn-default">Cancel</button>
                         </div>
                     </div>
@@ -229,6 +229,7 @@ export default {
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.$axios.delete('api/address-book/'+this.post.id).then(res=>{
                     this.post = {};
+                    this.$emit('note',{'message':'Address Book has been Deleted!', 'status':6});
                     $('.delete-address-book').modal('hide');
                     this.listOfaAddressBook();
                 });
@@ -245,6 +246,7 @@ export default {
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
+                        this.$emit('note',{'message':'Address Book has been Modified!', 'status':6});
                         $('.address-book').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";
@@ -257,6 +259,7 @@ export default {
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
+                         this.$emit('note',{'message':'Address Book has been Saved!', 'status':6});
                         $('.address-book').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";

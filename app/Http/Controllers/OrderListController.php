@@ -15,7 +15,7 @@ class OrderListController extends Controller
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
-        $query = Order::with('order_items','payment', 'purpose','received_date')
+        $query = Order::with('order_items','payment', 'purpose','received_date', 'other_purpose')
             ->join('users', 'users.id', '=', 'orders.user_id')
             ->join('payments', 'payments.order_id', '=', 'orders.id')
             ->orderBy('orders.'.$columns[$column], $dir);
@@ -40,7 +40,7 @@ class OrderListController extends Controller
         $archive = $request->archive;
         $searchValue = $request->search;
         $userid = Auth::id();
-        $query = Order::with('order_items', 'payment', 'received_date')->where('status','!=', 6)->where('status','!=', 4)->where('user_id', $userid)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items', 'payment', 'received_date','other_purpose')->where('status','!=', 6)->where('status','!=', 4)->where('user_id', $userid)->orderBy($columns[$column], $dir);
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){

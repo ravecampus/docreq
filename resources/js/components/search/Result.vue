@@ -183,6 +183,7 @@ export default {
         saveToLocal(data){
             // localStorage.setItem('oncart', window.btoa(unescape(encodeURIComponent(JSON.stringify(data)))));
             this.$emit('cartcount', data);
+            this.$emit('show',{'message':'Document has been added to your Cart!', 'status':6});
             this.cartSave({'js_data':JSON.stringify(data)});
         },
         onCart(){
@@ -221,7 +222,10 @@ export default {
             });
         },
         formatAmount(num){
-            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return num.toLocaleString(undefined, {maximumFractionDigits:2});
         },
         cartSave(data){
               this.$axios.get('/sanctum/csrf-cookie').then(response => {

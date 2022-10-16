@@ -1,5 +1,5 @@
 <template>
-    <div class="container mar-main">
+    <div class="container mar-main mb-5">
         <div class="row">
             <div class="col-12 grid-margin">
                 <div class="card mt-5" v-if="oncarts.length == 0">
@@ -23,7 +23,7 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(cart, index) in oncarts" :key="index">
-                                    <td class="col-md-6">
+                                    <td class="col-md-6 d-flex justify-content-between">
                                         <img class="img-thumbnail img-icon" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
                                         <div>
                                             <strong>{{ cart.item_name }}</strong>
@@ -152,7 +152,10 @@ export default {
             return this.formatAmount(wper);
         },
         formatAmount(num){
-            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return num.toLocaleString(undefined, {maximumFractionDigits:2});
         },
         totalPrice(data){
             let subtotal_ = 0;
@@ -163,7 +166,6 @@ export default {
             });
             return subtotal;
         },
-     
         removeFromCart(id){
             this.oncarts.forEach((val, index)=>{
                 if(id == val.item_id){

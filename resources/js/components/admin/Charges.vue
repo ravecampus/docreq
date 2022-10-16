@@ -73,6 +73,7 @@ export default {
                 this.$axios.put('api/charges/delivery/'+this.delivery.id, this.delivery).then(res=>{
                     this.btn_delivery = "Set up";
                     this.btn_del = false;
+                    this.$emit('admess',{'message':'Standard Delivery Fee has been Saved!', 'status':6});
                 }).then(err=>{
                     this.btn_delivery = "Set up";
                     this.btn_del = false;

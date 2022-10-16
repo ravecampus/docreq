@@ -301,6 +301,7 @@ export default {
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.$axios.delete('api/items/'+this.post.id).then(res=>{
                     this.post = {};
+                    this.$emit('admess',{'message':'Item has been Deleted!', 'status':6});
                     $('.delete-item').modal('hide');
                     this.listOfItems();
                 });
@@ -326,6 +327,7 @@ export default {
                         this.other_post.purpose = [];
                         this.errors = [];
                         this.btn_dis = false;
+                          this.$emit('admess',{'message':'Item has been Modefied!', 'status':6});
                         $('.items').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";
@@ -339,6 +341,7 @@ export default {
                         this.other_post.purpose = [];
                         this.errors = [];
                         this.btn_dis = false;
+                          this.$emit('admess',{'message':'Item has been Saved!', 'status':6});
                         $('.items').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";

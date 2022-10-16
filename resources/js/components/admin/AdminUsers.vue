@@ -255,6 +255,7 @@ export default {
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
+                         this.$emit('admess',{'message':'User has been Modified!', 'status':6});
                         $('.users').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";
@@ -267,6 +268,7 @@ export default {
                         this.post = {};
                         this.errors = [];
                         this.btn_dis = false;
+                        this.$emit('admess',{'message':'User has been Saved!', 'status':6});
                         $('.users').modal('hide');
                     }).catch(err=>{
                         this.btn_save = "Save";

@@ -34,6 +34,10 @@
                                 <h6>{{ list.delivery_address }} </h6>
                                 <small>Purposes : &nbsp;</small>
                                 <i v-for="(ls, id) in list.purpose" :key="id" ><u>{{ xtractPurpose(ls.purpose_id) }},</u> &nbsp;</i>
+                               <div>
+                                    <small v-if="list.other_purpose != null">Other purpose:&nbsp;</small>
+                                    <i v-if="list.other_purpose != null"> {{ list.other_purpose.description}}</i>
+                               </div>
                                 <div class="mb-1 mb-0 text-muted small">
                                     <span>ORDER #: <strong> {{ list.trucking_number }}</strong></span>
                                     <p class="text-success">ORDER DATE: <strong>{{ formatDate(list.created_at) }}</strong> </p>
@@ -171,13 +175,16 @@ export default {
         },
 
         formatAmount(num){
-            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
         shippedStatus(data,num){
             this.$axios.get('sanctum/crsf-cookie').then(response=>{
                 // this.btn_ship = "Setting up...";
                 this.$axios.put('api/order-status/action/'+data.order_id,{'status':num}).then(res=>{
-                    this.$emit('note',{'message':"Status has been Changed ", 'status':2});
+                    this.$emit('admess',{'message':"Status has been Changed ", 'status':2});
                     this.listOfOders();
                     // this.btn_ship = "Approved"
                 });

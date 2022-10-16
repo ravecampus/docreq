@@ -54,13 +54,14 @@ $main:#036413;
     padding: 0rem 1rem;
 }
 
-// .mar-main{
-//     margin-top: 170px;
-//     @include mobile{
-//         margin-top: 260px;
-//         transition: 0.5s;
-//     }
-// }
+.mar-main{
+    min-height: 350px;
+    // margin-top: 170px;
+    // @include mobile{
+    //     margin-top: 260px;
+    //     transition: 0.5s;
+    // }
+}
 .main-body{
     .container-fluid{
         .seller{

@@ -36,6 +36,10 @@ a {
   padding: 0rem 1rem;
 }
 
+.mar-main {
+  min-height: 350px;
+}
+
 .main-body {
   margin-top: 210px;
 }
@@ -371,6 +375,18 @@ a {
     background: rgba(165, 165, 165, 0.1);
   }
 }
+.app-main {
+  min-height: 430px;
+}
+
+.bg-footer {
+  background: #036413;
+}
+.bg-footer .bg-sub {
+  background: #1f1f1f;
+  color: #fff;
+}
+
 .items-main {
   background: #ffffff;
   border: 1px solid #f3f3f3;

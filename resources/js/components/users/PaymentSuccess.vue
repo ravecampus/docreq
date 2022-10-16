@@ -66,7 +66,10 @@ export default {
             });
         },
         formatAmount(num){
-            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
         printReceipt(){
             window.print();

@@ -17,7 +17,7 @@ class ItemPurposeController extends Controller
     {
         $item = ItemPurpose::select('items.*','item_purpose.purpose_id')
         ->join('items', 'items.id', '=', 'item_purpose.item_id')
-        ->where('item_purpose.purpose_id', $request->id)->paginate(3);
+        ->where('item_purpose.purpose_id', $request->id)->paginate(10);
         return response()->json($item, 200);
     }
 

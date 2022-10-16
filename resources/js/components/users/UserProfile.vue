@@ -185,6 +185,7 @@ export default {
                 this.btn_a = "Saving ..."
                 this.$axios.post('api/user/fillup', this.post).then(res=>{
                     this.btn_a = "Save"
+                    this.$emit('note',{'message':'Profile has been Modified!', 'status':6});
                     this.post = res.data
                     this.errors = [];
                 }).catch(err=>{
@@ -199,6 +200,7 @@ export default {
                 this.$axios.post('api/user/email', this.post).then(res=>{
                     this.errors1 = [];
                     this.btn_b = "Save"
+                    this.$emit('note',{'message':'Email has been Modified!', 'status':6});
                     this.post = res.data
                 }).catch(err=>{
                     this.btn_b = "Save"
@@ -212,6 +214,7 @@ export default {
                 this.$axios.post('api/user/password', this.post).then(res=>{
                     this.btn_c = "Save"
                     this.post = res.data
+                    this.$emit('note',{'message':'Password has been Changed!', 'status':6});
                     this.errors2 = [];
                 }).catch(err=>{
                     this.btn_c = "Save"

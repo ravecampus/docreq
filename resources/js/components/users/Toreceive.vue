@@ -169,7 +169,10 @@ export default {
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
         formatAmount(num){
-            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
         formatDate(da){
             let d = new Date(da);
@@ -199,7 +202,7 @@ export default {
                 // this.btn_cap = "Proccessing..."
                 this.$axios.put('api/order-status/action/'+ data.id,{'status':4}).then(res=>{
                     this.btn_cap = "Orders Receive"
-                    // this.$emit('note',{'message':"Status has been Changed ", 'status':2});
+                    this.$emit('note',{'message':"Status has been Changed ", 'status':6});
                     this.$router.push({name:'received'});
                 });
             });

@@ -1,5 +1,5 @@
 <template>
-    <div class="container mar-main"> 
+    <div class="container mar-main mb-5"> 
         <div class="row">
             <div class="col-md-7">
               <div class="list-group list-group-flush">
@@ -94,6 +94,12 @@
                                                         <label> {{ lst.name }}</label>
                                                     </li>
                                                 </ul>
+                                                <div class="form-group border-top mt-1">
+                                                    <input type="checkbox" v-model="other_info.other_purpose" @change="checkOP(other_info.other_purpose)"> &nbsp;
+                                                    <label>other:</label>
+                                                    <textarea v-if="txtDis" class="form-control h-100" v-model="other_info.description"></textarea>
+                                                     <span class="errors-material" v-if="errors.description">{{errors.description[0]}}</span>
+                                                </div>
                                                 <span class="errors-material" v-if="errors.purpose">{{errors.purpose[0]}}</span>
                                             </div>
                                         </div>
@@ -105,8 +111,6 @@
                                        <div class="col-md-12">
                                             <h5><strong>DELIVERY INFORMATION</strong></h5>
                                             <div class="list-group list-group-flush">
-                                                
-                                          
                                                 <div class="list-group-item">
                                                     Delivery to:
                                                     <a class="text-primary" @click="showAddress()" href="#"><i class="fa fa-plus"></i></a>
@@ -126,7 +130,7 @@
                                                     Email Address : <strong>{{ user.email }}</strong>
                                                 </div>
                                                 <div class="list-group-item">
-                                                    <button type="button" @click="placeOrder()" class="btn btn-success">{{ place_order }}</button>
+                                                    <button type="button" :disabled="btndis" @click="placeOrder()" class="btn btn-success">{{ place_order }}</button>
                                                 </div>
                                             </div>
                                        </div>
@@ -418,16 +422,16 @@
             </div>
         </div>
 
-        <div class="modal doc-suggest">
-            <div class="modal-dialog modal-lg">
+        <div class="modal doc-suggest" ref="suggest">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-body">
                        <div class="row">
                             <div class="col-md-12">
-                                    <h4>Recommended Documents</h4>
+                                <h4 class="text-center">Recommended Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
-                                    <div class="col-md-12 box-loading" v-if="recommends.length <= 0">
+                                    <div class="col-md-12 box-loading" v-if="loading">
                                         <div class="line"></div>
                                         <div class="line"></div>
                                         <div class="line"></div>
@@ -435,7 +439,7 @@
                                     </div> 
                                     
                                     <div v-for="(item, index) in recommends" :key="index" class="body-item wo-pad">
-                                        <div class="item item-recomend">
+                                        <div class="item item-recomend" v-if="!loading">
                                             <img class="img-item" :src="'/img/default.png'"/>
                                         
                                             <div class="item-description">
@@ -459,19 +463,77 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card" v-if="recommends.length <= 0 & !loading">
+                                        <div class="card-body text-center">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                       No Documents Founds!
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="table-footer pull-right">
+                                            <pagination :pagination="pagination"
+                                                @prev="loadSuggested(pagination.prevPageUrl,purpose_id)"
+                                                @next="loadSuggested(pagination.nextPageUrl,purpose_id)"
+                                                v-show="noData(recommends)"
+                                                >
+                                            </pagination>
+                                        </div>
+                                    </div>
                                      
                                 </div>
                             </div>
+                        
                             <div class="col-md-12">
-                                <div class="table-footer pull-right">
-                                    <pagination :pagination="pagination"
-                                        @prev="loadSuggested(pagination.prevPageUrl,purpose_id)"
-                                        @next="loadSuggested(pagination.nextPageUrl,purpose_id)"
-                                        v-show="noData(recommends)"
-                                        >
-                                    </pagination>
+                                <h4 class="text-center">Most Requested Documents</h4>
+                                <div class="d-flex flex-wrap justify-content-around items-main">
+        
+                                    <div class="col-md-12 box-loading" v-if="loading_">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div> 
+                                    
+                                    <div v-for="(item, index) in getUniq.slice(0, 5)" :key="index" class="body-item wo-pad">
+                                        <div class="item item-recomend" v-if="!loading_">
+                                            <img class="img-item" :src="'/img/default.png'"/>
+                                        
+                                            <div class="item-description">
+                                                <div class="item-title">
+                                                    <a href="">{{  item.item_name }}</a>
+                                                
+                                                </div>
+                                                <p>{{  truncate(item.description, 20,'...') }}</p>
+                                                <div class="item-price">&#8369;
+                                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
+                                                
+                                                    </div>
+                                                <div class="item-discount"></div>
+                                                <div class="on-cart-ov">
+                                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart"> Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="star-item">
+                                                <div class="item-region">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card" v-if="getUniq.slice(0, 10).length <= 0 & !loading_">
+                                        <div class="card-body text-center">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                       No Documents Founds!
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div>
                                 </div>
                             </div>
+                           
                        </div>
                     </div>
                 </div>
@@ -509,10 +571,15 @@ export default {
     },
     data(){
         return {
+            btndis:false,
+            txtDis:false,
+            loading: true,
+            loading_: true,
             purpose_id:0,
             oaddrs:{},
             deliveryOpt:0,
             recommends:[],
+            mostrequest:[],
             forCheckout:[],
             list_item:[],
             payment:{},
@@ -561,7 +628,7 @@ export default {
         },
         getUniq() {
             let ret = [];
-            ret =  this.recommends.reduce((seed, current) => {
+            ret =  this.mostrequest.reduce((seed, current) => {
                 return Object.assign(seed, {
                 [current.id]: current
                 });
@@ -715,6 +782,8 @@ export default {
             this.to_order = this.addr
             this.to_order.checkout = data;
             this.to_order.delivery_option = this.other_info.delivery_option;
+            this.to_order.description = this.other_info.description;
+            this.to_order.other_purpose = this.other_info.other_purpose;
             this.to_order.request_detail = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();
@@ -736,13 +805,18 @@ export default {
             if(this.to_order.barangay != undefined){
                 this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
             }
+
+            // console.log(this.to_order)
           
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.errors = [];
+                this.btndis = true;
                 this.$axios.post('api/order', this.to_order).then(res=>{
+                    this.btndis = false;
                     this.place_order = 'Place Order';
                     this.cartSave({'js_data': {}});
                     this.$emit('cartcount', []);
+                    this.$emit('show',{'message':'Order has been successfully Placed!', 'status':6})
                     this.$router.push({name:'payment', params:{'order_id':res.data.id}});
                 }).catch(err=>{
                     this.place_order = 'Place Order';
@@ -867,7 +941,10 @@ export default {
             });
         },
         formatAmount(num){
-            return num.toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return num.toLocaleString(undefined, {maximumFractionDigits:2});
         },
         cartSave(data){
               this.$axios.get('/sanctum/csrf-cookie').then(response => {
@@ -887,7 +964,7 @@ export default {
         },
         purposeSuggest(data, id){
             if(data){
-                this.loadSuggested('api/item-purpose', id);
+                this.loadSuggested('api/item-purpose', id)
                 $('.doc-suggest').modal('show');
             }
         },
@@ -899,13 +976,14 @@ export default {
             return content.length > length ? content.slice(0, length) + clamp : content;
         },
         loadSuggested(url='api/item-purpose', id){
+            this.loading = true;
             this.$axios.get('sactum/csrf-cookie').then(response=>{
                 this.$axios.get(url,{params:{'id':id}}).then(res=>{
-                    
                     let data = res.data;
                     this.purpose_id = id;
-                    this.recommends = data.data;
-                
+                    // this.recommends = data.data;
+                    this.extractList(data.data);
+                    this.loading = false;
                     this.configPagination(data);
                 });
             });
@@ -928,7 +1006,6 @@ export default {
                 // this.modalLogin();
                 return;
             }
-          
             if(this.forCheckout.length > 0){
               let cn =  this.forCheckout.filter(res=>res.item_id == data.id);
             //   console.log(cn[0])
@@ -941,7 +1018,7 @@ export default {
                     let idx = this.forCheckout.indexOf(item);
                     this.forCheckout[idx].quantity = result;      
                     this.saveToLocal(this.forCheckout);
-                    this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+                    this.$emit('show',{'message':'Document has been added to your order!', 'status':1});
 
               }else{
                    this.item = {
@@ -955,7 +1032,7 @@ export default {
                 };
                 this.forCheckout.push(this.item);
                 this.saveToLocal(this.forCheckout);
-                this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+                this.$emit('show',{'message':'Document has been added to your order!', 'status':1});
 
               }
         
@@ -971,14 +1048,45 @@ export default {
                 };
                 this.forCheckout.push(this.item);
                 this.saveToLocal(this.forCheckout);
-                this.$emit('show',{'message':'Document has been added to your order!', 'status':6});
+                this.$emit('show',{'message':'Document has been added to your order!', 'status':1});
             }
-            
+
+            this.loadSuggested('api/item-purpose', data.purpose_id)
         },
         OptDelivery(num){
             this.deliveryOpt = num;
-        }
+        },
+        extractList(data){
+            this.forCheckout.forEach(val => {
+                this.spliceData(data, val);
+            });
+        },
+        spliceData(data, data_){
+            let ret = data;
+            ret.forEach((val,index) => {
+                if(data_.item_id == val.id){
+                    ret.splice(index, 1);
+                }
+            });
+            this.recommends = ret;
+        },
+        checkOP(data){
+            if(data){
+                this.txtDis = true;
+            }else{
+                this.txtDis = false;
+            }
+        }, 
+        loadMostReq(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.loading_ = true;
+                this.$axios.get('api/purpose/recommend').then(res=>{
+                    this.loading_ = false;
+                    this.mostrequest = res.data;
+                });
+            });
 
+        },
 
     },
     mounted(){
@@ -990,10 +1098,14 @@ export default {
             this.getChargesDelivery();
             this.getauthBookAddress();
             this.listOfPurpose();
+            this.loadMostReq();
           
          
         },1000);
       
+        $(this.$refs.suggest).on('hidden.bs.modal',()=> {
+            this.recommends = [];
+        });
        
         if(window.Laravel.isLoggedin){
             this.user = window.Laravel.user;

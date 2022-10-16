@@ -48,5 +48,10 @@ class Order extends Model
         return $this->hasOne(ReceivedDate::class, 'order_id', 'id');
     }
 
+    public function other_purpose()
+    {
+        return $this->hasOne(OtherPurpose::class, 'order_id', 'id');
+    }
+
     
 }

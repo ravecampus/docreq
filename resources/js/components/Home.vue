@@ -22,11 +22,14 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                              <ul class="navbar-nav ml-auto" v-if="auth">
                                 <li class="nav-item">
-                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name == null" >@{{ user.email }}</router-link>
-                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name != null">@{{ user.first_name }} {{ user.middle_name }} {{ user.last_name }}</router-link>
+                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name == null" >(@{{ user.email }})</router-link>
+                                    <router-link :to="{name:'userprofile'}" class="nav-link" v-if="user.first_name != null">(@{{ user.first_name }} {{ user.middle_name }} {{ user.last_name }})</router-link>
                                 </li>
                                 <li class="nav-item">
                                     <router-link :to="{name:'request'}" class="nav-link" >Dashboard</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link :to="{name:'top'}" class="nav-link" >Top-10</router-link>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a id="navbarDrop1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,7 +50,9 @@
                                 </li>
                             </ul>
                             <ul class="navbar-nav ml-auto"  v-if="!auth">
-                               
+                               <li class="nav-item">
+                                    <router-link :to="{name:'top'}" class="nav-link" >Top-10</router-link>
+                                </li>
                                 <li class="nav-item">
                                     <router-link :to="{name:'login'}" class="nav-link" >Login</router-link>
                                 </li>
@@ -110,6 +115,7 @@
                     </div>
                 </div>
             </div> -->
+       
 
         </div>
 </template>

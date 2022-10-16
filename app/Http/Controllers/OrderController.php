@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\ItemUserPurpose;
 use App\Models\OrderPurpose;
+use App\Models\OtherPurpose;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -39,12 +40,25 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'delivery_info'=>'required',
-            'purpose'=>'required',
-            'delivery_option'=>'required',
-            'request_detail'=>'required',
-        ]);
+        $chk = $request->other_purpose;
+        if($chk){
+            $request->validate([
+                'delivery_info'=>'required',
+                'delivery_option'=>'required',
+                'request_detail'=>'required',
+                'description'=>'required',
+            ]);
+    
+        }else{
+            $request->validate([
+                'delivery_info'=>'required',
+                'purpose'=>'required',
+                'delivery_option'=>'required',
+                'request_detail'=>'required',
+            ]);
+        }
+       
+
         $order = Order::create([
             'full_name' => $request->delivery_info,
             'mobile_number' => $request->mobile_number,
@@ -73,6 +87,14 @@ class OrderController extends Controller
                 'order_id' =>  $order->id
             ]);
         }
+
+        if($chk){
+            OtherPurpose::create([
+                'order_id' => $order->id,
+                'description' => $request->description
+            ]);
+        }
+       
         foreach ($checkout as $value) {
             OrderItem::create([
                 'image' => $value['image'],

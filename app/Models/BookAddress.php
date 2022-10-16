@@ -11,7 +11,6 @@ class BookAddress extends Model
 
     protected $table = 'book_address';
     protected $fillable = [
-      
         'first_name',
         'middle_name',
         'last_name',

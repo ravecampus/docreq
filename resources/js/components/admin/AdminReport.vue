@@ -386,7 +386,10 @@ export default {
             return data == undefined ? true : (data.length > 0) ? true : false;
         },
         formatAmount(num){
-            return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
+            let num_ = Number(num);
+            let val = (num_/1).toFixed(2).replace(',', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            // return Number(num).toLocaleString(undefined, {maximumFractionDigits:2});
         },
         setStatus(data){
             return (data == 0) ? "TO PAY" : (data == 1) ? "ON PROCESS" : (data==2) ? "APPROVED & PACKED TO SHIP" : ( data== 3) ? "DEPARTED": ( data== 4) ? "RECEIVED": "CANCELED";
