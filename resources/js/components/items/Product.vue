@@ -145,6 +145,9 @@
                                 
                                     </div>
                                 <div class="item-discount"></div>
+                                <div class="on-cart-ov">
+                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart"> Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                </div>
                               
                             </div>
                             <div class="star-item">

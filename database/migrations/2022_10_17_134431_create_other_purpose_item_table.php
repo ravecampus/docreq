@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOtherPurposeTable extends Migration
+class CreateOtherPurposeItemTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateOtherPurposeTable extends Migration
      */
     public function up()
     {
-        Schema::create('other_purpose', function (Blueprint $table) {
+        Schema::create('other_purpose_item', function (Blueprint $table) {
             $table->id();
-            // $table->integer('item_id')->nullable();
+            $table->integer('item_id')->nullable();
             $table->integer('order_id')->nullable();
-            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateOtherPurposeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('other_purpose');
+        Schema::dropIfExists('other_purpose_item');
     }
 }

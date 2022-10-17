@@ -70,5 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('purpose/list', [PurposeController::class, 'listPurpose']);
     Route::resource('purpose', PurposeController::class);
     Route::resource('item-purpose', ItemPurposeController::class);
+    Route::get('others', [PurposeController::class, 'otherAlsoReq']);
   
 });

@@ -96,7 +96,7 @@
                                                 </ul>
                                                 <div class="form-group border-top mt-1">
                                                     <input type="checkbox" v-model="other_info.other_purpose" @change="checkOP(other_info.other_purpose)"> &nbsp;
-                                                    <label>other:</label>
+                                                    <label>others:</label>
                                                     <textarea v-if="txtDis" class="form-control h-100" v-model="other_info.description"></textarea>
                                                      <span class="errors-material" v-if="errors.description">{{errors.description[0]}}</span>
                                                 </div>
@@ -487,7 +487,7 @@
                             </div>
                         
                             <div class="col-md-12">
-                                <h4 class="text-center">Others Requested Documents</h4>
+                                <h4 class="text-center">Most Requested Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
                                     <div class="col-md-12 box-loading" v-if="loading_">
@@ -546,18 +546,18 @@
                     <div class="modal-body">
                        <div class="row">
                             <div class="col-md-12">
-                                <h4 class="text-center">Others Requested Documents</h4>
+                                <h4 class="text-center">Others Also Requested Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
-                                    <div class="col-md-12 box-loading" v-if="loading_">
+                                    <div class="col-md-12 box-loading" v-if="loading_o">
                                         <div class="line"></div>
                                         <div class="line"></div>
                                         <div class="line"></div>
                                         <div class="line"></div>
                                     </div> 
                                     
-                                    <div v-for="(item, index) in getUniq.slice(0, 5)" :key="index" class="body-item wo-pad">
-                                        <div class="item item-recomend" v-if="!loading_">
+                                    <div v-for="(item, index) in others" :key="index" class="body-item wo-pad">
+                                        <div class="item item-recomend" v-if="!loading_o">
                                             <img class="img-item" :src="'/img/default.png'"/>
                                         
                                             <div class="item-description">
@@ -581,7 +581,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card" v-if="getUniq.slice(0, 10).length <= 0 & !loading_">
+                                    <div class="card" v-if="getUniq.slice(0, 10).length <= 0 & !loading_o">
                                         <div class="card-body text-center">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -634,10 +634,12 @@ export default {
             txtDis:false,
             loading: true,
             loading_: true,
+            loading_o: true,
             purpose_id:0,
             oaddrs:{},
             deliveryOpt:0,
             recommends:[],
+            others:[],
             mostrequest:[],
             forCheckout:[],
             list_item:[],
@@ -880,6 +882,7 @@ export default {
                     this.$router.push({name:'payment', params:{'order_id':res.data.id}});
                 }).catch(err=>{
                     this.place_order = 'Place Order';
+                    this.btndis = false;
                     this.errors = err.response.data.errors;
                 });
             });
@@ -1149,6 +1152,16 @@ export default {
 
         },
 
+        othersRequest(){
+            this.$axios.get('sanctum/csrf-cookie').then(response=>{
+                this.loading_o = true;
+                this.$axios.get('api/others').then(res=>{
+                    this.loading_o = false;
+                    this.others = res.data;
+                });
+            });
+        }
+
     },
     mounted(){
       
@@ -1160,7 +1173,7 @@ export default {
             this.getauthBookAddress();
             this.listOfPurpose();
             this.loadMostReq();
-          
+            this.othersRequest();
          
         },1000);
       

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Purpose;
 use App\Models\Item;
 use App\Models\ItemUserPurpose;
+use App\Models\OtherPurposeItem;
+
 use Illuminate\Support\Facades\DB;
 
 class PurposeController extends Controller
@@ -121,6 +123,15 @@ class PurposeController extends Controller
         $itmuspur = ItemUserPurpose::join('items', 'items.id', '=', 'item_user_purpose.item_id')
         ->select('image','description','item_id as id','price', 'purpose_id','item_name','note', DB::raw( 'count(purpose_id) as rate'))
         ->groupBy('item_id', 'purpose_id')->orderBy('rate','desc')
+        ->get();
+
+        return response()->json($itmuspur, 200);
+    }
+
+    public function otherAlsoReq(){
+        $itmuspur = OtherPurposeItem::join('items', 'items.id', '=', 'other_purpose_item.item_id')
+        ->select('image','description','item_id as id','price','item_name','note', DB::raw( 'count(item_id) as rate'))
+        ->groupBy('item_id')->orderBy('rate','desc')
         ->get();
 
         return response()->json($itmuspur, 200);

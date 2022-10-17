@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use App\Models\ItemUserPurpose;
 use App\Models\OrderPurpose;
 use App\Models\OtherPurpose;
+use App\Models\OtherPurposeItem;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -106,6 +107,13 @@ class OrderController extends Controller
                 'quantity' => $value['quantity'],
                 'order_id' => $order->id,
             ]);
+
+            if($chk){
+                OtherPurposeItem::create([
+                    'order_id' => $order->id,
+                    'item_id' => $value['item_id']
+                ]);
+            }
             
             foreach ($purp as $val) {
                 ItemUserPurpose::create([
