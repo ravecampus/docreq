@@ -87,7 +87,7 @@
                                             </div>
                                            
                                             <div class="form-group">
-                                                <label>Purpose</label>
+                                                <label><strong>Purpose:</strong></label>
                                                 <ul class="list-group list-group-flush border-top">
                                                     <li class="list-group-item p-0 mt-1" v-for="(lst,idx) in purposes" :key="idx">
                                                         <input type="checkbox" v-model="other_info.purpose[lst.id]" @change="purposeSuggest(other_info.purpose[lst.id], lst.id)"> &nbsp;
@@ -422,7 +422,7 @@
             </div>
         </div>
 
-        <div class="modal doc-suggest" ref="suggest">
+        <div class="modal fade doc-suggest" ref="suggest">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -487,7 +487,66 @@
                             </div>
                         
                             <div class="col-md-12">
-                                <h4 class="text-center">Most Requested Documents</h4>
+                                <h4 class="text-center">Others Requested Documents</h4>
+                                <div class="d-flex flex-wrap justify-content-around items-main">
+        
+                                    <div class="col-md-12 box-loading" v-if="loading_">
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                        <div class="line"></div>
+                                    </div> 
+                                    
+                                    <div v-for="(item, index) in getUniq.slice(0, 5)" :key="index" class="body-item wo-pad">
+                                        <div class="item item-recomend" v-if="!loading_">
+                                            <img class="img-item" :src="'/img/default.png'"/>
+                                        
+                                            <div class="item-description">
+                                                <div class="item-title">
+                                                    <a href="">{{  item.item_name }}</a>
+                                                
+                                                </div>
+                                                <p>{{  truncate(item.description, 20,'...') }}</p>
+                                                <div class="item-price">&#8369;
+                                                    {{ formatAmount(paymentCharges(item.price == null ? 0 : item.price )) }}
+                                                
+                                                    </div>
+                                                <div class="item-discount"></div>
+                                                <div class="on-cart-ov">
+                                                    <button type="button" @click="addToCart(item)" class="btn btn-sm btn-on-cart"> Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                                </div>
+                                            </div>
+                                            <div class="star-item">
+                                                <div class="item-region">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card" v-if="getUniq.slice(0, 10).length <= 0 & !loading_">
+                                        <div class="card-body text-center">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                       No Documents Founds!
+                                                </div>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                </div>
+                            </div>
+                           
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade doc-other" ref="docother">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body">
+                       <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="text-center">Others Requested Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
                                     <div class="col-md-12 box-loading" v-if="loading_">
@@ -720,6 +779,7 @@ export default {
                 }
             });
             this.saveToLocal(this.forCheckout);
+             this.$emit('show',{'message':'Item has been Removed!', 'status':6})
             $('.remove-item').modal('hide');
             if(this.forCheckout.length <= 0){
                 this.$router.push({name:'items'});
@@ -1073,6 +1133,7 @@ export default {
         checkOP(data){
             if(data){
                 this.txtDis = true;
+                $('.doc-other').modal('show');
             }else{
                 this.txtDis = false;
             }

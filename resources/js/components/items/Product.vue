@@ -119,6 +119,52 @@
                 </div>
             </div>
 
+            <div class="col-md-12" v-if="getUniq.slice(0, 5).length > 0">
+                <h4 class="text-center text-success">Most Requested Documents</h4>
+                <div class="d-flex flex-wrap justify-content-around items-main">
+
+                    <div class="col-md-12 box-loading" v-if="loading_">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div> 
+                    
+                    <div v-for="(item, index) in getUniq.slice(0, 10)" :key="index" class="body-item wo-pad">
+                        <div class="item item-recomend" v-if="!loading_">
+                            <img class="img-item" :src="'/img/default.png'"/>
+                        
+                            <div class="item-description">
+                                <div class="item-title">
+                                    <a href="">{{  item.item_name }}</a>
+                                
+                                </div>
+                                <p>{{  truncate(item.description, 40,'...') }}</p>
+                                <div class="item-price">&#8369;
+                                    {{ formatAmount(item.price) }}
+                                
+                                    </div>
+                                <div class="item-discount"></div>
+                              
+                            </div>
+                            <div class="star-item">
+                                <div class="item-region">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" v-if="getUniq.slice(0, 5).length <= 0 & !loading_">
+                        <div class="card-body text-center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                        No Documents Founds!
+                                </div>
+                            </div>
+                        </div>   
+                    </div>      
+                </div>
+            </div>
+
         </div>
         <modlogin></modlogin>
     </div>

@@ -23,28 +23,29 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(cart, index) in oncarts" :key="index">
-                                    <td class="col-md-6 d-flex justify-content-between">
-                                        <img class="img-thumbnail img-icon" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
-                                        <div>
-                                            <strong>{{ cart.item_name }}</strong>
-                                            <div class="small ml-1">{{truncate(cart.description , 150, '...' ) }}</div>
+                                    <td class="col-md-4">
+                                        <!-- <div class="d-flex justify-content-between"> -->
+                                            <img class="img-thumbnail img-icon" :src="cart.image == null ? '/img/logo.png' :'../storage/items/'+cart.image">
+                                            <div>
+                                                <strong>{{ cart.item_name }}</strong>
+                                                <div class="small ml-1">{{truncate(cart.description , 150, '...' ) }}</div>
+                                            </div>
+                                        <!-- </div> -->
+                                    </td>
+                                    <td class="col-md-3">
+                                        <div class="group-quantit-btn">
+                                            <button type="button" @click="deductQuantity(cart)" class="btn btn-default btn-sm d-inline-block"><i class="fa fa-minus"></i></button>
+                                            <input type="text" :value="cart.quantity" readonly>
+                                            <button type="button" @click="addQuantity(cart)" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
+                                            <!-- <span class="mt-1 tiny-label">Only {{ extractQuantity(cart) }} items left</span> -->
                                         </div>
-                                        
                                     </td>
-                                    <td class="col-md-2">
-                                    <div class="group-quantit-btn ">
-                                        <button type="button" @click="deductQuantity(cart)" class="btn btn-default btn-sm d-inline-block"><i class="fa fa-minus"></i></button>
-                                        <input type="text" :value="cart.quantity" readonly>
-                                        <button type="button" @click="addQuantity(cart)" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
-                                        <!-- <span class="mt-1 tiny-label">Only {{ extractQuantity(cart) }} items left</span> -->
-                                    </div>
-                                    </td>
-                                    <td class="col-md-2  "> 
+                                    <td class="col-md-2 "> 
                                         <div class="btn-group text-center">
                                             <button type="buttton" @click="removeFromCart(cart.item_id)" class="btn btn-sm btn-warning "><i class="fa fa-remove"></i> remove</button>
                                         </div>
                                     </td>
-                                    <td class="col-md-2"><strong>&#8369; {{ priceWithQuantity(cart) }}</strong></td>
+                                    <td class="col-md-3"><strong>&#8369; {{ priceWithQuantity(cart) }}</strong></td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">

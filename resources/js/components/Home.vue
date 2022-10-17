@@ -28,9 +28,9 @@
                                 <li class="nav-item">
                                     <router-link :to="{name:'request'}" class="nav-link" >Dashboard</router-link>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <router-link :to="{name:'top'}" class="nav-link" >Top-10</router-link>
-                                </li>
+                                </li> -->
                                 <li class="nav-item dropdown">
                                     <a id="navbarDrop1" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <!-- <i class="fa fa-gear"></i>  -->
@@ -50,9 +50,9 @@
                                 </li>
                             </ul>
                             <ul class="navbar-nav ml-auto"  v-if="!auth">
-                               <li class="nav-item">
+                               <!-- <li class="nav-item">
                                     <router-link :to="{name:'top'}" class="nav-link" >Top-10</router-link>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <router-link :to="{name:'login'}" class="nav-link" >Login</router-link>
                                 </li>
@@ -229,7 +229,7 @@ export default {
             $('.fm-body').show();
             setTimeout(() => {
                 $('.fm-body').fadeOut("slow");
-            }, 3000);
+            }, 500);
         },
         logout(){
             this.$axios.get('/sanctum/csrf-cookie').then(response => {

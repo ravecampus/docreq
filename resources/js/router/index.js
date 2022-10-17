@@ -62,11 +62,11 @@ export const routes = [
                 name:'checkout',
                 component: Checkout
             },
-            {
-                name: 'top',
-                path: '/top-requested-docs',
-                component: Top
-            },
+            // {
+            //     name: 'top',
+            //     path: '/top-requested-docs',
+            //     component: Top
+            // },
         ]
 
     },
@@ -228,7 +228,7 @@ const openRoutes = [
     'checkout',
     'resetpassword',
     'newpassword',
-    'top'
+    // 'top'
     // 'notfound',
 ];
 

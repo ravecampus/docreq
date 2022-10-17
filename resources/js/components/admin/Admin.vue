@@ -105,7 +105,7 @@ export default {
             $('.fm-body').show();
             setTimeout(() => {
                 $('.fm-body').fadeOut("slow");
-            }, 3000);
+            }, 500);
         },
         Message(data){
              this.showMessage(data)
