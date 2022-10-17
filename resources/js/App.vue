@@ -17,6 +17,11 @@
 
 <script>
 export default {
+    data(){
+        return{
+            title:'',
+        }
+    },
     mounted(){
           this.title = window.Title.app_name;
     }
