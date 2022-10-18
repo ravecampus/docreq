@@ -487,7 +487,7 @@
                             </div>
                         
                             <div class="col-md-12">
-                                <h4 class="text-center">Most Requested Documents</h4>
+                                <h4 class="text-center">Others Also Requested Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
                                     <div class="col-md-12 box-loading" v-if="loading_">
