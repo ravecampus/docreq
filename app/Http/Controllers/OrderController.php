@@ -81,13 +81,13 @@ class OrderController extends Controller
 
         $checkout = $request->checkout;
         $purp = $request->purpose;
-        foreach ($purp as $val) {
+        // foreach ($purp as $val) {
             OrderPurpose::create([
                 'user_id' =>  Auth::id(),
-                'purpose_id' => $val['purpose_id'],
+                'purpose_id' => $purp,
                 'order_id' =>  $order->id
             ]);
-        }
+        // }
 
         if($chk){
             OtherPurpose::create([
@@ -115,14 +115,14 @@ class OrderController extends Controller
                 ]);
             }
             
-            foreach ($purp as $val) {
+            // foreach ($purp as $val) {
                 ItemUserPurpose::create([
                     'user_id' =>  Auth::id(),
                     'item_id' =>  $value['item_id'],
-                    'purpose_id' => $val['purpose_id'],
+                    'purpose_id' => $purp,
                     'order_id' =>  $order->id
                 ]);
-            }
+            // }
            
 
         }

@@ -90,16 +90,19 @@
                                                 <label><strong>Purpose:</strong></label>
                                                 <ul class="list-group list-group-flush border-top">
                                                     <li class="list-group-item p-0 mt-1" v-for="(lst,idx) in purposes" :key="idx">
-                                                        <input type="checkbox" v-model="other_info.purpose[lst.id]" @change="purposeSuggest(other_info.purpose[lst.id], lst.id)"> &nbsp;
+                                                        <input type="radio" v-model="other_info.purpose" :value="lst.id" @change="purposeSuggest(other_info.purpose, lst.id)"> &nbsp;
                                                         <label> {{ lst.name }}</label>
                                                     </li>
                                                 </ul>
                                                 <div class="form-group border-top mt-1">
-                                                    <input type="checkbox" v-model="other_info.other_purpose" @change="checkOP(other_info.other_purpose)"> &nbsp;
+                                                    <input type="radio" v-model="other_info.purpose" :value="0" @change="checkOP(other_info.purpose)"> &nbsp;
                                                     <label>others:</label>
-                                                    <textarea v-if="txtDis" class="form-control h-100" v-model="other_info.description"></textarea>
-                                                     <span class="errors-material" v-if="errors.description">{{errors.description[0]}}</span>
+                                                    <textarea v-if="txtDis" placeholder="Description" class="form-control h-100" v-model="other_info.description"></textarea>
+                                                    <button v-if="txtDis" type="button" @click="submitOther()" class="btn btn-primary btn-sm mt-2">Submit</button>
+                                                   
                                                 </div>
+                                                <span class="errors-material" v-if="errors.description">{{errors.description[0]}}</span>
+                                                <hr>
                                                 <span class="errors-material" v-if="errors.purpose">{{errors.purpose[0]}}</span>
                                             </div>
                                         </div>
@@ -472,7 +475,7 @@
                                             </div>
                                         </div>   
                                     </div>
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <div class="table-footer pull-right">
                                             <pagination :pagination="pagination"
                                                 @prev="loadSuggested(pagination.prevPageUrl,purpose_id)"
@@ -481,7 +484,7 @@
                                                 >
                                             </pagination>
                                         </div>
-                                    </div>
+                                    </div> -->
                                      
                                 </div>
                             </div>
@@ -546,7 +549,7 @@
                     <div class="modal-body">
                        <div class="row">
                             <div class="col-md-12">
-                                <h4 class="text-center">Others Also Requested Documents</h4>
+                                <h4 class="text-center">Other Related Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
                                     <div class="col-md-12 box-loading" v-if="loading_o">
@@ -581,7 +584,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card" v-if="getUniq.slice(0, 10).length <= 0 & !loading_o">
+                                    <div class="card" v-if="others.length <= 0 & !loading_o">
                                         <div class="card-body text-center">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -845,18 +848,18 @@ export default {
             this.to_order.checkout = data;
             this.to_order.delivery_option = this.other_info.delivery_option;
             this.to_order.description = this.other_info.description;
-            this.to_order.other_purpose = this.other_info.other_purpose;
+            this.to_order.other_purpose = this.txtDis ;
             this.to_order.request_detail = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
             this.to_order.grand_total = this.grandTotal();
             this.to_order.delivery_fee = this.deliveryOpt == 1 ? this.deliveryCharges() : 0;
             let pur =[];
-            this.other_info.purpose.forEach((val,indx)=>{
-                if(val == true){
-                    pur.push({'purpose_id':indx});
-                }
-            });
-            this.to_order.purpose = pur;
+            // this.other_info.purpose.forEach((val,indx)=>{
+            //     if(val == true){
+            //         pur.push({'purpose_id':indx});
+            //     }
+            // });
+            this.to_order.purpose = this.other_info.purpose;
             
             if(this.to_order.first_name != undefined){
                 this.to_order.delivery_info = this.to_order.first_name + ' '+this.to_order.middle_name+' '+this.to_order.last_name;
@@ -868,7 +871,7 @@ export default {
                 this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
             }
 
-            // console.log(this.to_order)
+            console.log(this.to_order)
           
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.errors = [];
@@ -1027,6 +1030,8 @@ export default {
         },
         purposeSuggest(data, id){
             if(data){
+                this.errors = [];
+                this.txtDis = false;
                 this.loadSuggested('api/item-purpose', id)
                 $('.doc-suggest').modal('show');
             }
@@ -1115,6 +1120,7 @@ export default {
             }
 
             this.loadSuggested('api/item-purpose', data.purpose_id)
+            this.othersRequest();
         },
         OptDelivery(num){
             this.deliveryOpt = num;
@@ -1134,13 +1140,23 @@ export default {
             this.recommends = ret;
         },
         checkOP(data){
-            if(data){
+            if(data == 0){
                 this.txtDis = true;
-                $('.doc-other').modal('show');
+                // $('.doc-other').modal('show');
             }else{
                 this.txtDis = false;
             }
         }, 
+        submitOther(){
+             this.errors = [];
+             if(this.other_info.description == null){
+                this.errors = {'description': ["The description field is required."]};
+             }else{
+                 this.othersRequest();
+                $('.doc-other').modal('show');
+             }
+            // 
+        },
         loadMostReq(){
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.loading_ = true;
@@ -1157,10 +1173,25 @@ export default {
                 this.loading_o = true;
                 this.$axios.get('api/others').then(res=>{
                     this.loading_o = false;
-                    this.others = res.data;
+                    this.extractListOthers(res.data);
                 });
             });
-        }
+        },
+        extractListOthers(data){
+            this.forCheckout.forEach(val => {
+                this.spliceDataOthers(data, val);
+            });
+        },
+        spliceDataOthers(data, data_){
+            console.log(data, data_)
+            let ret = data;
+            ret.forEach((val,index) => {
+                if(data_.item_id == val.id){
+                    ret.splice(index, 1);
+                }
+            });
+            this.others = ret;
+        },
 
     },
     mounted(){
