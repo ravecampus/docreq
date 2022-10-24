@@ -22763,8 +22763,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     submitOther: function submitOther() {
       this.errors = [];
+      console.log(this.other_info.description);
 
-      if (this.other_info.description == null) {
+      if (this.other_info.description == null || this.other_info.description == "") {
         this.errors = {
           'description': ["The description field is required."]
         };
