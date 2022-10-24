@@ -22432,9 +22432,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.to_order.barangay != undefined) {
         this.to_order.delivery_address = this.to_order.street + ', ' + this.to_order.barangay + ', ' + this.to_order.city_or_municipality + ', ' + this.to_order.province;
-      }
+      } // console.log(this.to_order)
 
-      console.log(this.to_order);
+
       this.$axios.get('sanctum/csrf-cookie').then(function (response) {
         _this8.errors = [];
         _this8.btndis = true;
@@ -22619,6 +22619,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (data) {
         this.errors = [];
         this.txtDis = false;
+        this.loadMostReq();
         this.loadSuggested('api/item-purpose', id);
         $('.doc-suggest').modal('show');
       }
@@ -22732,6 +22733,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.loadSuggested('api/item-purpose', data.purpose_id);
       this.othersRequest();
+      this.loadMostReq();
     },
     OptDelivery: function OptDelivery(num) {
       this.deliveryOpt = num;
@@ -22780,7 +22782,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         _this17.$axios.get('api/purpose/recommend').then(function (res) {
           _this17.loading_ = false;
-          _this17.mostrequest = res.data;
+          console.log(res.data);
+
+          _this17.extractListMost(res.data);
         });
       });
     },
@@ -22805,7 +22809,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     spliceDataOthers: function spliceDataOthers(data, data_) {
-      console.log(data, data_);
       var ret = data;
       ret.forEach(function (val, index) {
         if (data_.item_id == val.id) {
@@ -22813,30 +22816,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
       this.others = ret;
+    },
+    extractListMost: function extractListMost(data) {
+      var _this20 = this;
+
+      this.forCheckout.forEach(function (val) {
+        _this20.spliceDataMost(data, val);
+      });
+    },
+    spliceDataMost: function spliceDataMost(data, data_) {
+      var ret = data;
+      ret.forEach(function (val, index) {
+        if (data_.item_id == val.id) {
+          ret.splice(index, 1);
+        }
+      });
+      this.mostrequest = ret;
     }
   },
   mounted: function mounted() {
-    var _this20 = this;
+    var _this21 = this;
 
     setTimeout(function () {
-      _this20.onCart();
+      _this21.onCart();
 
-      _this20.listItem();
+      _this21.listItem();
 
-      _this20.getChargesPayment();
+      _this21.getChargesPayment();
 
-      _this20.getChargesDelivery();
+      _this21.getChargesDelivery();
 
-      _this20.getauthBookAddress();
+      _this21.getauthBookAddress();
 
-      _this20.listOfPurpose();
+      _this21.listOfPurpose();
 
-      _this20.loadMostReq();
+      _this21.loadMostReq();
 
-      _this20.othersRequest();
+      _this21.othersRequest();
     }, 1000);
     $(this.$refs.suggest).on('hidden.bs.modal', function () {
-      _this20.recommends = [];
+      _this21.recommends = [];
     });
 
     if (window.Laravel.isLoggedin) {
@@ -30872,7 +30891,7 @@ var _hoisted_258 = {
 
 var _hoisted_259 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
   "class": "text-center"
-}, "Others Also Requested Documents", -1
+}, "Other Related Documents", -1
 /* HOISTED */
 );
 

@@ -490,7 +490,7 @@
                             </div>
                         
                             <div class="col-md-12">
-                                <h4 class="text-center">Others Also Requested Documents</h4>
+                                <h4 class="text-center">Other Related Documents</h4>
                                 <div class="d-flex flex-wrap justify-content-around items-main">
         
                                     <div class="col-md-12 box-loading" v-if="loading_">
@@ -871,7 +871,7 @@ export default {
                 this.to_order.delivery_address = this.to_order.street + ', '+this.to_order.barangay+', '+this.to_order.city_or_municipality+', '+this.to_order.province;
             }
 
-            console.log(this.to_order)
+            // console.log(this.to_order)
           
             this.$axios.get('sanctum/csrf-cookie').then(response=>{
                 this.errors = [];
@@ -1032,6 +1032,7 @@ export default {
             if(data){
                 this.errors = [];
                 this.txtDis = false;
+                this.loadMostReq();
                 this.loadSuggested('api/item-purpose', id)
                 $('.doc-suggest').modal('show');
             }
@@ -1121,6 +1122,7 @@ export default {
 
             this.loadSuggested('api/item-purpose', data.purpose_id)
             this.othersRequest();
+            this.loadMostReq();
         },
         OptDelivery(num){
             this.deliveryOpt = num;
@@ -1162,7 +1164,8 @@ export default {
                 this.loading_ = true;
                 this.$axios.get('api/purpose/recommend').then(res=>{
                     this.loading_ = false;
-                    this.mostrequest = res.data;
+                    console.log(res.data)
+                    this.extractListMost(res.data);
                 });
             });
 
@@ -1183,7 +1186,6 @@ export default {
             });
         },
         spliceDataOthers(data, data_){
-            console.log(data, data_)
             let ret = data;
             ret.forEach((val,index) => {
                 if(data_.item_id == val.id){
@@ -1192,6 +1194,22 @@ export default {
             });
             this.others = ret;
         },
+
+        extractListMost(data){
+            this.forCheckout.forEach(val => {
+                this.spliceDataMost(data, val);
+            });
+        },
+        spliceDataMost(data, data_){
+            let ret = data;
+            ret.forEach((val,index) => {
+                if(data_.item_id == val.id){
+                    ret.splice(index, 1);
+                }
+            });
+            this.mostrequest = ret;
+        },
+
 
     },
     mounted(){
