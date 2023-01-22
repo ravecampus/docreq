@@ -22412,7 +22412,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.to_order.other_purpose = this.txtDis;
       this.to_order.request_detail = this.user.first_name;
       this.to_order.total = this.totalPrice(data);
-      this.to_order.grand_total = this.grandTotal();
+      this.to_order.grand_total = this.deliveryOpt == 1 ? this.grandTotal() : this.totalPrice(data);
       this.to_order.delivery_fee = this.deliveryOpt == 1 ? this.deliveryCharges() : 0;
       var pur = []; // this.other_info.purpose.forEach((val,indx)=>{
       //     if(val == true){
@@ -31170,7 +31170,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.to_order.delivery_charges]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Grand Total: ₱ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAmount($options.grandTotal())), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.to_order.delivery_charges]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Grand Total: ₱ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.deliveryOpt == 2 ? $options.formatAmount($options.totalPrice($data.forCheckout)) : $options.formatAmount($options.grandTotal())), 1
   /* TEXT */
   )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.first_name) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.middle_name) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.user.last_name) + " ", 1
   /* TEXT */

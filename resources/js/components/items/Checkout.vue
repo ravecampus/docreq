@@ -65,7 +65,7 @@
                                             <input type="hidden" v-model="to_order.delivery_charges" >
                                         </div>
                                         <div class="list-group-item">
-                                           <strong>Grand Total: &#8369; {{ formatAmount(grandTotal()) }}</strong>
+                                           <strong>Grand Total: &#8369; {{ deliveryOpt == 2 ? formatAmount(totalPrice(forCheckout)) : formatAmount(grandTotal()) }}</strong>
                                         </div>
                                     </div>
 
@@ -851,7 +851,7 @@ export default {
             this.to_order.other_purpose = this.txtDis ;
             this.to_order.request_detail = this.user.first_name;
             this.to_order.total = this.totalPrice(data);
-            this.to_order.grand_total = this.grandTotal();
+            this.to_order.grand_total = this.deliveryOpt == 1? this.grandTotal() : this.totalPrice(data);
             this.to_order.delivery_fee = this.deliveryOpt == 1 ? this.deliveryCharges() : 0;
             let pur =[];
             // this.other_info.purpose.forEach((val,indx)=>{
