@@ -35851,7 +35851,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  // import timeago from 'vue-timeago3'
 
 window.Title = {
-  'app_name': "USM - Online Document Request System"
+  'app_name': "ARO-Document Request Recommender System"
 };
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.withCredentials) = true;
 (axios__WEBPACK_IMPORTED_MODULE_2___default().defaults.baseURL) = '/';
