@@ -22784,8 +22784,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this17.$axios.get('api/purpose/recommend').then(function (res) {
           _this17.loading_ = false;
           console.log(res.data);
-
-          _this17.extractListMost(res.data);
+          _this17.mostrequest = res.data; // this.extractListMost(res.data);
         });
       });
     },
@@ -22818,12 +22817,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.others = ret;
     },
+    extractUniq: function extractUniq(data) {
+      return this.extractListMost(data);
+    },
     extractListMost: function extractListMost(data) {
       var _this20 = this;
 
+      var ret = [];
       this.forCheckout.forEach(function (val) {
-        _this20.spliceDataMost(data, val);
+        ret = _this20.spliceDataMost(data, val);
       });
+      return ret;
     },
     spliceDataMost: function spliceDataMost(data, data_) {
       var ret = data;
@@ -22832,7 +22836,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           ret.splice(index, 1);
         }
       });
-      this.mostrequest = ret;
+      return ret;
     }
   },
   mounted: function mounted() {
@@ -31591,7 +31595,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , _hoisted_250)])]), _hoisted_254])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128
   /* KEYED_FRAGMENT */
-  )), $data.recommends.length <= 0 & !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_255, _hoisted_257)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-12\">\r\n                                        <div class=\"table-footer pull-right\">\r\n                                            <pagination :pagination=\"pagination\"\r\n                                                @prev=\"loadSuggested(pagination.prevPageUrl,purpose_id)\"\r\n                                                @next=\"loadSuggested(pagination.nextPageUrl,purpose_id)\"\r\n                                                v-show=\"noData(recommends)\"\r\n                                                >\r\n                                            </pagination>\r\n                                        </div>\r\n                                    </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [_hoisted_259, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [$data.loading_ ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_261, _hoisted_266)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getUniq.slice(0, 5), function (item, index) {
+  )), $data.recommends.length <= 0 & !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_255, _hoisted_257)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-12\">\r\n                                        <div class=\"table-footer pull-right\">\r\n                                            <pagination :pagination=\"pagination\"\r\n                                                @prev=\"loadSuggested(pagination.prevPageUrl,purpose_id)\"\r\n                                                @next=\"loadSuggested(pagination.nextPageUrl,purpose_id)\"\r\n                                                v-show=\"noData(recommends)\"\r\n                                                >\r\n                                            </pagination>\r\n                                        </div>\r\n                                    </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [_hoisted_259, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [$data.loading_ ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_261, _hoisted_266)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.extractUniq($options.getUniq).slice(0, 5), function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "body-item wo-pad"

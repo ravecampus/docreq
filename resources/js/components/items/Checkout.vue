@@ -500,7 +500,7 @@
                                         <div class="line"></div>
                                     </div> 
                                     
-                                    <div v-for="(item, index) in getUniq.slice(0, 5)" :key="index" class="body-item wo-pad">
+                                    <div v-for="(item, index) in extractUniq(getUniq).slice(0, 5)" :key="index" class="body-item wo-pad">
                                         <div class="item item-recomend" v-if="!loading_">
                                             <img class="img-item" :src="'/img/default.png'"/>
                                         
@@ -1166,7 +1166,8 @@ export default {
                 this.$axios.get('api/purpose/recommend').then(res=>{
                     this.loading_ = false;
                     console.log(res.data)
-                    this.extractListMost(res.data);
+                    this.mostrequest = res.data;
+                    // this.extractListMost(res.data);
                 });
             });
 
@@ -1195,20 +1196,26 @@ export default {
             });
             this.others = ret;
         },
-
+        extractUniq(data){
+            return this.extractListMost(data);
+        },
         extractListMost(data){
+            let ret = [];
             this.forCheckout.forEach(val => {
-                this.spliceDataMost(data, val);
+                ret = this.spliceDataMost(data, val);
             });
+
+            return ret;
         },
         spliceDataMost(data, data_){
+
             let ret = data;
             ret.forEach((val,index) => {
                 if(data_.item_id == val.id){
                     ret.splice(index, 1);
                 }
             });
-            this.mostrequest = ret;
+           return ret;
         },
 
 
