@@ -35,10 +35,10 @@
                             <span>{{ list.email }}</span>
                             <span class="text-primary">  </span>
                             </div>
-                            <div class="mb-2 text-muted small">
-                            <strong>{{ list.full_name }}</strong>&nbsp;
-                            <span>{{ list.delivery_address }}</span>&nbsp;
-                            <span class="text-primary"> ({{ list.mobile_number }})</span>
+                            <div class="mb-2 text-muted small" v-if="list.delivery_option == 1">
+                                <strong>{{ list.full_name }}</strong>&nbsp;
+                                <span>{{ list.delivery_address }}</span>&nbsp;
+                                <span class="text-primary"> ({{ list.mobile_number }})</span>
                             </div>
                             <div class="mb-1 mb-0 text-muted small">
                             <span><strong>{{ deliveryOpt(list.delivery_option) }}</strong></span>

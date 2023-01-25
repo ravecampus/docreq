@@ -112,9 +112,9 @@
                                <div class="card-footer">
                                    <div class="row">
                                        <div class="col-md-12">
-                                            <h5><strong>DELIVERY INFORMATION</strong></h5>
+                                            <h5 v-if="other_info.delivery_option == 1"><strong>DELIVERY INFORMATION</strong></h5>
                                             <div class="list-group list-group-flush">
-                                                <div class="list-group-item">
+                                                <div class="list-group-item" v-if="other_info.delivery_option == 1">
                                                     Delivery to:
                                                     <a class="text-primary" @click="showAddress()" href="#"><i class="fa fa-plus"></i></a>
                                                     <div class="form-material">
@@ -859,6 +859,8 @@ export default {
             //         pur.push({'purpose_id':indx});
             //     }
             // });
+
+           
             this.to_order.purpose = this.other_info.purpose;
             
             if(this.to_order.first_name != undefined){

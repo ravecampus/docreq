@@ -67,7 +67,7 @@ class AuthController extends Controller
     public function fillupName(Request $request){
         $request->validate([
             'first_name'=>'required',
-            'middle_name'=>'required',
+            // 'middle_name'=>'required',
             'last_name'=>'required',
             'gender'=>'required',
             'birth_date' =>'required|string',

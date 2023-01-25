@@ -33,14 +33,14 @@ class OrderListController extends Controller
     }
 
     public function authOrderList(Request $request){
-        $columns = ['status', 'trucking_number'];
+        $columns = ['status', 'trucking_number','created_at'];
         $length = $request->length;
         $column = $request->column;
         $dir = $request->dir;
         $archive = $request->archive;
         $searchValue = $request->search;
         $userid = Auth::id();
-        $query = Order::with('order_items', 'payment', 'received_date','other_purpose')->where('status','!=', 6)->where('status','!=', 4)->where('user_id', $userid)->orderBy($columns[$column], $dir);
+        $query = Order::with('order_items', 'payment', 'received_date','other_purpose')->where('status','!=', 6)->where('status','!=', 4)->where('user_id', $userid)->orderBy('created_at', 'desc');
     
         if($searchValue){
             $query->where(function($query) use ($searchValue){

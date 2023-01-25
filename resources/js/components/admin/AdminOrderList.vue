@@ -27,11 +27,17 @@
                                     <div>Mother's Name: <i class="font-weight-light">{{ list.mothers_name }}</i></div>
                                 </div>
                             </div>    
-                            <div class="col-md-4">
-                                <i class="small">Delivery Info:</i>
-                                <h6>{{ list.full_name }} </h6>
-                                <div class="small">{{ list.mobile_number }} </div>
-                                <h6>{{ list.delivery_address }} </h6>
+                            <div class="col-md-4" >
+                                <div class="text-secondary" v-if="list.delivery_option == 1">DELIVERY</div>
+                                <div class="text-secondary" v-else>PICK UP</div>
+                                <hr class="mt-0">
+                                <div v-if="list.delivery_option == 1">
+                                    <i class="small">Delivery Info:</i>
+                                    <h6>{{ list.full_name }} </h6>
+                                    <div class="small">{{ list.mobile_number }} </div>
+                                    <h6>{{ list.delivery_address }} </h6>
+                                </div>
+                                
                                 <small>Purposes : &nbsp;</small>
                                 <i v-for="(ls, id) in list.purpose" :key="id" ><u>{{ xtractPurpose(ls.purpose_id) }},</u> &nbsp;</i>
                                <div>

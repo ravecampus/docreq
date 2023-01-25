@@ -56,7 +56,7 @@ class UserController extends Controller
     {
         $request->validate([
             'first_name' =>'required|string',
-            'middle_name' =>'required|string',
+            // 'middle_name' =>'required|string',
             'last_name' =>'required|string',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
@@ -107,7 +107,7 @@ class UserController extends Controller
     {
             $request->validate([
                 'first_name' =>'required|string',
-                'middle_name' =>'required|string',
+                // 'middle_name' =>'required|string',
                 'last_name' =>'required|string',
                 'email' => ['required', 'email',Rule::unique('users', 'email')->ignore($id)],
             ]);
